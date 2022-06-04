@@ -1,4 +1,5 @@
-﻿namespace DominoLibrary;
+﻿using Utils;
+namespace DominoLibrary;
 
 public class Board
 {
