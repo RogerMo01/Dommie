@@ -1,6 +1,6 @@
 namespace DominoLibrary;
 
-class GameResult
+public class GameResult
 {
     public IPlayer Winner { get; private set; }
 

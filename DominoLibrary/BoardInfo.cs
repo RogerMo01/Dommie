@@ -1,6 +1,6 @@
 namespace DominoLibrary;
 
-class BoardInfo
+public class BoardInfo
 {
     public List<Token> Tokens { get; private set; }
     public LinkedList<Token> BoardTokens { get; private set; }

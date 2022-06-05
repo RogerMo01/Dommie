@@ -1,6 +1,6 @@
 namespace DominoLibrary;
 
-interface IPlayer
+public interface IPlayer
 {
     Token Play(BoardInfo info);
 }
