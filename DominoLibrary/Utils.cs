@@ -1,6 +1,6 @@
 namespace Utils;
 
-class CircularList<T>
+public class CircularList<T>
 {
     public Node<T> First { get; set; }
     public Node<T> Last { get; set; }
@@ -67,7 +67,7 @@ class CircularList<T>
 
 }
 
-class Node<T> 
+public class Node<T> 
 {
     public T Value { get; set; }
     public Node<T>? Next { get; set; }
