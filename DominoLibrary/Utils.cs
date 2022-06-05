@@ -63,8 +63,6 @@ public class CircularList<T>
 
         return result;
     }
-
-
 }
 
 public class Node<T> 
