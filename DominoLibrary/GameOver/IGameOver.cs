@@ -2,5 +2,5 @@ namespace DominoLibrary;
 
 public interface IGameOver
 {
-    bool IsOver();
+    bool IsOver(LinkedList<Token> board);
 }
