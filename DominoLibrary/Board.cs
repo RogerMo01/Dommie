@@ -15,7 +15,7 @@ public class Board
 
         Players = setting.Players;
         GameTokens = GenerateTokens(setting.MaxToken);
-        PlayersTokens = HandOut(GameTokens);
+        PlayersTokens = HandOut(GameTokens, Players);
         BoardTokens = new LinkedList<Token>();
     }
 
