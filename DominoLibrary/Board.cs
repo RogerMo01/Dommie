@@ -6,7 +6,7 @@ public class Board
     CircularList<IPlayer> Players;
     List<Token> GameTokens;
     Dictionary<IPlayer, List<Token>> PlayersTokens;
-    LinkedList<Token> BoardTokens;
+    LinkedList<Token_onBoard> BoardTokens;
     Setting Settings;
 
     public Board(Setting setting)
@@ -16,7 +16,7 @@ public class Board
         Players = setting.Players;
         GameTokens = GenerateTokens(setting.MaxToken);
         PlayersTokens = HandOut(GameTokens, Players);
-        BoardTokens = new LinkedList<Token>();
+        BoardTokens = new LinkedList<Token_onBoard>();
     }
 
     public GameResult Start()
