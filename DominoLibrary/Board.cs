@@ -30,7 +30,7 @@ public class Board
         {
             currentPlayer = currentPlayer.Next!;
 
-            if(HaveToken(currentPlayer.Value))
+            if(HaveToken(currentPlayer.Value, BoardTokens.Count == 0))
             {
                 BoardInfo info = new BoardInfo(PlayersTokens[currentPlayer.Value], BoardTokens);
                 Token_onBoard token = currentPlayer.Value.Play(info);
@@ -52,9 +52,10 @@ public class Board
         
     }
 
-    private bool HaveToken(IPlayer player)
+    private bool HaveToken(IPlayer player, bool firstPlay)
     {
         //si es la primera jugada siempre lleva
+        if(firstPlay) return true;        
 
         int[] ends = GetEnds(BoardTokens);
         List<Token> playerTokens = PlayersTokens[player];
