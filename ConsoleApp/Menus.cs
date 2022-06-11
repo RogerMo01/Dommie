@@ -2,10 +2,10 @@ namespace ConsoleApp;
 
 interface IMenu<inT>
 {
-    public List<inT> Options {get;}
-    public string Title {get;}
-    public int Selected {get;}
-    public void GetSelection();
+    List<inT> Options {get;}
+    string Title {get;}
+    int Selected {get;}
+    void GetSelection();
 }
 
 class NavigationMenu<inT> : IMenu<inT>
