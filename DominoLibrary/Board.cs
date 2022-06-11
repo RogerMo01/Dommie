@@ -15,8 +15,11 @@ public class Board
 
         Players = setting.Players;
         GameTokens = GenerateTokens(setting.MaxToken);
-        PlayersTokens = HandOut(GameTokens, Players);
-        BoardTokens = new LinkedList<Token_onBoard>();
+
+        int tokensPerPlayer = setting.MaxToken + 1;
+        PlayersTokens = HandOut(GameTokens, Players, tokensPerPlayer);
+
+        BoardTokens = new LinkedList<Token_onBoard>();   
     }
 
     public GameResult Start()
@@ -27,12 +30,12 @@ public class Board
         {
             currentPlayer = currentPlayer.Next!;
 
-            if(HaveToken(currentPlayer.Value, PlayersTokens))
+            if(HaveToken(currentPlayer.Value))
             {
                 BoardInfo info = new BoardInfo(PlayersTokens[currentPlayer.Value], BoardTokens);
-                Token token = currentPlayer.Value.Play(info);
+                Token_onBoard token = currentPlayer.Value.Play(info);
 
-                UpdateBoard(token);
+                UpdateBoard(token, currentPlayer.Value);
             }
 
             if(Settings.OverCondition.IsOver(BoardTokens)) { break; }
@@ -45,18 +48,54 @@ public class Board
     private IPlayer GetWinner()
     {
         //valora quien ganó mirando el tablero
+
+        
     }
 
-    private static bool HaveToken(IPlayer player, Dictionary<IPlayer, List<Token>> playersTokens)
+    private bool HaveToken(IPlayer player)
     {
-        //recorrer sus fichas y devolver bool
+        //si es la primera jugada siempre lleva
+
+        int[] ends = GetEnds(BoardTokens);
+        List<Token> playerTokens = PlayersTokens[player];
+
+        for (int i = 0; i < ends.Length; i++)
+        {
+            for (int j = 0; j < playerTokens.Count; j++)
+            {
+                if(playerTokens[j].Right == ends[i] || playerTokens[j].Left == ends[i])
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
-    private void UpdateBoard(Token token)
+    private void UpdateBoard(Token_onBoard token, IPlayer player)
     {
-        // ponerla al tablero
-        // quitarsela al jugador
-        //
+        if(token.PlayRight)
+        {
+            BoardTokens.AddLast(token);
+        }
+        else
+        {
+            BoardTokens.AddFirst(token);
+        }
+
+        int index = 0;
+
+        for (int i = 0; i < PlayersTokens[player].Count; i++)
+        {
+            if(PlayersTokens[player].Contains(token))
+            {
+                index = i;
+                break;
+            }   
+        }
+        
+        PlayersTokens[player].RemoveAt(index);
     }
 
     private static List<Token> GenerateTokens(int maxToken)
@@ -74,7 +113,7 @@ public class Board
         return gameTokens;    
     }
 
-    private static Dictionary<IPlayer, List<Token>> HandOut(List<Token> tokens, CircularList<IPlayer> players)
+    private static Dictionary<IPlayer, List<Token>> HandOut(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
     {
         Dictionary<IPlayer, List<Token>> result = new Dictionary<IPlayer, List<Token>>();
 
@@ -84,19 +123,19 @@ public class Board
 
         for (int i = 0; i < players.Count; i++)
         {
-            result.Add(firstPlayer.Value, HandOutToPlayer(clonedTokens));
+            result.Add(firstPlayer.Value, HandOutToPlayer(clonedTokens, tokensPerPlayer));
             firstPlayer = firstPlayer.Next!;
         }
 
         return result;
     }
 
-    private static List<Token> HandOutToPlayer(List<Token> tokens)
+    private static List<Token> HandOutToPlayer(List<Token> tokens, int tokensPerPlayer)
     {
         List<Token> playerTokens = new List<Token>();
         Random random = new Random();
 
-        for (int i = 0; i < 10; i++)  // modificar luego en dependencia de la cantidad de fichas que estan en juego
+        for (int i = 0; i < tokensPerPlayer ; i++)  
         {
             int index = random.Next(tokens.Count - 1);
             playerTokens.Add(tokens[index]);
@@ -104,6 +143,20 @@ public class Board
         }
 
         return playerTokens;
+    }
+    
+    private static int[] GetEnds(LinkedList<Token_onBoard> boardTokens)
+    {
+        int[] ends = new int[2];
+        Token_onBoard token = boardTokens.First.Value; // tener en cuenta que al inicio de la partida la lista siempre sera null
+
+        ends[0] = (token.Straight) ? token.Left : token.Right;
+    
+        token = boardTokens.Last.Value;
+
+        ends[1] = (token.Straight) ? token.Right : token.Left;
+
+        return ends; 
     }
     
 }
