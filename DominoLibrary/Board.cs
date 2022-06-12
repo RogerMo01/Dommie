@@ -47,8 +47,6 @@ public class Board
                 ConsecutivePasses ++;
             }
 
-            // if(Settings.OverCondition.IsOver(BoardTokens)) { break; }
-
             if(IsOver()) {break; }
         }
 
@@ -73,19 +71,19 @@ public class Board
 
     private IPlayer GetWinner()
     {
-        //valora quien ganó mirando el tablero
-        IPlayer winner;
+        IPlayer winner = Players.First.Value;
         int points = int.MaxValue;
         Node<IPlayer> player = Players.First;
 
         if(ConsecutivePasses == 4)
         {
-            for (int i = 0; i < Players.Count; i++)
+            foreach (var item in PlayersTokens)
             {
                 int value = 0;
-                for (int j = 0; j < PlayersTokens[player.Value].Count; j++)
+
+                foreach (var token in item.Value)
                 {
-                    value += PlayersTokens[player.Value][j].Left + PlayersTokens[player.Value][j].Right;
+                    value += (token.Left + token.Right);
                 }
 
                 if(value < points) 
@@ -96,18 +94,18 @@ public class Board
 
                 if(value == points)
                 {
-                    winner = player.Value;
+                    winner = null!;
                 }
 
                 player = player.Next!;
             }
         }
+
         else
         {
-            for (int i = 0; i < Players.Count; i++)
+            foreach (var item in PlayersTokens)
             {
-                if(PlayersTokens[player.Value].Count == 0) winner = player.Value;
-                player = player.Next!;
+                if(item.Value.Count == 0) return item.Key;
             }
         }
 
@@ -210,6 +208,8 @@ public class Board
     
     private static int[] GetEnds(LinkedList<Token_onBoard> boardTokens)
     {
+        if(boardTokens.Count == 0) return new int [] {-1, -1}; // this line should never be reached
+        
         int[] ends = new int[2];
         Token_onBoard token = boardTokens.First.Value; // tener en cuenta que al inicio de la partida la lista siempre sera null
 
