@@ -49,7 +49,7 @@ public class Board
                 //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 string side = (token.PlayRight) ? "Right" : "Left";
                 Console.ForegroundColor = ConsoleColor.Blue;
-                System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Left}:{token.Right} by {side}]");
+                System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Left}:{token.Right}] by {side}");
                 Console.ForegroundColor = ConsoleColor.White;
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
