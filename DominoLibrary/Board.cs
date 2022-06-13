@@ -206,7 +206,7 @@ public class Board
         return playerTokens;
     }
     
-    private static int[] GetEnds(LinkedList<Token_onBoard> boardTokens)
+    public static int[] GetEnds(LinkedList<Token_onBoard> boardTokens)
     {
         if(boardTokens.Count == 0) return new int [] {-1, -1}; // this line should never be reached
         
