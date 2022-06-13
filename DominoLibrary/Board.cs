@@ -9,6 +9,8 @@ public class Board
     LinkedList<Token_onBoard> BoardTokens;
     Setting Settings;
 
+    int ConsecutivePasses;
+
     public Board(Setting setting)
     {
         Settings = setting;
@@ -20,12 +22,14 @@ public class Board
         PlayersTokens = HandOut(GameTokens, Players, tokensPerPlayer);
 
         BoardTokens = new LinkedList<Token_onBoard>();   
+
+        ConsecutivePasses = 0;
     }
 
     public GameResult Start()
     {
         Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
-
+    
         while (true)
         {
             currentPlayer = currentPlayer.Next!;
@@ -36,20 +40,78 @@ public class Board
                 Token_onBoard token = currentPlayer.Value.Play(info);
 
                 UpdateBoard(token, currentPlayer.Value);
+                ConsecutivePasses = 0;
+            }
+            else
+            {
+                ConsecutivePasses ++;
             }
 
-            if(Settings.OverCondition.IsOver(BoardTokens)) { break; }
+            // if(Settings.OverCondition.IsOver(BoardTokens)) { break; }
+
+            if(IsOver()) {break; }
         }
 
         IPlayer winner = GetWinner();
         return new GameResult(winner);
     }
 
+    private bool IsOver()
+    {
+        if(ConsecutivePasses == 4) return true;
+
+        Node<IPlayer> player = Players.First;
+
+        for (int i = 0; i < Players.Count; i++)
+        {
+            if(PlayersTokens[player.Value].Count == 0) return true;
+            player = player.Next!;
+        }
+
+        return false;
+    }
+
     private IPlayer GetWinner()
     {
         //valora quien ganó mirando el tablero
+        IPlayer winner;
+        int points = int.MaxValue;
+        Node<IPlayer> player = Players.First;
 
-        
+        if(ConsecutivePasses == 4)
+        {
+            for (int i = 0; i < Players.Count; i++)
+            {
+                int value = 0;
+                for (int j = 0; j < PlayersTokens[player.Value].Count; j++)
+                {
+                    value += PlayersTokens[player.Value][j].Left + PlayersTokens[player.Value][j].Right;
+                }
+
+                if(value < points) 
+                {
+                    points = value;
+                    winner = player.Value;
+                }
+
+                if(value == points)
+                {
+                    winner = player.Value;
+                }
+
+                player = player.Next!;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < Players.Count; i++)
+            {
+                if(PlayersTokens[player.Value].Count == 0) winner = player.Value;
+                player = player.Next!;
+            }
+        }
+
+        return winner;
     }
 
     private bool HaveToken(IPlayer player, bool firstPlay)
