@@ -8,6 +8,10 @@ public class Dustin : IPlayer
     {
         Name = "Dustin";
     }
+    public Dustin(string newName)
+    {
+        Name = newName;
+    }
 
     public Token_onBoard Play(PlayInfo info)
     {
