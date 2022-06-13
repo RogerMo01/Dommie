@@ -22,7 +22,7 @@ public class Dustin : IPlayer
         foreach (var token in info.Tokens)
         {
             int value = 0;
-            if(Playable(token, ends))
+            if(Playable(token, ends) || (info.BoardTokens.Count == 0))
             {
                 value = token.Left + token.Right;
                 if(value > points)
