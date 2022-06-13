@@ -206,13 +206,22 @@ public class Board
 
         int index = 0;
 
+        // for (int i = 0; i < PlayersTokens[player].Count; i++)
+        // {
+        //     if(PlayersTokens[player].Contains(token))
+        //     {
+        //          index = i;
+        //          break;
+        //      }  
+        // }
+
         for (int i = 0; i < PlayersTokens[player].Count; i++)
         {
-            if(PlayersTokens[player].Contains(token))
-            {
+           if((token.Left == PlayersTokens[player][i].Left) && (token.Right == PlayersTokens[player][i].Right))
+           {
                 index = i;
-                break;
-            }   
+                break; 
+           }
         }
         
         PlayersTokens[player].RemoveAt(index);

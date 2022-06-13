@@ -41,6 +41,7 @@ public class Dustin : IPlayer
 
     private bool Playable(Token token, int[] ends)
     {
+
         foreach (var item in ends)
         {
             if(item == token.Left || item == token.Right) return true;
