@@ -9,7 +9,7 @@ public class Dustin : IPlayer
         Name = "Dustin";
     }
 
-    public Token_onBoard Play(BoardInfo info)
+    public Token_onBoard Play(PlayInfo info)
     {
         throw new NotImplementedException();
     }

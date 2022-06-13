@@ -36,7 +36,7 @@ public class Board
 
             if(HaveToken(currentPlayer.Value, BoardTokens.Count == 0))
             {
-                BoardInfo info = new BoardInfo(PlayersTokens[currentPlayer.Value], BoardTokens);
+                PlayInfo info = new PlayInfo(PlayersTokens[currentPlayer.Value], BoardTokens);
                 Token_onBoard token = currentPlayer.Value.Play(info);
 
                 UpdateBoard(token, currentPlayer.Value);
