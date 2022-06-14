@@ -17,7 +17,7 @@ public class Dustin : IPlayer
     {
         Token result = info.Tokens[0];
         int[] ends = Board.GetEnds(info.BoardTokens);
-        int points = 0;
+        int points = -1;
 
         foreach (var token in info.Tokens)
         {
@@ -34,7 +34,7 @@ public class Dustin : IPlayer
         }
 
         bool playRight = PlayRight(result, ends);
-        bool straight = Straight(result, ends);
+        bool straight = Straight(result, ends, playRight);
 
         return new Token_onBoard(result.Left, result.Right, straight, this, playRight);
     }
@@ -57,9 +57,10 @@ public class Dustin : IPlayer
         return false;  
     }
 
-    private bool Straight(Token token, int[] ends)
+    private bool Straight(Token token, int[] ends, bool playRight)
     {
-        if((ends[1] == token.Left) || (ends[0] == token.Right )) return true;
+        if(playRight && (ends[1] == token.Left)) { return true; }
+        if(!playRight && (ends[0] == token.Right)) { return true; }
 
         return false; 
     } 
