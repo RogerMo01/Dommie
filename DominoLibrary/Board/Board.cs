@@ -112,8 +112,6 @@ public partial class Board
         }
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    
     
     public void ResetEnds()
     {       
@@ -125,5 +123,30 @@ public partial class Board
 
         Ends[1] = (token.Straight) ? token.Right : token.Left;
     }
-    
+
+    public bool Playable(Token token)
+    {
+        foreach (var item in Ends)
+        {
+            if(item == token.Left || item == token.Right) return true;
+        }
+
+        return false;
+    }
+
+    public bool PlayRight(Token token)
+    {
+        if(Ends[1] == token.Left || Ends[1] == token.Right) return true;
+        
+        return false;
+    }
+
+    public bool Straight(Token token, bool playRight)
+    {
+        if(playRight && (Ends[1] == token.Left)) { return true; }
+        if(!playRight && (Ends[0] == token.Right)) { return true; }
+
+        return false; 
+    }
+
 }
