@@ -49,7 +49,16 @@ public class Board
                 //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 string side = (token.PlayRight) ? "Right" : "Left";
                 Console.ForegroundColor = ConsoleColor.Blue;
-                System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Left}:{token.Right} by {side}]");
+
+                if(token.Straight)
+                {
+                    System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Left}:{token.Right}] by {side}");
+                }
+                else
+                {
+                    System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Right}:{token.Left}] by {side}");
+                }
+                
                 Console.ForegroundColor = ConsoleColor.White;
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -197,13 +206,22 @@ public class Board
 
         int index = 0;
 
+        // for (int i = 0; i < PlayersTokens[player].Count; i++)
+        // {
+        //     if(PlayersTokens[player].Contains(token))
+        //     {
+        //          index = i;
+        //          break;
+        //      }  
+        // }
+
         for (int i = 0; i < PlayersTokens[player].Count; i++)
         {
-            if(PlayersTokens[player].Contains(token))
-            {
+           if((token.Left == PlayersTokens[player][i].Left) && (token.Right == PlayersTokens[player][i].Right))
+           {
                 index = i;
-                break;
-            }   
+                break; 
+           }
         }
         
         PlayersTokens[player].RemoveAt(index);

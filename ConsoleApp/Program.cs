@@ -14,7 +14,7 @@ static class ConsoleApp
         players.AddLast(new Dustin("Lucas"));
 
         // default
-        int maxToken = 9;
+        int maxToken = 6;
 
         // Instanciar inner
         Node<IPlayer> inner = players.First;
