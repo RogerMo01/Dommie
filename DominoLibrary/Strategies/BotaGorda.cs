@@ -2,16 +2,16 @@ namespace DominoLibrary;
 
 public class BotaGorda : IStrategy
 {
-    public Token_onBoard Play(PlayInfo info, IPlayer player)
+    public Token_onBoard Play(Board board, List<Token> tokens, IPlayer player)
     {
-        Token result = info.Tokens[0];
-        int[] ends = info.Ends;
+        Token result = tokens[0];
+        int[] ends = board.Ends;
         int points = -1;
 
-        foreach (var token in info.Tokens)
+        foreach (var token in tokens)
         {
             int value = 0;
-            if(Playable(token, ends) || (info.BoardTokens.Count == 0))
+            if(Playable(token, ends) || (board.BoardTokens.Count == 0))
             {
                 value = token.Left + token.Right;
                 if(value > points)

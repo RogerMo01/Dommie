@@ -16,8 +16,8 @@ public class Dustin : IPlayer
         Strategies = strategies;
     }
 
-    public Token_onBoard Play(PlayInfo info)
+    public Token_onBoard Play(Board board, List<Token> tokens)
     {
-        return Strategies[0].Play(info, this);
+        return Strategies[0].Play(board, tokens, this);
     }
 }

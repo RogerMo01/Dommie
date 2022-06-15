@@ -4,5 +4,5 @@ public interface IPlayer
 {
     public string Name { get; }
     public List<IStrategy> Strategies { get; }
-    Token_onBoard Play(PlayInfo info);
+    Token_onBoard Play(Board board, List<Token> tokens);
 }

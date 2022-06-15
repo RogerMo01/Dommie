@@ -3,10 +3,10 @@ namespace DominoLibrary;
 
 public partial class Board
 {
-    CircularList<IPlayer> Players;
-    List<Token> GameTokens;
+    public CircularList<IPlayer> Players {get; private set;}
+    public List<Token> GameTokens {get; private set;}
     Dictionary<IPlayer, List<Token>> PlayersTokens;
-    LinkedList<Token_onBoard> BoardTokens;
+    public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
     Setting Settings;
 
@@ -44,8 +44,7 @@ public partial class Board
 
             if(HaveToken(currentPlayer.Value, BoardTokens.Count == 0))
             {
-                PlayInfo info = new PlayInfo(PlayersTokens[currentPlayer.Value], BoardTokens, Ends);
-                Token_onBoard token = currentPlayer.Value.Play(info);
+                Token_onBoard token = currentPlayer.Value.Play(this, PlayersTokens[currentPlayer.Value]);
 
                 //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 string side = (token.PlayRight) ? "Right" : "Left";
