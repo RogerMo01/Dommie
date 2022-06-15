@@ -5,7 +5,7 @@ public class BotaGorda : IStrategy
     public Token_onBoard Play(PlayInfo info, IPlayer player)
     {
         Token result = info.Tokens[0];
-        int[] ends = Board.GetEnds(info.BoardTokens);
+        int[] ends = info.Ends;
         int points = -1;
 
         foreach (var token in info.Tokens)

@@ -7,6 +7,7 @@ public partial class Board
     List<Token> GameTokens;
     Dictionary<IPlayer, List<Token>> PlayersTokens;
     LinkedList<Token_onBoard> BoardTokens;
+    public int[] Ends { get; private set;} = {-1, -1};
     Setting Settings;
 
     int ConsecutivePasses;
@@ -43,7 +44,7 @@ public partial class Board
 
             if(HaveToken(currentPlayer.Value, BoardTokens.Count == 0))
             {
-                PlayInfo info = new PlayInfo(PlayersTokens[currentPlayer.Value], BoardTokens);
+                PlayInfo info = new PlayInfo(PlayersTokens[currentPlayer.Value], BoardTokens, Ends);
                 Token_onBoard token = currentPlayer.Value.Play(info);
 
                 //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,20 +116,15 @@ public partial class Board
 
     
     
-    public static int[] GetEnds(LinkedList<Token_onBoard> boardTokens)
-    {
-        if(boardTokens.Count == 0) return new int [] {-1, -1}; // this line should never be reached
-        
-        int[] ends = new int[2];
-        Token_onBoard token = boardTokens.First!.Value; // tener en cuenta que al inicio de la partida la lista siempre sera null
+    public void ResetEnds()
+    {       
+        Token_onBoard token = BoardTokens.First!.Value; // tener en cuenta que al inicio de la partida la lista siempre sera null
 
-        ends[0] = (token.Straight) ? token.Left : token.Right;
+        Ends[0] = (token.Straight) ? token.Left : token.Right;
     
-        token = boardTokens.Last!.Value;
+        token = BoardTokens.Last!.Value;
 
-        ends[1] = (token.Straight) ? token.Right : token.Left;
-
-        return ends; 
+        Ends[1] = (token.Straight) ? token.Right : token.Left;
     }
     
 }

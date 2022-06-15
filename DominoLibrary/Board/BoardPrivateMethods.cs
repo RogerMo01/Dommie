@@ -66,14 +66,14 @@ public partial class Board
         //si es la primera jugada siempre lleva
         if(firstPlay) return true;        
 
-        int[] ends = GetEnds(BoardTokens);
+        //int[] ends = GetEnds(BoardTokens);
         List<Token> playerTokens = PlayersTokens[player];
 
-        for (int i = 0; i < ends.Length; i++)
+        for (int i = 0; i < Ends.Length; i++)
         {
             for (int j = 0; j < playerTokens.Count; j++)
             {
-                if(playerTokens[j].Right == ends[i] || playerTokens[j].Left == ends[i])
+                if(playerTokens[j].Right == Ends[i] || playerTokens[j].Left == Ends[i])
                 {
                     return true;
                 }
@@ -106,6 +106,8 @@ public partial class Board
         }
         
         PlayersTokens[player].RemoveAt(index);
+
+        ResetEnds();
     }
 
     private static List<Token> GenerateTokens(int maxToken)
