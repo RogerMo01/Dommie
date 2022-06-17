@@ -1,18 +1,13 @@
 namespace DominoLibrary;
 
-public class Dustin : IPlayer
+public class Player : IPlayer
 {
     public string Name { get; }
     public List<IStrategy> Strategies { get; }
 
-    public Dustin(List<IStrategy> strategies)
+    public Player(string name, List<IStrategy> strategies)
     {
-        Name = "Dustin";
-        Strategies = strategies;
-    }
-    public Dustin(string newName, List<IStrategy> strategies)
-    {
-        Name = newName;
+        Name = name;
         Strategies = strategies;
     }
 

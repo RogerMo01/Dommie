@@ -15,23 +15,40 @@ public class Mosaic : IStrategy
             total[token.Right] ++;
         }
 
-        int max = 0;
-
-        if(total[board.Ends[0]] == total[board.Ends[1]]) max = Math.Max(board.Ends[0], board.Ends[1]);
-        
-        if(total[board.Ends[0]] > total[board.Ends[1]])
-        {
-            max = board.Ends[0];
-        }
-        else max = board.Ends[1];
-        
-
+        int maxEnd = 0;
         int count = 0;
+
+        if(board.BoardTokens.Count == 0)
+        {
+            maxEnd = total.Max();
+        }
+
+        else
+        {
+            if(total[board.Ends[0]] == total[board.Ends[1]]) maxEnd = Math.Max(board.Ends[0], board.Ends[1]);
+
+            if(total[board.Ends[0]] > total[board.Ends[1]])
+            {
+                maxEnd = board.Ends[0];
+            }
+            else maxEnd = board.Ends[1];
+        }
+
+        GetToken(maxEnd, count, tokens, total, result);
+
+        bool playRight = board.PlayRight(result);
+        bool straight = board.Straight(result, playRight);
+
+        return new Token_onBoard(result, straight, player, playRight);
+    } 
+
+    private void GetToken(int maxEnd, int count, List<Token> tokens, int[] total, Token result)
+    {
         foreach (var token in tokens)
         {
-            if((token.Left == max) || (token.Right == max))
+            if((token.Left == maxEnd) || (token.Right == maxEnd))
             {
-                if(token.Left == max)
+                if(token.Left == maxEnd)
                 {
                     if(total[token.Right] > count)
                     {
@@ -50,10 +67,5 @@ public class Mosaic : IStrategy
                 }
             }
         }
-
-        bool playRight = board.PlayRight(result);
-        bool straight = board.Straight(result, playRight);
-
-        return new Token_onBoard(result, straight, player, playRight);
-    }  
+    } 
 }

@@ -25,7 +25,7 @@ public class BotaGorda : IStrategy
         bool playRight = board.PlayRight(result);
         bool straight = board.Straight(result, playRight);
 
-        return new Token_onBoard(result.Left, result.Right, straight, player, playRight);
+        return new Token_onBoard(result, straight, player, playRight);
     }
 
 }
