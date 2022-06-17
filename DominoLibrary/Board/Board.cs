@@ -48,19 +48,7 @@ public partial class Board
                 Token_onBoard token = currentPlayer.Value.Play(this, PlayersTokens[currentPlayer.Value]);
 
                 //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                string side = (token.PlayRight) ? "Right" : "Left";
-                Console.ForegroundColor = ConsoleColor.Blue;
-
-                if(token.Straight)
-                {
-                    System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Left}:{token.Right}] by {side}");
-                }
-                else
-                {
-                    System.Console.WriteLine($"{currentPlayer.Value.Name} played [{token.Right}:{token.Left}] by {side}");
-                }
-                
-                Console.ForegroundColor = ConsoleColor.White;
+                token.PrintPlay(currentPlayer.Value);
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 UpdateBoard(token, currentPlayer.Value);
@@ -69,11 +57,10 @@ public partial class Board
             else
             {
                 ConsecutivePasses ++;
+                IPlayable pass = new Pass();
 
                 //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                Console.ForegroundColor = ConsoleColor.Red;
-                System.Console.WriteLine($"{currentPlayer.Value.Name} pass");
-                Console.ForegroundColor = ConsoleColor.White;
+                pass.PrintPlay(currentPlayer.Value);
                 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             }
 
@@ -81,13 +68,6 @@ public partial class Board
         }
 
         IPlayer winner = GetWinner();
-
-        //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        System.Console.WriteLine();
-        System.Console.WriteLine("GAME OVER");
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        System.Console.WriteLine($"{winner.Name} is the WINNER");
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         return new GameResult(winner);
     }

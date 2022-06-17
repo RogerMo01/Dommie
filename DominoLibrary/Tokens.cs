@@ -26,23 +26,27 @@ public class Token_onBoard : Token, IPlayable
         PlayRight = playRight;
     }
 
-    public string PrintPlay(IPlayer player)
+    public void PrintPlay(IPlayer player)
     {
+        Console.ForegroundColor = ConsoleColor.Blue;
+
         string side = (PlayRight) ? "Right" : "Left";
 
-        return (Straight) ?  $"{Owner.Name} played [{Left}:{Right}] by {side}" : $"{Owner.Name} played [{Right}:{Left}] by {side}";
+        System.Console.WriteLine( (Straight) ?  $"{Owner.Name} played [{Left}:{Right}] by {side}" : $"{Owner.Name} played [{Right}:{Left}] by {side}" );
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }
 
 public interface IPlayable
 {
-    string PrintPlay(IPlayer player);
+    void PrintPlay(IPlayer player);
 }
 
 public class Pass : IPlayable
 {
-    public string PrintPlay(IPlayer player)
+    public void PrintPlay(IPlayer player)
     {
-        return $"{player.Name} pass";
+        Console.ForegroundColor = ConsoleColor.Red;
+        System.Console.WriteLine($"{player.Name} pass");
     }
 }

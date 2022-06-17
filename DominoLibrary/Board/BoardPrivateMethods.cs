@@ -35,21 +35,20 @@ public partial class Board
                     value += (token.Left + token.Right);
                 }
 
+                if(value == points)
+                {
+                    winner = null!;
+                }
+
                 if(value < points) 
                 {
                     points = value;
                     winner = player.Value;
                 }
 
-                if(value == points)
-                {
-                    winner = null!;
-                }
-
                 player = player.Next!;
             }
         }
-
         else
         {
             foreach (var item in PlayersTokens)
