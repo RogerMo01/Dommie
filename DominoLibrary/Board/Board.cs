@@ -9,6 +9,7 @@ public partial class Board
     public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
     Setting Settings;
+    public IPlayable? LastPlayed {get; private set;}
 
     int ConsecutivePasses;
 

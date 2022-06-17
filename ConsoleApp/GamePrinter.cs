@@ -1,0 +1,6 @@
+namespace DominoLibrary;
+
+class GamePrinter
+{
+    
+}

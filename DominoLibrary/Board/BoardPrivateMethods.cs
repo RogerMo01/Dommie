@@ -107,6 +107,7 @@ public partial class Board
         
         PlayersTokens[player].RemoveAt(index);
 
+        LastPlayed = token;
         ResetEnds();
     }
 
