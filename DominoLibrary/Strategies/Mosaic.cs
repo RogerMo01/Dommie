@@ -6,7 +6,7 @@ public class Mosaic : IStrategy
     {
         Token result = tokens[0];
 
-        int maxToken = tokens[tokens.Count - 1].Right;
+        int maxToken = board.GameTokens[board.GameTokens.Count - 1].Right;
        
         int[] total = new int[maxToken + 1];
         foreach (var token in tokens)
@@ -15,12 +15,20 @@ public class Mosaic : IStrategy
             total[token.Right] ++;
         }
 
+        int max = 0;
         int maxEnd = 0;
         int count = 0;
 
         if(board.BoardTokens.Count == 0)
         {
-            maxEnd = total.Max();
+            for (int i = 0; i < total.Length; i++)
+            {
+                if(total[i] > max)
+                {
+                    max = total[i];
+                    maxEnd = i;
+                }
+            }
         }
 
         else
@@ -34,7 +42,7 @@ public class Mosaic : IStrategy
             else maxEnd = board.Ends[1];
         }
 
-        GetToken(maxEnd, count, tokens, total, result);
+        GetToken(ref maxEnd, ref count, tokens, total, ref result);
 
         bool playRight = board.PlayRight(result);
         bool straight = board.Straight(result, playRight);
@@ -42,7 +50,7 @@ public class Mosaic : IStrategy
         return new Token_onBoard(result, straight, player, playRight);
     } 
 
-    private void GetToken(int maxEnd, int count, List<Token> tokens, int[] total, Token result)
+    private void GetToken(ref int maxEnd, ref int count, List<Token> tokens, int[] total, ref Token result)
     {
         foreach (var token in tokens)
         {
