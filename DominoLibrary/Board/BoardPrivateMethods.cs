@@ -84,30 +84,36 @@ public partial class Board
 
     private void UpdateBoard(Token_onBoard token, IPlayer player)
     {
-        if(token.PlayRight)
+        try
         {
-            BoardTokens.AddLast(token);
-        }
-        else
-        {
-            BoardTokens.AddFirst(token);
-        }
+            if(token.PlayRight)
+            {
+                BoardTokens.AddLast(token);
+            }
+            else
+            {
+                BoardTokens.AddFirst(token);
+            }
 
-        int index = 0;
+            int index = 0;
 
-        for (int i = 0; i < PlayersTokens[player].Count; i++)
-        {
-           if((token.Left == PlayersTokens[player][i].Left) && (token.Right == PlayersTokens[player][i].Right))
-           {
-                index = i;
-                break; 
-           }
+            for (int i = 0; i < PlayersTokens[player].Count; i++)
+            {
+                if((token.Left == PlayersTokens[player][i].Left) && (token.Right == PlayersTokens[player][i].Right))
+                {
+                    index = i;
+                    break; 
+                }
+            }
+            
+            PlayersTokens[player].RemoveAt(index);
+
+            ResetEnds();
         }
-        
-        PlayersTokens[player].RemoveAt(index);
+        catch (NullReferenceException){}
 
         LastPlayed = token;
-        ResetEnds();
+        LastPlayer = player;
     }
 
     private static List<Token> GenerateTokens(int maxToken)

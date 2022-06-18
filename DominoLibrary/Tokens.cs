@@ -13,7 +13,7 @@ public class Token
     }
 }
 
-public class Token_onBoard : Token, IPlayable
+public class Token_onBoard : Token
 {
     public bool Straight { get; private set; }
     public IPlayer Owner { get; private set; }
@@ -25,28 +25,5 @@ public class Token_onBoard : Token, IPlayable
         Owner = owner;
         PlayRight = playRight;
     }
-
-    public void PrintPlay(IPlayer player)
-    {
-        Console.ForegroundColor = ConsoleColor.Blue;
-
-        string side = (PlayRight) ? "Right" : "Left";
-
-        System.Console.WriteLine( (Straight) ?  $"{Owner.Name} played [{Left}:{Right}] by {side}" : $"{Owner.Name} played [{Right}:{Left}] by {side}" );
-        Console.ForegroundColor = ConsoleColor.White;
-    }
 }
 
-public interface IPlayable
-{
-    void PrintPlay(IPlayer player);
-}
-
-public class Pass : IPlayable
-{
-    public void PrintPlay(IPlayer player)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        System.Console.WriteLine($"{player.Name} pass");
-    }
-}

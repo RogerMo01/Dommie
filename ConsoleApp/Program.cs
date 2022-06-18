@@ -20,12 +20,13 @@ static class ConsoleApp
         // Instanciar inner
         Node<IPlayer> inner = players.First;
 
-        Setting initialSetting = new Setting(players, maxToken, inner);
+        GamePrinter gp = new GamePrinter();
+        
+        Setting initialSetting = new Setting(players, maxToken, inner, gp);
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Board game = new Board(initialSetting);
 
-        GamePrinter gp = new GamePrinter(game);
         gp.PrintGame();
     }
 

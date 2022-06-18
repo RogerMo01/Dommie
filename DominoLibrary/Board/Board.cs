@@ -9,7 +9,8 @@ public partial class Board
     public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
     Setting Settings;
-    public IPlayable? LastPlayed {get; private set;}
+    public Token_onBoard? LastPlayed {get; private set;}
+    public IPlayer? LastPlayer {get; private set;}
 
     int ConsecutivePasses;
 
@@ -22,6 +23,9 @@ public partial class Board
 
         int tokensPerPlayer = setting.MaxToken + 1;
         PlayersTokens = HandOut(GameTokens, Players, tokensPerPlayer);
+        
+        // pasa parámetros al Printer
+        Settings.GamePrinter.AddBoard(this, PlayersTokens);
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
@@ -31,38 +35,25 @@ public partial class Board
     public GameResult Start()
     {
         Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
-    
-        //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        System.Console.WriteLine();
-        System.Console.WriteLine("Tokens hand out was:");
-
-        ShowPlayerTokens(PlayersTokens);
-        //
 
         while (true)
         {
             currentPlayer = currentPlayer.Next!;
+            Token_onBoard token = null!;
 
             if(HaveToken(currentPlayer.Value, BoardTokens.Count == 0))
             {
-                Token_onBoard token = currentPlayer.Value.Play(this, PlayersTokens[currentPlayer.Value]);
-
-                //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                token.PrintPlay(currentPlayer.Value);
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-                UpdateBoard(token, currentPlayer.Value);
+                token = currentPlayer.Value.Play(this, PlayersTokens[currentPlayer.Value]);
                 ConsecutivePasses = 0;
             }
             else
             {
                 ConsecutivePasses ++;
-                IPlayable pass = new Pass();
-
-                //temporal showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                pass.PrintPlay(currentPlayer.Value);
-                //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             }
+            
+            UpdateBoard(token, currentPlayer.Value);
+            
+            Settings.GamePrinter.PrintPlay(); // imprime jugada
 
             if(IsOver()) {break; }
         }
@@ -71,28 +62,6 @@ public partial class Board
 
         return new GameResult(winner);
     }
-
-    //temp method showInConsole ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    private static void ShowPlayerTokens(Dictionary<IPlayer, List<Token>> playerTokens)
-    {
-        ConsoleColor[] colors = {ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Magenta, ConsoleColor.Cyan};
-        int color = 0;
-        
-        foreach (var item in playerTokens)
-        {
-            Console.ForegroundColor = colors[color];
-            System.Console.WriteLine($"{item.Key.Name}:");
-
-            foreach (var token in item.Value)
-            {
-                System.Console.Write($"[{token.Left}:{token.Right}] ");
-            }
-
-            System.Console.WriteLine();
-            color++;
-        }
-    }
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     public void ResetEnds()
     {       
