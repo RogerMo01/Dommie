@@ -8,10 +8,10 @@ static class ConsoleApp
     public static void Main()
     {
         // Instanciar jugadores
-        CircularList<IPlayer> players = new CircularList<IPlayer>(new Dustin(new List<IStrategy>(){new BotaGorda()}));
-        players.AddLast(new Dustin("Eleven", new List<IStrategy>(){new BotaGorda()}));
-        players.AddLast(new Dustin("Mike", new List<IStrategy>(){new BotaGorda()}));
-        players.AddLast(new Dustin("Lucas", new List<IStrategy>(){new BotaGorda()}));
+        CircularList<IPlayer> players = new CircularList<IPlayer>(new Player("Dustin", new List<IStrategy>(){new Mosaic()}));
+        players.AddLast(new Player("Eleven", new List<IStrategy>(){new Mosaic()}));
+        players.AddLast(new Player("Mike", new List<IStrategy>(){new Mosaic()}));
+        players.AddLast(new Player("Lucas", new List<IStrategy>(){new Mosaic()}));
 
         // default
         int maxToken = 6;
