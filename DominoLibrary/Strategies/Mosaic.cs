@@ -15,17 +15,16 @@ public class Mosaic : IStrategy
             total[token.Right] ++;
         }
 
-        int max = 0;
+        int countToken = 0;
         int maxEnd = 0;
-        int count = 0;
 
         if(board.BoardTokens.Count == 0)
         {
             for (int i = 0; i < total.Length; i++)
             {
-                if(total[i] > max)
+                if(total[i] > countToken)
                 {
-                    max = total[i];
+                    countToken = total[i];
                     maxEnd = i;
                 }
             }
@@ -42,6 +41,7 @@ public class Mosaic : IStrategy
             else maxEnd = board.Ends[1];
         }
 
+        int count = 0;
         GetToken(ref maxEnd, ref count, tokens, total, ref result);
 
         bool playRight = board.PlayRight(result);
