@@ -4,13 +4,13 @@ public class Token
 {
     public int Left { get; private set; }
     public int Right { get; private set; }
+    
 
     public Token(int left, int right)
     {
         Left = left;
         Right = right;
     }
-    
 }
 
 public class Token_onBoard : Token
@@ -26,3 +26,4 @@ public class Token_onBoard : Token
         PlayRight = playRight;
     }
 }
+

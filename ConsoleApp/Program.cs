@@ -7,6 +7,7 @@ static class ConsoleApp
 {
     public static void Main()
     {
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~ MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Instanciar jugadores
         CircularList<IPlayer> players = new CircularList<IPlayer>(new Player("Dustin", new List<IStrategy>(){new Mosaic()}));
         players.AddLast(new Player("Eleven", new List<IStrategy>(){new Mosaic()}));
@@ -19,16 +20,14 @@ static class ConsoleApp
         // Instanciar inner
         Node<IPlayer> inner = players.First;
 
-
-        Setting initialSetting = new Setting(players, maxToken, inner);
+        GamePrinter gp = new GamePrinter();
+        
+        Setting initialSetting = new Setting(players, maxToken, inner, gp);
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Board game = new Board(initialSetting);
 
-        ShowGame(game);
+        gp.PrintGame();
     }
 
-    private static void ShowGame(Board game)
-    {
-        game.Start();
-    }
 }
