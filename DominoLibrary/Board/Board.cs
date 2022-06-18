@@ -32,7 +32,7 @@ public partial class Board
         ConsecutivePasses = 0;
     }
 
-    public GameResult Start()
+    public BoardResult Start()
     {
         Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
 
@@ -52,7 +52,7 @@ public partial class Board
             }
             
             UpdateBoard(token, currentPlayer.Value);
-            
+
             Settings.GamePrinter.PrintPlay(); // imprime jugada
 
             if(IsOver()) {break; }
@@ -60,7 +60,7 @@ public partial class Board
 
         IPlayer winner = GetWinner();
 
-        return new GameResult(winner);
+        return new BoardResult(winner);
     }
     
     public void ResetEnds()

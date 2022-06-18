@@ -27,7 +27,7 @@ static class ConsoleApp
 
         Board game = new Board(initialSetting);
 
-        gp.PrintGame();
+        gp.PrintBoard();
     }
 
 }

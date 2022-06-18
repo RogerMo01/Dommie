@@ -5,12 +5,12 @@ public class GamePrinter
     Board? Board;
     Dictionary<IPlayer, List<Token>>? PlayerTokens;
 
-
-    public void PrintGame()
+    
+    public void PrintBoard()
     {
         ShowPlayerTokens();
 
-        GameResult result = Board!.Start();
+        BoardResult result = Board!.Start();
 
         PrintWinner(result.Winner);        
     }
