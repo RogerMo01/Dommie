@@ -31,6 +31,8 @@ public partial class Board
 
     public GameResult Start()
     {
+        GamePrinter!.ShowPlayerTokens(); //PRINT
+        
         Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
 
         while (true)
@@ -50,13 +52,14 @@ public partial class Board
             
             UpdateBoard(token, currentPlayer.Value);
 
-            GamePrinter!.PrintPlay(); // IMPRIME
+            GamePrinter!.PrintPlay(); // PRINT
 
             if(IsOver()) { break; }
         }
 
         (IPlayer player, int score) winner = GetWinner();
 
+        GamePrinter.PrintBoardWinner(winner.player); //PRINT
         return new GameResult(winner.player, winner.score);
     }
     

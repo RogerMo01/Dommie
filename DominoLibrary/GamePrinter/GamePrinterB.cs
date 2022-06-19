@@ -6,18 +6,6 @@ public partial class GamePrinter
     Dictionary<IPlayer, List<Token>>? PlayerTokens;
     Tournament? Tournament;
 
-
-    public GameResult PrintBoard()
-    {
-        ShowPlayerTokens();
-
-        GameResult result = Board!.Start();
-
-        PrintBoardWinner(result.Winner);
-
-        return result;
-    }
-
     public void AddBoard(Board board, Dictionary<IPlayer, List<Token>> playerTokens)
     {
         Board = board;
@@ -46,7 +34,7 @@ public partial class GamePrinter
         Console.ForegroundColor = ConsoleColor.White;
     }
 
-    private void ShowPlayerTokens()
+    public void ShowPlayerTokens()
     {
         ConsoleColor[] colors = {ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Magenta, ConsoleColor.Cyan};
         int color = 0;
@@ -70,7 +58,7 @@ public partial class GamePrinter
         Console.WriteLine();
     }
 
-    private void PrintBoardWinner(IPlayer winner)
+    public void PrintBoardWinner(IPlayer winner)
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGreen;

@@ -2,15 +2,6 @@ namespace DominoLibrary;
 
 public partial class GamePrinter
 {
-    public GameResult PrintTournament()
-    {
-        GameResult result = Tournament!.Start();
-
-        PrintTournamentWinner(result);
-
-        return result;
-    }
-
     public void AddTournament(Tournament tournament)
     {
         Tournament = tournament;
@@ -30,7 +21,7 @@ public partial class GamePrinter
         Console.WriteLine($"\nRound #{round} is about to begin");
     }
 
-    private void PrintTournamentWinner(GameResult result)
+    public void PrintTournamentWinner(GameResult result)
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkYellow;

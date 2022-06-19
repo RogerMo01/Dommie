@@ -21,28 +21,29 @@ public class Tournament
         WinScore = setting.WinScore;
     }
 
-    public GameResult Start()
+    public void Start()
     {
         int roundNumber = 1;
 
         while(true)
         {
-            GamePrinter!.ShowTournamentStatus(roundNumber, PlayersScore);
+            GamePrinter!.ShowTournamentStatus(roundNumber, PlayersScore); //PRINT
 
             BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer);
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
 
-            GameResult result = board.GamePrinter!.PrintBoard();
+            GameResult boardResult = board.Start();
 
-            UpdateTournament(result);
+            UpdateTournament(boardResult);
 
             if(IsOver()) { break; }
             roundNumber++;
         }
 
         (IPlayer player, int score) winner = GetWinner();
-        return new GameResult(winner.player, winner.score);
+        GameResult result = new GameResult(winner.player, winner.score);
+        GamePrinter.PrintTournamentWinner(result); //PRINT
     }
 
     public void SetGamePrinter(GamePrinter gamePrinter)

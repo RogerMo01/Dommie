@@ -25,18 +25,13 @@ static class ConsoleApp
 
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        //Board game = new Board(initialSetting);
-
         Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore));
 
         GamePrinter gp = new GamePrinter();
         tournament.SetGamePrinter(gp); // attach observer
         
         // MAIN CALL
-        tournament.GamePrinter!.PrintTournament();
-
-        //gp.PrintBoard();
+        tournament.Start();
     }
 
 }
