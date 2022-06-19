@@ -17,17 +17,26 @@ static class ConsoleApp
         // default
         int maxToken = 6;
 
+        // default
+        int winScore = 100;
+
         // Instanciar inner
         Node<IPlayer> inner = players.First;
 
-        GamePrinter gp = new GamePrinter();
-        
-        Setting initialSetting = new Setting(players, maxToken, inner, gp);
+
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Board game = new Board(initialSetting);
+        //Board game = new Board(initialSetting);
 
-        gp.PrintBoard();
+        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore));
+
+        GamePrinter gp = new GamePrinter();
+        tournament.SetGamePrinter(gp); // attach observer
+        
+        // MAIN CALL
+        tournament.GamePrinter!.PrintTournament();
+
+        //gp.PrintBoard();
     }
 
 }

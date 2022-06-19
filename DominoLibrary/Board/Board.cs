@@ -8,31 +8,28 @@ public partial class Board
     Dictionary<IPlayer, List<Token>> PlayersTokens;
     public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
-    Setting Settings;
+    BoardSetting Settings;
     public Token_onBoard? LastPlayed {get; private set;}
     public IPlayer? LastPlayer {get; private set;}
+    public GamePrinter? GamePrinter;
 
     int ConsecutivePasses;
 
-    public Board(Setting setting)
+    public Board(BoardSetting setting)
     {
         Settings = setting;
 
         Players = setting.Players;
-        GameTokens = GenerateTokens(setting.MaxToken);
+        GameTokens = setting.GameTokens;
 
-        int tokensPerPlayer = setting.MaxToken + 1;
-        PlayersTokens = HandOut(GameTokens, Players, tokensPerPlayer);
-        
-        // pasa parámetros al Printer
-        Settings.GamePrinter.AddBoard(this, PlayersTokens);
+        PlayersTokens = HandOut(GameTokens, Players, setting.TokensPerPlayer);
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
         ConsecutivePasses = 0;
     }
 
-    public BoardResult Start()
+    public GameResult Start()
     {
         Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
 
@@ -53,14 +50,14 @@ public partial class Board
             
             UpdateBoard(token, currentPlayer.Value);
 
-            Settings.GamePrinter.PrintPlay(); // imprime jugada
+            GamePrinter!.PrintPlay(); // IMPRIME
 
-            if(IsOver()) {break; }
+            if(IsOver()) { break; }
         }
 
-        IPlayer winner = GetWinner();
+        (IPlayer player, int score) winner = GetWinner();
 
-        return new BoardResult(winner);
+        return new GameResult(winner.player, winner.score);
     }
     
     public void ResetEnds()
@@ -97,6 +94,12 @@ public partial class Board
         if(!playRight && (Ends[0] == token.Right)) { return true; }
 
         return false; 
+    }
+
+    public void SetGamePrinter(GamePrinter gp)
+    {
+        GamePrinter = gp;
+        GamePrinter.AddBoard(this, PlayersTokens); // pasa las fichas de los jugadores
     }
 
 }

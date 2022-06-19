@@ -1,18 +1,21 @@
 namespace DominoLibrary;
 
-public class GamePrinter
+public partial class GamePrinter
 {
     Board? Board;
     Dictionary<IPlayer, List<Token>>? PlayerTokens;
+    Tournament? Tournament;
 
-    
-    public void PrintBoard()
+
+    public GameResult PrintBoard()
     {
         ShowPlayerTokens();
 
-        BoardResult result = Board!.Start();
+        GameResult result = Board!.Start();
 
-        PrintWinner(result.Winner);        
+        PrintBoardWinner(result.Winner);
+
+        return result;
     }
 
     public void AddBoard(Board board, Dictionary<IPlayer, List<Token>> playerTokens)
@@ -26,18 +29,19 @@ public class GamePrinter
         Token_onBoard play = Board!.LastPlayed!;
         IPlayer player = Board.LastPlayer!;
         
+        Console.WriteLine();
         try // si no es null imprime jugada
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             string side = (play.PlayRight) ? "Right" : "Left";
 
-            System.Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
+            Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
             Console.ForegroundColor = ConsoleColor.White;
         }
         catch (NullReferenceException) // si es null es que no lleva
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine($"{player.Name} pass");
+            Console.WriteLine($"{player.Name} pass");
         }
         Console.ForegroundColor = ConsoleColor.White;
     }
@@ -47,41 +51,44 @@ public class GamePrinter
         ConsoleColor[] colors = {ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Magenta, ConsoleColor.Cyan};
         int color = 0;
 
-        System.Console.WriteLine();
-        System.Console.WriteLine("Tokens hand out was:");
+        Console.WriteLine();
+        Console.WriteLine("Tokens hand out was:");
         
         foreach (var item in PlayerTokens!)
         {
             Console.ForegroundColor = colors[color];
-            System.Console.WriteLine($"{item.Key.Name}:");
+            Console.WriteLine($"{item.Key.Name}:");
 
             foreach (var token in item.Value)
             {
-                System.Console.Write($"[{token.Left}:{token.Right}] ");
+                Console.Write($"[{token.Left}:{token.Right}] ");
             }
 
-            System.Console.WriteLine();
+            Console.WriteLine();
             color++;
         }
+        Console.WriteLine();
     }
 
-    private void PrintWinner(IPlayer winner)
+    private void PrintBoardWinner(IPlayer winner)
     {
-        System.Console.WriteLine();
+        Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
-        System.Console.WriteLine("GAME OVER");
+        Console.WriteLine("ROUND OVER");
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         
-        if(winner.Equals(null))
+        try
         {
-            System.Console.WriteLine("Tie Game");
+            Console.WriteLine($"\n{winner.Name} win this round");
         }
-        else
+        catch (NullReferenceException)
         {
-            System.Console.WriteLine($"{winner.Name} is the WINNER");
+            Console.WriteLine("\nTie Game");
         }
+        
         Console.ForegroundColor = ConsoleColor.White;
-        System.Console.WriteLine();
+        Console.WriteLine("\nPress any key to continue...");
+        Console.ReadKey();
     }
 }
