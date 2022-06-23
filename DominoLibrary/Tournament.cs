@@ -1,17 +1,17 @@
 using Utils;
 namespace DominoLibrary;
 
-public class Tournament
+public class Tournament : IGame
 {
-    public List<Token> GameTokens { get; private set; }
+    public CircularList<IPlayer> Players { get; private set; } 
+    public List<Token> GameTokens { get; private set; } 
     public int TokensPerPlayer { get; private set; }
     Node<IPlayer> Inner;
-    public CircularList<IPlayer> Players { get; private set; }
-    public GamePrinter? GamePrinter;
+    private GamePrinter? GamePrinter; 
     public Dictionary<IPlayer, int> PlayersScore { get; private set; }
     public int WinScore { get; private set; }
 
-    public Tournament(TournamentSetting setting)
+    public Tournament(TournamentSetting setting) 
     {
         GameTokens = GenerateTokens(setting.MaxToken);
         Players = setting.Players;
@@ -21,7 +21,7 @@ public class Tournament
         WinScore = setting.WinScore;
     }
 
-    public void Start()
+    public GameResult Start()
     {
         int roundNumber = 1;
 
@@ -44,6 +44,8 @@ public class Tournament
         (IPlayer player, int score) winner = GetWinner();
         GameResult result = new GameResult(winner.player, winner.score);
         GamePrinter.PrintTournamentWinner(result); //PRINT
+
+        return result;
     }
 
     public void SetGamePrinter(GamePrinter gamePrinter)
