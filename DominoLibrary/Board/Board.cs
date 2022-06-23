@@ -33,8 +33,6 @@ public partial class Board
     {
         GamePrinter!.ShowPlayerTokens(); //PRINT
         
-        Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
-
         foreach (var player in Players)
         {
             Token_onBoard token = null!;
@@ -51,7 +49,7 @@ public partial class Board
             
             UpdateBoard(token, player);
             
-            Settings.GamePrinter.PrintPlay(); // imprime jugada
+            GamePrinter.PrintPlay(); // imprime jugada
 
             if(IsOver()) { break; }
         }
