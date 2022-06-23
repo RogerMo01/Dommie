@@ -34,16 +34,13 @@ public partial class Board
 
     public GameResult Start()
     {
-        Node<IPlayer> currentPlayer = Settings.Inner.Previous!;
-
-        while (true)
+        foreach (var player in Players)
         {
-            currentPlayer = currentPlayer.Next!;
             Token_onBoard token = null!;
 
-            if(HaveToken(currentPlayer.Value, BoardTokens.Count == 0))
+            if(HaveToken(player, BoardTokens.Count == 0))
             {
-                token = currentPlayer.Value.Play(this, PlayersTokens[currentPlayer.Value]);
+                token = player.Play(this, PlayersTokens[player]);
                 ConsecutivePasses = 0;
             }
             else
@@ -51,11 +48,11 @@ public partial class Board
                 ConsecutivePasses ++;
             }
             
-            UpdateBoard(token, currentPlayer.Value);
+            UpdateBoard(token, player);
             
             Settings.GamePrinter.PrintPlay(); // imprime jugada
 
-            if(IsOver()) {break; }
+            if(IsOver()) { break; }
         }
 
         IPlayer winner = GetWinner();
