@@ -1,6 +1,8 @@
+using System.Collections;
+
 namespace Utils;
 
-public class CircularList<T>
+public class CircularList<T> : IEnumerable<T>
 {
     public Node<T> First { get; set; }
     public Node<T> Last { get; set; }
@@ -74,5 +76,15 @@ public class CircularList<T>
         }
 
         return null!;
+    }
+    
+    public IEnumerator<T> GetEnumerator()
+    {
+        return new CircularEnumerator<T>(First);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
