@@ -8,7 +8,23 @@ public static class BoardWins
     public static bool ClassicWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
     {
         if(board.ConsecutivePasses == 4) return true;
+        else
+        {
+            return ZeroToken(board, playersTokens);
+        }
+    }
 
+    public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
+    {
+        if((board.BoardTokens.First!.Value.EqualTokens(token)) || (board.BoardTokens.Last!.Value.EqualsTokens(token))) return true;
+        else
+        {
+            return ZeroToken(board, playersTokens);
+        } 
+    }
+
+    private static bool ZeroToken(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
+    {
         Node<IPlayer> player = board.Players.First;
 
         for (int i = 0; i < board.Players.Count; i++)
@@ -18,10 +34,5 @@ public static class BoardWins
         }
 
         return false;
-    }
-
-    public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
-    {
-        throw new NotImplementedException();
     }
 }
