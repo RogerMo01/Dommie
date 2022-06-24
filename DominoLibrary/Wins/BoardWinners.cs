@@ -17,10 +17,15 @@ public static class BoardWinners
             finalPuntuation.Add(item.Key, GetPlayerScore(item.Value));
         }
 
-        Node<IPlayer> player = board.Players.First;
-        int value = int.MaxValue;
-        if(board.ConsecutivePasses == board.Players.Count) // game over por tranque
+        if(finalPuntuation.Any(x => x.Value == 0))
         {
+            winner = finalPuntuation.First(x => x.Value == 0).Key;
+        }
+        else
+        {
+            Node<IPlayer> player = board.Players.First;
+            int value = int.MaxValue;
+
             for (int i = 0; i < board.Players.Count; i++)
             {
                 if(finalPuntuation[player!.Value] == value)
@@ -37,12 +42,8 @@ public static class BoardWinners
                 player = player.Next!;
             }
         }
-        else
-        {
-            winner = finalPuntuation.First(x => x.Value == 0).Key;
-        }
 
-        // sumar puntos de victoria
+        // sum victory points
         foreach (var item in finalPuntuation)
         {
             if(item.Key != winner) points += item.Value;

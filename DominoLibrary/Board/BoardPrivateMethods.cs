@@ -40,6 +40,7 @@ public partial class Board
 
             int index = 0;
 
+            // find token in player hand to remove it
             for (int i = 0; i < PlayersTokens[player].Count; i++)
             {
                 if((token.Left == PlayersTokens[player][i].Left) && (token.Right == PlayersTokens[player][i].Right))
@@ -93,9 +94,16 @@ public partial class Board
         return playerTokens;
     }
 
-    // Falta implementar
-    private Token GetRandomToken()
+    private Token GetCrazyToken()
     {
-        throw new NotImplementedException();
+        int handOut = Settings.TokensPerPlayer;
+
+        Random random = new Random();
+        int index = random.Next((handOut * Players.Count) - 1);
+
+        int indexPlayer = index / handOut;
+        int indexToken = index % handOut;
+
+        return PlayersTokens[PlayersTokens.ToArray()[indexPlayer].Key][indexToken];
     }
 }

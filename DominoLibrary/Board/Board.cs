@@ -27,7 +27,7 @@ public partial class Board
         WinnerBoard = setting.WinnerBoard;
 
         PlayersTokens = HandOut(GameTokens, Players, setting.TokensPerPlayer);
-        CrazyToken = GetRandomToken();
+        CrazyToken = GetCrazyToken();
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
