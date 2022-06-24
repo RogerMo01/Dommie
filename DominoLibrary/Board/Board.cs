@@ -14,8 +14,8 @@ public partial class Board
     public GamePrinter? GamePrinter;
     public WinBoard WinBoard;
     public WinnerBoard WinnerBoard;
-
     public int ConsecutivePasses;
+    Token CrazyToken;
 
     public Board(BoardSetting setting)
     {
@@ -27,6 +27,7 @@ public partial class Board
         WinnerBoard = setting.WinnerBoard;
 
         PlayersTokens = HandOut(GameTokens, Players, setting.TokensPerPlayer);
+        CrazyToken = GetRandomToken();
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
@@ -55,7 +56,7 @@ public partial class Board
             
             GamePrinter.PrintPlay(); // imprime jugada
 
-            if(WinBoard.Invoke(this, PlayersTokens)) { break; }
+            if(WinBoard.Invoke(this, PlayersTokens, CrazyToken)) { break; }
         }
 
         (IPlayer player, int score) winner = WinnerBoard.Invoke(this, PlayersTokens);

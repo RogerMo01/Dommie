@@ -92,4 +92,10 @@ public partial class Board
 
         return playerTokens;
     }
+
+    // Falta implementar
+    private Token GetRandomToken()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -26,10 +26,12 @@ static class ConsoleApp
 
         // Instanciar metodo de WinBoard
         WinBoard meth = new WinBoard(BoardWins.ClassicWinBoard);
-        WinnerBoard meth2 = new WinnerBoard(BoardWinners.ClassicGetWinner);
+        WinBoard meth2 = new WinBoard(BoardWins.CrazyTokenWinBoard);
+
+        WinnerBoard methW = new WinnerBoard(BoardWinners.ClassicGetWinner);
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, meth, meth2));
+        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, meth2, methW));
 
         GamePrinter gp = new GamePrinter();
         tournament.SetGamePrinter(gp); // attach observer
