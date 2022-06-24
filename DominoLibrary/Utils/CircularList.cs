@@ -66,6 +66,18 @@ public class CircularList<T> : IEnumerable<T>
         return result;
     }
 
+    public Node<T> FindNode(T value)
+    {
+        Node<T> current = this.First;
+        for (int i = 0; i < this.Count; i++)
+        {
+            if(value!.Equals(current.Value)) return current;
+            current = current.Next!;
+        }
+
+        return null!;
+    }
+    
     public IEnumerator<T> GetEnumerator()
     {
         return new CircularEnumerator<T>(First);

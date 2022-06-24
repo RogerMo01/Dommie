@@ -18,32 +18,33 @@ public partial class Board
         return false;
     }
 
-    private IPlayer GetWinner()
+    private (IPlayer, int) GetWinner()
     {
         IPlayer winner = Players.First.Value;
-        int points = int.MaxValue;
-        Node<IPlayer> player = Players.First;
+        int points = 0;
 
-        if(ConsecutivePasses == 4)
+        Dictionary<IPlayer, int> finalPuntuation = new Dictionary<IPlayer, int>();
+
+        foreach (var item in PlayersTokens)
         {
-            foreach (var item in PlayersTokens)
+            finalPuntuation.Add(item.Key, GetPlayerScore(item.Value));
+        }
+
+        Node<IPlayer> player = Players.First;
+        int value = int.MaxValue;
+        if(ConsecutivePasses == Players.Count) // game over por tranque
+        {
+            for (int i = 0; i < Players.Count; i++)
             {
-                int value = 0;
-
-                foreach (var token in item.Value)
-                {
-                    value += (token.Left + token.Right);
-                }
-
-                if(value == points)
+                if(finalPuntuation[player!.Value] == value)
                 {
                     winner = null!;
                 }
 
-                if(value < points) 
+                if(finalPuntuation[player!.Value] < value)
                 {
-                    points = value;
                     winner = player.Value;
+                    value = finalPuntuation[player.Value];
                 }
 
                 player = player.Next!;
@@ -51,13 +52,28 @@ public partial class Board
         }
         else
         {
-            foreach (var item in PlayersTokens)
-            {
-                if(item.Value.Count == 0) return item.Key;
-            }
+            winner = finalPuntuation.First(x => x.Value == 0).Key;
         }
 
-        return winner;
+        // sumar puntos de victoria
+        foreach (var item in finalPuntuation)
+        {
+            if(item.Key != winner) points += item.Value;
+        }
+
+        return (winner, points);
+    }
+
+    private static int GetPlayerScore(List<Token> tokens)
+    {
+        int value = 0;
+
+        foreach (var token in tokens)
+        {
+            value += (token.Left + token.Right);
+        }
+
+        return value;
     }
 
     private bool HaveToken(IPlayer player, bool firstPlay)
@@ -116,20 +132,7 @@ public partial class Board
         LastPlayer = player;
     }
 
-    private static List<Token> GenerateTokens(int maxToken)
-    {
-        List<Token> gameTokens = new List<Token>();
-
-        for(int i = -1; i < maxToken; i++)
-        {
-            for (int j = i + 1; j <= maxToken; j++)
-            {
-                gameTokens.Add(new Token(i + 1, j));
-            }
-        }
-
-        return gameTokens;    
-    }
+    
 
     private static Dictionary<IPlayer, List<Token>> HandOut(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
     {

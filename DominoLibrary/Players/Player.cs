@@ -15,4 +15,9 @@ public class Player : IPlayer
     {
         return Strategies[0].Play(board, tokens, this);
     }
+
+    public override string ToString()
+    {
+        return this.Name;
+    }
 }
