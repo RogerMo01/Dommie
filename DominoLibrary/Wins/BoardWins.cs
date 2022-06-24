@@ -16,10 +16,11 @@ public static class BoardWins
 
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
     {
+        // crazy token on board
         if((board.BoardTokens.First!.Value.EqualTokens(token)) || (board.BoardTokens.Last!.Value.EqualTokens(token))) return true;
         else
         {
-            return ZeroToken(board, playersTokens);
+            return ClassicWinBoard(board, playersTokens, token);
         } 
     }
 
