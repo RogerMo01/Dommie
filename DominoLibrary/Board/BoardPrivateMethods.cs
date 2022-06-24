@@ -60,8 +60,6 @@ public partial class Board
         LastPlayer = player;
     }
 
-    
-
     private static Dictionary<IPlayer, List<Token>> HandOut(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
     {
         Dictionary<IPlayer, List<Token>> result = new Dictionary<IPlayer, List<Token>>();
