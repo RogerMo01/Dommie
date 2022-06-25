@@ -1,21 +1,22 @@
 ﻿using Utils;
 namespace DominoLibrary;
 
-public partial class Board
+public partial class Board : IGame
 {
-    public CircularList<IPlayer> Players {get; private set;}
-    public List<Token> GameTokens {get; private set;}
+    public CircularList<IPlayer> Players {get; private set;} 
+    public List<Token> GameTokens {get; private set;}  
     Dictionary<IPlayer, List<Token>> PlayersTokens;
     public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
     BoardSetting Settings;
     public Token_onBoard? LastPlayed {get; private set;}
     public IPlayer? LastPlayer {get; private set;}
-    public GamePrinter? GamePrinter;
     public WinBoard WinBoard;
     public WinnerBoard WinnerBoard;
-    public int ConsecutivePasses;
     Token CrazyToken;
+    private GamePrinter? GamePrinter;  
+
+    int ConsecutivePasses;
 
     public Board(BoardSetting setting)
     {
