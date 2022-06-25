@@ -5,11 +5,15 @@ public class Token
     public int Left { get; private set; }
     public int Right { get; private set; }
     
-
     public Token(int left, int right)
     {
         Left = left;
         Right = right;
+    }
+
+    public bool EqualTokens(Token obj)
+    {
+        return (this.Left == obj.Left && this.Right == obj.Right);
     }
 }
 

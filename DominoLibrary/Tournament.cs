@@ -10,6 +10,8 @@ public class Tournament : IGame
     private GamePrinter? GamePrinter; 
     public Dictionary<IPlayer, int> PlayersScore { get; private set; }
     public int WinScore { get; private set; }
+    WinBoard WinBoard;
+    WinnerBoard WinnerBoard;
 
     public Tournament(TournamentSetting setting) 
     {
@@ -19,6 +21,8 @@ public class Tournament : IGame
         TokensPerPlayer = DecideTokensPerPlayer(setting.MaxToken);
         PlayersScore = SetPlayerScores();
         WinScore = setting.WinScore;
+        WinBoard = setting.WinBoard;
+        WinnerBoard = setting.WinnerBoard;
     }
 
     public GameResult Start()
@@ -29,7 +33,7 @@ public class Tournament : IGame
         {
             GamePrinter!.ShowTournamentStatus(roundNumber, PlayersScore); //PRINT
 
-            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer);
+            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, WinBoard, WinnerBoard);
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
 
@@ -53,7 +57,6 @@ public class Tournament : IGame
         GamePrinter = gamePrinter;
         gamePrinter.AddTournament(this);
     }
-
 
     private Node<IPlayer> GetInner() // default, FiRST
     {
@@ -81,9 +84,16 @@ public class Tournament : IGame
 
     private void UpdateTournament(GameResult gameResult)
     {
-        Inner = Players.FindNode(gameResult.Winner);
-
-        PlayersScore[gameResult.Winner] += gameResult.Score;
+        // si no hay ganador no hay q actualizar puntos y sale otro jugador
+        try
+        {
+            Inner = Players.FindNode(gameResult.Winner);
+            PlayersScore[gameResult.Winner] += gameResult.Score;
+        }
+        catch (NullReferenceException)
+        {
+            Inner = Inner.Next!;
+        }
     }
 
     private static List<Token> GenerateTokens(int maxToken)
