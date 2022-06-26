@@ -27,7 +27,7 @@ public partial class Board
 
     private void UpdateBoard(Token_onBoard token, IPlayer player)
     {
-        try
+        if(!token.IsPass())
         {
             if(token.PlayRight)
             {
@@ -49,12 +49,11 @@ public partial class Board
                     break; 
                 }
             }
-            
+                
             PlayersTokens[player].RemoveAt(index);
 
             ResetEnds();
         }
-        catch (NullReferenceException){}
 
         LastPlayed = token;
         LastPlayer = player;

@@ -11,12 +11,11 @@ public partial class Board : IGame
     BoardSetting Settings;
     public Token_onBoard? LastPlayed {get; private set;}
     public IPlayer? LastPlayer {get; private set;}
-    public WinBoard WinBoard;
-    public WinnerBoard WinnerBoard;
+    public Judge Judge;
     Token CrazyToken;
     private GamePrinter? GamePrinter;  
+    public int ConsecutivePasses;
 
-    int ConsecutivePasses;
 
     public Board(BoardSetting setting)
     {
@@ -24,8 +23,7 @@ public partial class Board : IGame
 
         Players = setting.Players;
         GameTokens = setting.GameTokens;
-        WinBoard = setting.WinBoard;
-        WinnerBoard = setting.WinnerBoard;
+        Judge = setting.Judge;
 
         PlayersTokens = HandOut(GameTokens, Players, setting.TokensPerPlayer);
         CrazyToken = GetCrazyToken();
@@ -41,11 +39,16 @@ public partial class Board : IGame
         
         foreach (var player in Players)
         {
-            Token_onBoard token = null!;
+            // default es pase, si juega se sustituye
+            Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
 
             if(HaveToken(player, BoardTokens.Count == 0))
             {
-                token = player.Play(this, PlayersTokens[player]);
+                do
+                {
+                    token = player.Play(this, PlayersTokens[player]);
+                } while (!Judge.IsValid(this, token));
+
                 ConsecutivePasses = 0;
             }
             else
@@ -57,10 +60,10 @@ public partial class Board : IGame
             
             GamePrinter.PrintPlay(); // imprime jugada
 
-            if(WinBoard.Invoke(this, PlayersTokens, CrazyToken)) { break; }
+            if(Judge.WinBoard.Invoke(this, PlayersTokens, CrazyToken)) { break; }
         }
 
-        (IPlayer player, int score) winner = WinnerBoard.Invoke(this, PlayersTokens);
+        (IPlayer player, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);
 
         GamePrinter.PrintBoardWinner(winner.player); //PRINT
         return new GameResult(winner.player, winner.score);

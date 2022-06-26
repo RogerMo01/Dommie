@@ -10,8 +10,7 @@ public class Tournament : IGame
     private GamePrinter? GamePrinter; 
     public Dictionary<IPlayer, int> PlayersScore { get; private set; }
     public int WinScore { get; private set; }
-    WinBoard WinBoard;
-    WinnerBoard WinnerBoard;
+    public Judge Judge { get; private set; }
 
     public Tournament(TournamentSetting setting) 
     {
@@ -21,8 +20,7 @@ public class Tournament : IGame
         TokensPerPlayer = DecideTokensPerPlayer(setting.MaxToken);
         PlayersScore = SetPlayerScores();
         WinScore = setting.WinScore;
-        WinBoard = setting.WinBoard;
-        WinnerBoard = setting.WinnerBoard;
+        Judge = setting.Judge;
     }
 
     public GameResult Start()
@@ -33,7 +31,7 @@ public class Tournament : IGame
         {
             GamePrinter!.ShowTournamentStatus(roundNumber, PlayersScore); //PRINT
 
-            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, WinBoard, WinnerBoard);
+            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, Judge);
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
 

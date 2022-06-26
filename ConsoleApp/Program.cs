@@ -30,8 +30,11 @@ static class ConsoleApp
 
         WinnerBoard methW = new WinnerBoard(BoardWinners.ClassicGetWinner);
 
+        Judge judge = new Judge(meth2, methW);
+
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, meth2, methW));
+        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, judge));
+        //Board board = new Board(new BoardSetting(players, players.First, ))
 
         GamePrinter gp = new GamePrinter();
         tournament.SetGamePrinter(gp); // attach observer
