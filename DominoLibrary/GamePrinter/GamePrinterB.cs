@@ -18,7 +18,12 @@ public partial class GamePrinter
         IPlayer player = Board.LastPlayer!;
         
         Console.WriteLine();
-        try // si no es null imprime jugada
+        if(play.IsPass())
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{player.Name} pass");
+        }
+        else
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             string side = (play.PlayRight) ? "Right" : "Left";
@@ -26,11 +31,7 @@ public partial class GamePrinter
             Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
             Console.ForegroundColor = ConsoleColor.White;
         }
-        catch (NullReferenceException) // si es null es que no lleva
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{player.Name} pass");
-        }
+        
         Console.ForegroundColor = ConsoleColor.White;
     }
 

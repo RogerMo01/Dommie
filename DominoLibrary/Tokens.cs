@@ -15,6 +15,8 @@ public class Token
     {
         return (this.Left == obj.Left && this.Right == obj.Right);
     }
+
+    public virtual bool IsPass() => false;
 }
 
 public class Token_onBoard : Token
@@ -31,3 +33,9 @@ public class Token_onBoard : Token
     }
 }
 
+// solo importa el par'ametro Owner & IsPass() method
+public class Pass : Token_onBoard
+{
+    public Pass(Token token, bool straight, IPlayer owner, bool playRight) : base(token, straight, owner, playRight){}
+    public override bool IsPass() => true;
+}

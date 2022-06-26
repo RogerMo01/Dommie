@@ -7,6 +7,8 @@ public static class BoardWins
 {
     public static bool ClassicWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
     {
+        if(token.IsPass()) return false;
+
         if(board.ConsecutivePasses == board.Players.Count) return true;
         else
         {
@@ -16,6 +18,8 @@ public static class BoardWins
 
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
     {
+        if(token.IsPass()) return false;
+
         // crazy token on board
         if((board.BoardTokens.First!.Value.EqualTokens(token)) || (board.BoardTokens.Last!.Value.EqualTokens(token))) return true;
         else
