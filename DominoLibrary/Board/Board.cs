@@ -21,9 +21,9 @@ public partial class Board : IGame
     {
         Settings = setting;
 
-        Players = setting.Players;
+        Players = setting.Players!;
         GameTokens = setting.GameTokens;
-        Judge = setting.Judge;
+        Judge = setting.Judge!;
 
         PlayersTokens = HandOut(GameTokens, Players, setting.TokensPerPlayer);
         CrazyToken = GetCrazyToken();

@@ -1,69 +1,101 @@
 namespace ConsoleApp;
 
-interface IMenu<inT>
+public interface ISelectionable
 {
-    List<inT> Options {get;}
-    string Title {get;}
-    int Selected {get;}
-    void GetSelection();
+    public string Name { get; }
+    // que masssss
 }
 
-class NavigationMenu<inT> : IMenu<inT>
+public class SimpleOption : ISelectionable
 {
-    public List<inT> Options {get; private set;}
-    public string Title {get; private set;}
-    public int Selected {get; private set;}
+    public string Name { get; }
 
-    public NavigationMenu(List<inT> options, string  title)
+    public SimpleOption(string name)
     {
-        Options = options;
-        Title = title;
+        Name = name;
+    }
+}
+
+
+
+// class HeadMenu
+// {
+//     public List<ISelectionable> Menus;
+
+//     public HeadMenu()
+//     {
         
-        GetSelection();
-    }
+//     }
+// }
 
-    public void GetSelection()
-    {
-        // Muestra el menu con las opciones para elegir
-    }
-}
-
-class SelectionMenu<inT> : IMenu<inT>
+class SingleSelectionMenu
 {
-    public List<inT> Options {get; private set;}
-    public string Title {get; private set;}
-    public int Selected {get; private set;}
+    public List<SimpleOption> Selectionables { get;}
+    public SimpleOption Selected { get; private set; }
+    string Title;
 
-    public SelectionMenu(List<inT> options, string  title)
+    public SingleSelectionMenu(List<SimpleOption> selectionables, string title)
     {
-        Options = options;
+        Selectionables = selectionables;
+        Selected = Selectionables.First();
         Title = title;
-
-        GetSelection();
     }
 
-    public void GetSelection()
+    public void Select(ConsoleKey key, int numberOptions)
     {
-        // mostrar adem'as lo seleccionado
+        // D1 inicia en 49
+        int startPoint = 49;
+        int selectionNumber = (int)key;
+
+        if(selectionNumber > startPoint + (numberOptions-1) || selectionNumber < startPoint)
+        {
+            // no es valido
+            return;
+        }
+
+        Selected = Selectionables[selectionNumber-startPoint];
     }
-}
 
-class WriteMenu<inT> : IMenu<inT>
-{
-    public List<inT> Options {get; private set;}
-    public string Title {get; private set;}
-    public int Selected {get; private set;}
-
-    public WriteMenu(string title)
+    public void Show()
     {
-        Title = title;
-        Options = new List<inT>();
+        ConsoleKey pressedKey = ConsoleKey.D1;
 
-        GetSelection();
+        while ((int)ConsoleKey.Enter != (int)pressedKey)
+        {
+            Print();
+
+            pressedKey = Console.ReadKey().Key;
+
+            Select(pressedKey, Selectionables.Count);
+        }
+        return;
     }
-
-    public void GetSelection()
+    private void Print()
     {
-        
+        Console.Clear();
+
+        // Title
+        Console.ForegroundColor = ConsoleColor.Blue;
+        System.Console.WriteLine($"===== {Title} =====\n");
+
+        // Options
+        for (int i = 0; i < Selectionables.Count; i++)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            System.Console.Write($"[{i+1}]  ");
+            if(Selectionables[i].Equals(Selected)){
+                Console.ForegroundColor = ConsoleColor.White;
+                System.Console.Write("->");
+            }   
+            else{
+                System.Console.Write(" ");
+            }
+            System.Console.WriteLine(" " + Selectionables[i].Name);
+        }
+
+        Console.ForegroundColor = ConsoleColor.White;
+        System.Console.WriteLine("\n Press ENTER to continue");
     }
+
 }
