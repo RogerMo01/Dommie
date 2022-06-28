@@ -15,12 +15,12 @@ public class Tournament : IGame
     public Tournament(TournamentSetting setting) 
     {
         GameTokens = GenerateTokens(setting.MaxToken);
-        Players = setting.Players;
+        Players = setting.Players!;
         Inner = GetInner();
         TokensPerPlayer = DecideTokensPerPlayer(setting.MaxToken);
         PlayersScore = SetPlayerScores();
         WinScore = setting.WinScore;
-        Judge = setting.Judge;
+        Judge = setting.Judge!;
     }
 
     public GameResult Start()

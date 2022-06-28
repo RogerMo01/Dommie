@@ -1,14 +1,17 @@
 using Utils;
-
 namespace DominoLibrary;
 
-public class BoardSetting
+public abstract class Setting
 {
-    public CircularList<IPlayer> Players { get; private set; }
+    public CircularList<IPlayer>? Players { get; set; }
+    public Judge? Judge { get; set; }
+
+}
+public class BoardSetting : Setting
+{
     public Node<IPlayer> Inner { get; private set; }
     public List<Token> GameTokens { get; private set; }
     public int TokensPerPlayer { get; private set; }
-    public Judge Judge { get; private set; }
 
     public BoardSetting(CircularList<IPlayer> players, Node<IPlayer> inner, List<Token> gameTokens, int tokensPerPlayer, Judge judge)
     {
@@ -20,12 +23,10 @@ public class BoardSetting
     }
 }
 
-public class TournamentSetting
+public class TournamentSetting : Setting
 {
-    public CircularList<IPlayer> Players { get; private set; }
     public int MaxToken { get; private set; }
     public int WinScore { get; private set; }
-    public Judge Judge { get; private set; }
 
     public TournamentSetting(CircularList<IPlayer> players, int maxToken, int winScore, Judge judge)
     {

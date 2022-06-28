@@ -42,7 +42,44 @@ static class ConsoleApp
         // MAIN CALL
         tournament.Start();
 
+
+
+        //======================================================================================================
+        //ShowMenus();
     }
+
+    private static void ShowMenus()
+    {
+        // MENU (HUMAN - PC)
+        SimpleOption humanOption = new SimpleOption("I will play");
+        SimpleOption pcOption = new SimpleOption("Only PC will play");
+        List<SimpleOption> hpSelectionables = new List<SimpleOption>(){ humanOption, pcOption };
+
+        SingleSelectionMenu hPcMenu = new SingleSelectionMenu(hpSelectionables, "WHAT DO YOU LIKE TO DO");
+        hPcMenu.Show();
+
+        bool m_HumanPlay = (hPcMenu.Selected.Equals(humanOption));
+
+        
+        // MENU (TOURNAMENT - BOARD)
+        SimpleOption boardOption = new SimpleOption("Single Play");
+        SimpleOption tournamentOption = new SimpleOption("Tournament Play");
+        List<SimpleOption> tbSelectionables = new List<SimpleOption>(){ boardOption, tournamentOption };
+
+        SingleSelectionMenu btMenu = new SingleSelectionMenu(tbSelectionables, "SELECT A GAME MODE");
+        btMenu.Show();
+
+        bool m_GameMode = (hPcMenu.Selected.Equals(humanOption));
+
+
+        // MENU (TEMPLATE)
+
+
+
+    }
+
+
+
 
 
 
