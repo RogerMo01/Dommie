@@ -3,12 +3,8 @@ using Utils;
 
 public partial class Board
 {
-    private bool HaveToken(IPlayer player, bool firstPlay)
-    {
-        //si es la primera jugada siempre lleva
-        if(firstPlay) return true;        
-
-        //int[] ends = GetEnds(BoardTokens);
+    private bool HaveToken(IPlayer player)
+    {    
         List<Token> playerTokens = PlayersTokens[player];
 
         for (int i = 0; i < Ends.Length; i++)
@@ -54,9 +50,6 @@ public partial class Board
 
             ResetEnds();
         }
-
-        LastPlayed = token;
-        LastPlayer = player;
     }
 
     private static Dictionary<IPlayer, List<Token>> HandOut(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
