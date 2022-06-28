@@ -9,12 +9,11 @@ public partial class Board : IGame
     public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
     BoardSetting Settings;
-    public Token_onBoard? LastPlayed {get; private set;}
-    public IPlayer? LastPlayer {get; private set;}
     public Judge Judge;
     Token CrazyToken;
     private GamePrinter? GamePrinter;  
     public int ConsecutivePasses;
+    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
 
 
     public Board(BoardSetting setting)
@@ -31,6 +30,7 @@ public partial class Board : IGame
         BoardTokens = new LinkedList<Token_onBoard>();   
 
         ConsecutivePasses = 0;
+        Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
     }
 
     public GameResult Start()
@@ -42,12 +42,13 @@ public partial class Board : IGame
             // default es pase, si juega se sustituye
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
 
-            if(HaveToken(player, BoardTokens.Count == 0))
+            if((HaveToken(player)) || BoardTokens.Count == 0)
             {
                 do
                 {
                     token = player.Play(this, PlayersTokens[player]);
-                } while (!Judge.IsValid(this, token));
+                } 
+                while (!Judge.IsValid(this, token));
 
                 ConsecutivePasses = 0;
             }
@@ -56,6 +57,8 @@ public partial class Board : IGame
                 ConsecutivePasses ++;
             }
             
+            Plays.Add((player, token));
+
             UpdateBoard(token, player);
             
             GamePrinter.PrintPlay(); // imprime jugada

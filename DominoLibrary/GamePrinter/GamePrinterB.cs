@@ -14,8 +14,9 @@ public partial class GamePrinter
 
     public void PrintPlay()
     {
-        Token_onBoard play = Board!.LastPlayed!;
-        IPlayer player = Board.LastPlayer!;
+        int size = Board!.Plays.Count;
+        Token_onBoard play = Board.Plays[size - 1].token_OnBoard;
+        IPlayer player = Board.Plays[size - 1].player;
         
         Console.WriteLine();
         if(play.IsPass())

@@ -26,9 +26,10 @@ public class Tournament : IGame
     public GameResult Start()
     {
         int roundNumber = 1;
-
-        while(true)
+        bool seacabo = true;
+        while(!seacabo)
         {
+            seacabo = false;
             GamePrinter!.ShowTournamentStatus(roundNumber, PlayersScore); //PRINT
 
             BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, Judge);
@@ -39,13 +40,16 @@ public class Tournament : IGame
 
             UpdateTournament(boardResult);
 
-            if(IsOver()) { break; }
+            if(IsOver())//{ break; }
+            {
+                seacabo = true;
+            }
             roundNumber++;
         }
 
         (IPlayer player, int score) winner = GetWinner();
         GameResult result = new GameResult(winner.player, winner.score);
-        GamePrinter.PrintTournamentWinner(result); //PRINT
+        GamePrinter!.PrintTournamentWinner(result); //PRINT
 
         return result;
     }
