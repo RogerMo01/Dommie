@@ -30,10 +30,19 @@ static class ConsoleApp
 
         WinnerBoard methW = new WinnerBoard(BoardWinners.ClassicGetWinner);
 
-        Judge judge = new Judge(meth2, methW);
+        Judge judge = new Judge(meth, methW);
+
+        
+        List<Team> team = new List<Team>();
+        List<IPlayer> team1 = new List<IPlayer>{players.First.Value, players.Last.Previous!.Value};
+        team.Add(new Team(team1));
+        List<IPlayer> team2 = new List<IPlayer>{players.First.Next!.Value};
+        team.Add(new Team(team2));
+        List<IPlayer> team3 = new List<IPlayer>{players.Last.Value};
+        team.Add(new Team(team3));
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, judge));
+        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, judge, team));
         //Board board = new Board(new BoardSetting(players, players.First, ))
 
         GamePrinter gp = new GamePrinter();
