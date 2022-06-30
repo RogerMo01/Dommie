@@ -17,7 +17,7 @@ public class Tournament : IGame
         GameTokens = GenerateTokens(setting.MaxToken);
         Players = setting.Players!;
         Inner = GetInner();
-        TokensPerPlayer = DecideTokensPerPlayer(setting.MaxToken);
+        TokensPerPlayer = DecideTokensPerPlayer(GameTokens.Count, setting.TotalPlayers);
         PlayersScore = SetPlayerScores();
         WinScore = setting.WinScore;
         Judge = setting.Judge!;
@@ -65,9 +65,9 @@ public class Tournament : IGame
         return Players.First;
     }
 
-    private int DecideTokensPerPlayer(int maxToken) // default, MAX + 1
+    private int DecideTokensPerPlayer(int totalTokens, int totalPlayers) // default, MAX + 1
     {
-        return maxToken + 1;
+        return (totalTokens - ((totalTokens * 29) / 100)) / totalPlayers; 
     }
 
     private Dictionary<IPlayer, int> SetPlayerScores()
