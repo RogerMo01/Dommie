@@ -9,6 +9,9 @@ static class ConsoleApp
     public static void Main()
     {
         //~~~~~~~~~~~~~~~~~~~~~~~~~~ MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //default
+        int numberOfPlayers = 3;
+
         // Instanciar jugadores
         CircularList<IPlayer> players = new CircularList<IPlayer>(new Player("Dustin", new List<IStrategy>(){new Mosaic()}));
         players.AddLast(new Player("Eleven", new List<IStrategy>(){new Mosaic()}));
@@ -33,7 +36,7 @@ static class ConsoleApp
         Judge judge = new Judge(meth2, methW);
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, judge));
+        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, numberOfPlayers, winScore, judge));
         //Board board = new Board(new BoardSetting(players, players.First, ))
 
         GamePrinter gp = new GamePrinter();
