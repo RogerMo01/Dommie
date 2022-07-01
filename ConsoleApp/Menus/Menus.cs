@@ -13,10 +13,10 @@ static class Menus
         List<SimpleOption> hpSelectionables = new List<SimpleOption>(){ humanOption, pcOption };
         // ...
 
-        SingleSelectionMenu<SimpleOption> hPcMenu = new SingleSelectionMenu<SimpleOption>(hpSelectionables, "WHAT DO YOU LIKE TO DO");
-        hPcMenu.Show();
+        SingleSelectionMenu<SimpleOption> menu = new SingleSelectionMenu<SimpleOption>(hpSelectionables, "WHAT DO YOU LIKE TO DO");
+        menu.Show();
 
-        return hPcMenu.Selected.Equals(humanOption);
+        return menu.Selected.Equals(humanOption);
     }
 
     public static bool GameModeMenu()
@@ -27,10 +27,10 @@ static class Menus
         // ...
 
         List<SimpleOption> tbSelectionables = new List<SimpleOption>(){ boardOption, tournamentOption };
-        SingleSelectionMenu<SimpleOption> btMenu = new SingleSelectionMenu<SimpleOption>(tbSelectionables, "SELECT A GAME MODE");
-        btMenu.Show();
+        SingleSelectionMenu<SimpleOption> menu = new SingleSelectionMenu<SimpleOption>(tbSelectionables, "SELECT A GAME MODE");
+        menu.Show();
 
-        return btMenu.Selected.Equals(boardOption);
+        return menu.Selected.Equals(boardOption);
     }
 
     public static ITemplate TemplateMenu(int numberPlayers, List<IStrategy> strategies, ITemplate custom)
@@ -43,10 +43,10 @@ static class Menus
 
         List<ITemplate> tSelectionables = new List<ITemplate>(){ classic_9, classic_6, crazyToken, custom };
 
-        SingleSelectionMenu<ITemplate> tMenu = new SingleSelectionMenu<ITemplate>(tSelectionables, "CHOOSE A TEMPLATE");
-        tMenu.Show();
+        SingleSelectionMenu<ITemplate> menu = new SingleSelectionMenu<ITemplate>(tSelectionables, "CHOOSE A TEMPLATE");
+        menu.Show();
 
-        return tMenu.Selected;
+        return menu.Selected;
     }
 
     public static int MaxTokenMenu(int baseMaxToken)
@@ -60,10 +60,10 @@ static class Menus
             maxTokensList.Add(new SimpleOption(optionName));
         }
 
-        SingleSelectionMenu<SimpleOption> maxTokensMenu = new SingleSelectionMenu<SimpleOption>(maxTokensList, "CHOOSE MAX DOUBLE");
-        maxTokensMenu.Show();
+        SingleSelectionMenu<SimpleOption> menu = new SingleSelectionMenu<SimpleOption>(maxTokensList, "CHOOSE MAX DOUBLE");
+        menu.Show();
 
-        return maxTokensMenu.SelectedIndex + baseMaxToken;
+        return menu.SelectedIndex + baseMaxToken;
     }
 
     public static WinBoard OverConditionMenu()
@@ -74,10 +74,10 @@ static class Menus
         // ...
         
         List<DelegateOption<WinBoard>> boardWins = new List<DelegateOption<WinBoard>>(){ classicWinBoard, crazyTokenWinBoard };
-        SingleSelectionMenu<DelegateOption<WinBoard>> winBMenu = new SingleSelectionMenu<DelegateOption<WinBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND");
-        winBMenu.Show();
+        SingleSelectionMenu<DelegateOption<WinBoard>> menu = new SingleSelectionMenu<DelegateOption<WinBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND");
+        menu.Show();
 
-        return winBMenu.Selected.Deleg;
+        return menu.Selected.Deleg;
     }
 
     public static WinnerBoard GetWinnerMenu()
