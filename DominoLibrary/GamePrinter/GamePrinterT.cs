@@ -14,7 +14,11 @@ public partial class GamePrinter
 
         foreach (var item in scores)
         {
-            System.Console.Write($"{item.Key}: {item.Value} points   |   ");
+            if (item.Equals(scores.Last()))
+            {
+                Console.Write($"{item.Key}: {item.Value} points");
+            }
+            else Console.Write($"{item.Key}: {item.Value} points   |   ");
         }
         Console.WriteLine();
         

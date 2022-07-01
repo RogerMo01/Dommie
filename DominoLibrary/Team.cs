@@ -33,4 +33,14 @@ public class Team
 
         return result;
     }
+
+    public bool Contains(IPlayer player)
+    {
+        foreach (var item in PlayersTeam)
+        {
+            if(item.Equals(player)) return true;
+        }
+
+        return true;
+    }
 }

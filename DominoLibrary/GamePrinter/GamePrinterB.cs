@@ -68,6 +68,11 @@ public partial class GamePrinter
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         
+        if(winner == null) 
+        {
+            Console.WriteLine("\nTie Game");
+            return;
+        }
         try
         {
            Console.WriteLine($"{winner} Win this round with {score} points");
@@ -75,7 +80,8 @@ public partial class GamePrinter
         }
         catch (NullReferenceException)
         {
-            Console.WriteLine("\nTie Game");
+            //Console.WriteLine("\nTie Game");
+            System.Console.WriteLine("entro al vhg");
         }
         
         Console.ForegroundColor = ConsoleColor.White;
