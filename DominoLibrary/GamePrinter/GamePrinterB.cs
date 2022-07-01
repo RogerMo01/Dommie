@@ -19,8 +19,9 @@ public partial class GamePrinter
 
     public void PrintPlay()
     {
-        Token_onBoard play = Board!.LastPlayed!;
-        IPlayer player = Board.LastPlayer!;
+        int size = Board!.Plays.Count;
+        Token_onBoard play = Board.Plays[size - 1].token_OnBoard;
+        IPlayer player = Board.Plays[size - 1].player;
         
         Console.WriteLine();
         if(play.IsPass())
@@ -64,7 +65,7 @@ public partial class GamePrinter
         Console.WriteLine();
     }
 
-    public void PrintBoardWinner(IPlayer winner)
+    public void PrintBoardWinner(Team winner, int score)
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -72,13 +73,20 @@ public partial class GamePrinter
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         
+        if(winner == null) 
+        {
+            Console.WriteLine("\nTie Game");
+            return;
+        }
         try
         {
-            Console.WriteLine($"\n{winner.Name} win this round");
+           Console.WriteLine($"{winner} Win this round with {score} points");
+            
         }
         catch (NullReferenceException)
         {
-            Console.WriteLine("\nTie Game");
+            //Console.WriteLine("\nTie Game");
+            System.Console.WriteLine("entro al vhg");
         }
         
         Console.ForegroundColor = ConsoleColor.White;
