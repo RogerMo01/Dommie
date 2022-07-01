@@ -6,7 +6,7 @@ public class Tournament : IGame
     public CircularList<IPlayer> Players { get; private set; } 
     public List<Token> GameTokens { get; private set; } 
     public int TokensPerPlayer { get; private set; }
-    Node<IPlayer> Inner;
+    public Node<IPlayer> Inner;
     private GamePrinter? GamePrinter; 
     public Dictionary<IPlayer, int> PlayersScore { get; private set; }
     public int WinScore { get; private set; }
@@ -37,6 +37,7 @@ public class Tournament : IGame
 
             GameResult boardResult = board.Start();
 
+            GamePrinter.PrintPoints(boardResult.Score);
             UpdateTournament(boardResult);
 
             if(IsOver()) { break; }

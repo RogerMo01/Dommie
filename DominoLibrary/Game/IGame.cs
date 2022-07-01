@@ -3,8 +3,8 @@ using Utils;
 
 public interface IGame 
 {
-    public CircularList<IPlayer> Players {get; }
-    public List<Token> GameTokens { get; }
+    //public CircularList<IPlayer> Players {get; }
+    //public List<Token> GameTokens { get; }
     
     GameResult Start();
 

@@ -28,4 +28,6 @@ public class BotaGorda : IStrategy
         return new Token_onBoard(result, straight, player, playRight);
     }
 
+    public override string ToString() => "BotaGorda";
+    public string Info { get; } = " This Player always try to play the highest token score";
 }

@@ -12,6 +12,11 @@ public partial class GamePrinter
         PlayerTokens = playerTokens;
     }
 
+    public void PrintPoints(int score)
+    {
+        System.Console.WriteLine($" {score} points scored");
+    }
+
     public void PrintPlay()
     {
         Token_onBoard play = Board!.LastPlayed!;
@@ -63,7 +68,7 @@ public partial class GamePrinter
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine("ROUND OVER");
+        Console.WriteLine("==== ROUND OVER ====");
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         

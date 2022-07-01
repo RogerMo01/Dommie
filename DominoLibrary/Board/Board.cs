@@ -60,7 +60,7 @@ public partial class Board : IGame
             
             GamePrinter.PrintPlay(); // imprime jugada
 
-            if(Judge.WinBoard.Invoke(this, PlayersTokens, CrazyToken)) { break; }
+            if(Judge.WinBoard(this, PlayersTokens, CrazyToken)) { break; }
         }
 
         (IPlayer player, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);

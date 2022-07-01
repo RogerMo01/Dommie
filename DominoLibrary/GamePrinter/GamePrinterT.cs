@@ -27,6 +27,8 @@ public partial class GamePrinter
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine();
         Console.WriteLine($"\n The WINNER of the Tournament is {result.Winner} with {result.Score} points");
+        Console.ForegroundColor = ConsoleColor.White;
+
         Console.WriteLine();
     }
 

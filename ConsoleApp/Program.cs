@@ -3,11 +3,13 @@ using Utils;
 
 namespace ConsoleApp;
 
-static class ConsoleApp
+class ConsoleApp
 {
-
+    
     public static void Main()
     {
+        Console.Title = "Dommie";
+
         //~~~~~~~~~~~~~~~~~~~~~~~~~~ MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // Instanciar jugadores
         CircularList<IPlayer> players = new CircularList<IPlayer>(new Player("Dustin", new List<IStrategy>(){new Mosaic()}));
@@ -40,48 +42,99 @@ static class ConsoleApp
         tournament.SetGamePrinter(gp); // attach observer
         
         // MAIN CALL
-        tournament.Start();
-
-
+        //tournament.Start();
 
         //======================================================================================================
         //ShowMenus();
+        MenuExplorer menu = new MenuExplorer();
     }
+}
 
-    private static void ShowMenus()
+class MenuExplorer
+{
+    List<IStrategy> Strategies = new List<IStrategy>()
     {
-        // MENU (HUMAN - PC)
-        SimpleOption humanOption = new SimpleOption("I will play");
-        SimpleOption pcOption = new SimpleOption("Only PC will play");
-        List<SimpleOption> hpSelectionables = new List<SimpleOption>(){ humanOption, pcOption };
+        new BotaGorda(),
+        new Mosaic()
+    };
 
-        SingleSelectionMenu hPcMenu = new SingleSelectionMenu(hpSelectionables, "WHAT DO YOU LIKE TO DO");
-        hPcMenu.Show();
+    bool HumanPlay;
+    bool JustBoardGame;
+    int NumberPlayers = 4;
+    int BaseMaxToken = 6;
+    ITemplate Template;
+    IGame Game;
 
-        bool m_HumanPlay = (hPcMenu.Selected.Equals(humanOption));
+    public MenuExplorer()
+    {
+        HumanPlay = Menus.HumanPlayMenu();
 
+        JustBoardGame = Menus.GameModeMenu();
+
+        ITemplate custom = new CustomTemplate();
+        Template = Menus.TemplateMenu(NumberPlayers, Strategies, custom);
+
+        if(Template.Equals(custom))
+        {
+            bool agreeCustomization = false;
+            do
+            {
+                CustomizeGame();
+                agreeCustomization = Menus.MakeSureCostumizationMenu();
+
+            } while (!agreeCustomization);
+        }
+
+        // READY FOR LAUNCH ~~~~~~~~~~
+        Game = (JustBoardGame) ? Template.Board : Template.Tournament;
+
+        GamePrinter gp = new GamePrinter();
+        Game.SetGamePrinter(gp); // attach observer
         
-        // MENU (TOURNAMENT - BOARD)
-        SimpleOption boardOption = new SimpleOption("Single Play");
-        SimpleOption tournamentOption = new SimpleOption("Tournament Play");
-        List<SimpleOption> tbSelectionables = new List<SimpleOption>(){ boardOption, tournamentOption };
-
-        SingleSelectionMenu btMenu = new SingleSelectionMenu(tbSelectionables, "SELECT A GAME MODE");
-        btMenu.Show();
-
-        bool m_GameMode = (hPcMenu.Selected.Equals(humanOption));
-
-
-        // MENU (TEMPLATE)
-
-
-
+        Game.Start();
     }
 
+    private void CustomizeGame()
+    {
+        // DEFAULT PARAMETERS
+        CircularList<IPlayer> playersSelection = TemplateUtils.GeneratePlayers(4, Strategies);
+        int maxTokenSelection = BaseMaxToken;
+        int scoreSelection = 100;
+        WinBoard overBoardConditionSelection = BoardWins.ClassicWinBoard;
+        WinnerBoard winnerBoardGetterSelection = BoardWinners.ClassicGetWinner;
+
+        if(!HumanPlay)
+        {
+            // PLAYERS MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            CustomPlayersMenu customPlayers = new CustomPlayersMenu(NumberPlayers, playersSelection, Strategies);
+            customPlayers.Show();
+
+            playersSelection = customPlayers.Players;
+        }
+        
+        // MAX TOKEN MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        maxTokenSelection = Menus.MaxTokenMenu(BaseMaxToken);
 
 
+        if(!JustBoardGame)
+        {
+            // WIN SCORE SELECTION ~~~~~~~~~~~~~~~~~~~
+            WriteMenu scoreWriteMenu = new WriteMenu("DECIDE AND WRITE THE NEEDED POINTS TO WIN THE TOURNAMENT");
+            scoreWriteMenu.Show();
+
+            scoreSelection = scoreWriteMenu.Selected;
+            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        }
+
+        // WIN BOARD JUDGMENT ~~~~~~~~~~~~~~~~~~~~
+        overBoardConditionSelection = Menus.OverConditionMenu();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+        // GET WINNER JUDGMENT ~~~~~~~~~~~~
+        winnerBoardGetterSelection = Menus.GetWinnerMenu();
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
+        Template = TemplateUtils.BuildTemplate(playersSelection, maxTokenSelection, scoreSelection, overBoardConditionSelection, winnerBoardGetterSelection);
+    }
 }
