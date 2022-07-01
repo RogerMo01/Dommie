@@ -75,5 +75,8 @@ public class Mosaic : IStrategy
                 }
             }
         }
-    } 
+    }
+
+    public override string ToString() => "Mosaic";
+    public string Info { get; } = " This Player will always try to keep a mosaic of diferent tokens in hand";
 }
