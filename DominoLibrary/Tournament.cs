@@ -18,7 +18,7 @@ public class Tournament : IGame
         GameTokens = GenerateTokens(setting.MaxToken);
         Players = setting.Players!;
         Inner = GetInner();
-        TokensPerPlayer = DecideTokensPerPlayer(setting.MaxToken);
+        TokensPerPlayer = DecideTokensPerPlayer(GameTokens.Count, setting.TotalPlayers);
         Teams = setting.Team!;
         TeamsScore = SetTeamsScores();
         WinScore = setting.WinScore;

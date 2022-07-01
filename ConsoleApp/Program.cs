@@ -47,7 +47,7 @@ static class ConsoleApp
         team.Add(new Team(team4));
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, winScore, judge, team));
+        Tournament tournament = new Tournament(new TournamentSetting(players, maxToken, numberOfPlayers, winScore, judge, team));
         //Board board = new Board(new BoardSetting(players, players.First, ))
 
         GamePrinter gp = new GamePrinter();
