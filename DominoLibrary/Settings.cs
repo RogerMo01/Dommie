@@ -29,11 +29,13 @@ public class TournamentSetting : Setting
 {
     public int MaxToken { get; private set; }
     public int WinScore { get; private set; }
+    public int TotalPlayers {get; private set; }
 
     public TournamentSetting(CircularList<IPlayer> players, int maxToken, int winScore, Judge judge, List<Team> team)
     {
         Players = players;
         MaxToken = maxToken;
+        TotalPlayers = totalPlayers;
         WinScore = winScore;
         Judge = judge;
         Team = team;
