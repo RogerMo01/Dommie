@@ -12,7 +12,7 @@ public static class BoardWins
         if(board.ConsecutivePasses == board.Players.Count) return true;
         else
         {
-            return ZeroToken(board, playersTokens);
+            return PlayerWithoutToken(board, playersTokens);
         }
     }
 
@@ -28,7 +28,7 @@ public static class BoardWins
         } 
     }
 
-    private static bool ZeroToken(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
+    private static bool PlayerWithoutToken(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
     {
         Node<IPlayer> player = board.Players.First;
 

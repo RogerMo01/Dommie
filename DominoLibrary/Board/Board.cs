@@ -9,12 +9,12 @@ public partial class Board : IGame
     public LinkedList<Token_onBoard> BoardTokens {get; private set;}
     public int[] Ends { get; private set;} = {-1, -1};
     BoardSetting Settings;
-    public Token_onBoard? LastPlayed {get; private set;}
-    public IPlayer? LastPlayer {get; private set;}
     public Judge Judge;
     Token CrazyToken;
     private GamePrinter? GamePrinter;  
     public int ConsecutivePasses;
+    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+    public List<Team> Team { get; private set;}
 
 
     public Board(BoardSetting setting)
@@ -31,6 +31,9 @@ public partial class Board : IGame
         BoardTokens = new LinkedList<Token_onBoard>();   
 
         ConsecutivePasses = 0;
+        Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+
+        Team = setting.Team!;
     }
 
     public GameResult Start()
@@ -42,12 +45,13 @@ public partial class Board : IGame
             // default es pase, si juega se sustituye
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
 
-            if(HaveToken(player, BoardTokens.Count == 0))
+            if((HaveToken(player)) || BoardTokens.Count == 0)
             {
                 do
                 {
                     token = player.Play(this, PlayersTokens[player]);
-                } while (!Judge.IsValid(this, token));
+                } 
+                while (!Judge.IsValid(this, token));
 
                 ConsecutivePasses = 0;
             }
@@ -56,6 +60,8 @@ public partial class Board : IGame
                 ConsecutivePasses ++;
             }
             
+            Plays.Add((player, token));
+
             UpdateBoard(token, player);
             
             GamePrinter.PrintPlay(); // imprime jugada
@@ -63,10 +69,10 @@ public partial class Board : IGame
             if(Judge.WinBoard(this, PlayersTokens, CrazyToken)) { break; }
         }
 
-        (IPlayer player, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);
+        (Team team, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);
 
-        GamePrinter.PrintBoardWinner(winner.player); //PRINT
-        return new GameResult(winner.player, winner.score);
+        GamePrinter.PrintBoardWinner(winner.team, winner.score); //PRINT
+        return new GameResult(winner.team, winner.score);
     }
     
     public void ResetEnds()

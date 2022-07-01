@@ -7,14 +7,18 @@ public partial class GamePrinter
         Tournament = tournament;
     }
 
-    public void ShowTournamentStatus(int round, Dictionary<IPlayer, int> scores)
+    public void ShowTournamentStatus(int round, Dictionary<Team, int> scores)
     {
         Console.Clear();
         Console.WriteLine("\nScore status");
 
         foreach (var item in scores)
         {
-            System.Console.Write($"{item.Key}: {item.Value} points   |   ");
+            if (item.Equals(scores.Last()))
+            {
+                Console.Write($"{item.Key}: {item.Value} points");
+            }
+            else Console.Write($"{item.Key}: {item.Value} points   |   ");
         }
         Console.WriteLine();
         
@@ -26,9 +30,16 @@ public partial class GamePrinter
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine();
-        Console.WriteLine($"\n The WINNER of the Tournament is {result.Winner} with {result.Score} points");
-        Console.ForegroundColor = ConsoleColor.White;
 
+        try
+        {
+            Console.WriteLine($"\n{result.Winner} win this tournament with {result.Score} points"); 
+        }
+        catch (NullReferenceException)
+        {
+            Console.WriteLine("\nTie Game");
+        }
+    
         Console.WriteLine();
     }
 
