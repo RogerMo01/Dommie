@@ -9,6 +9,9 @@ static class ConsoleApp
     public static void Main()
     {
         //~~~~~~~~~~~~~~~~~~~~~~~~~~ MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //default
+        int numberOfPlayers = 3;
+
         // Instanciar jugadores
         CircularList<IPlayer> players = new CircularList<IPlayer>(new Player("Dustin", new List<IStrategy>(){new Mosaic()}));
         players.AddLast(new Player("Eleven", new List<IStrategy>(){new Mosaic()}));
