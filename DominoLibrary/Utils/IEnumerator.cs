@@ -14,16 +14,12 @@ class CircularEnumerator<T> : IEnumerator<T>
 
     public T Current
     {
-        get{
-            return CurrentNode.Value;
-        }
+        get{ return CurrentNode.Value; }
     }
 
     object IEnumerator.Current
     {
-        get{
-            return Current!;
-        }
+        get{ return Current!; }
     }
 
     public void Dispose(){}

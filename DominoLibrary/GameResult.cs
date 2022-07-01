@@ -2,14 +2,14 @@ namespace DominoLibrary;
 
 public class GameResult
 {
-    public IPlayer Winner { get; private set; }
+    public Team Winner { get; private set; }
     public int Score { get; private set; }
 
-    public GameResult(IPlayer winner)
+    public GameResult(Team winner)
     {
         Winner = winner;
     }
-    public GameResult(IPlayer winner, int score)
+    public GameResult(Team winner, int score)
     {
         Winner = winner;
         Score = score;

@@ -14,6 +14,7 @@ public partial class Board : IGame
     private GamePrinter? GamePrinter;  
     public int ConsecutivePasses;
     public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+    public List<Team> Team { get; private set;}
 
 
     public Board(BoardSetting setting)
@@ -31,6 +32,8 @@ public partial class Board : IGame
 
         ConsecutivePasses = 0;
         Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+
+        Team = setting.Team!;
     }
 
     public GameResult Start()
@@ -66,10 +69,10 @@ public partial class Board : IGame
             if(Judge.WinBoard.Invoke(this, PlayersTokens, CrazyToken)) { break; }
         }
 
-        (IPlayer player, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);
+        (Team team, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);
 
-        GamePrinter.PrintBoardWinner(winner.player); //PRINT
-        return new GameResult(winner.player, winner.score);
+        GamePrinter.PrintBoardWinner(winner.team, winner.score); //PRINT
+        return new GameResult(winner.team, winner.score);
     }
     
     public void ResetEnds()
