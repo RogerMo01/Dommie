@@ -33,12 +33,15 @@ static class Menus
         return menu.Selected.Equals(boardOption);
     }
 
-    public static ITemplate TemplateMenu(int numberPlayers, List<IStrategy> strategies, ITemplate custom)
+    public static ITemplate TemplateMenu(int numberPlayers, List<IStrategy> strategies, ITemplate custom, List<Team> teams)
     {
+        
+
+
         // Options
-        ITemplate classic_9 = new ClassicTemplate("Classic double-9", numberPlayers, 9, strategies);
-        ITemplate classic_6 = new ClassicTemplate("Classic double-6", numberPlayers, 6, strategies);
-        ITemplate crazyToken = new CrazyTokenTemplate("Crazy Token", numberPlayers, 9, strategies);
+        ITemplate classic_9 = new ClassicTemplate("Classic double-9", numberPlayers, 9, strategies, teams);
+        ITemplate classic_6 = new ClassicTemplate("Classic double-6", numberPlayers, 6, strategies, teams);
+        ITemplate crazyToken = new CrazyTokenTemplate("Crazy Token", numberPlayers, 12, strategies, teams);
         // ...
 
         List<ITemplate> tSelectionables = new List<ITemplate>(){ classic_9, classic_6, crazyToken, custom };
@@ -69,28 +72,28 @@ static class Menus
     public static WinBoard OverConditionMenu()
     {
         // Options
-        DelegateOption<WinBoard> classicWinBoard = new DelegateOption<WinBoard>(BoardWins.ClassicWinBoard, "Classic");
-        DelegateOption<WinBoard> crazyTokenWinBoard = new DelegateOption<WinBoard>(BoardWins.CrazyTokenWinBoard, "Crazy Token");
+        GenericOption<WinBoard> classicWinBoard = new GenericOption<WinBoard>(BoardWins.ClassicWinBoard, "Classic");
+        GenericOption<WinBoard> crazyTokenWinBoard = new GenericOption<WinBoard>(BoardWins.CrazyTokenWinBoard, "Crazy Token");
         // ...
         
-        List<DelegateOption<WinBoard>> boardWins = new List<DelegateOption<WinBoard>>(){ classicWinBoard, crazyTokenWinBoard };
-        SingleSelectionMenu<DelegateOption<WinBoard>> menu = new SingleSelectionMenu<DelegateOption<WinBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND");
+        List<GenericOption<WinBoard>> boardWins = new List<GenericOption<WinBoard>>(){ classicWinBoard, crazyTokenWinBoard };
+        SingleSelectionMenu<GenericOption<WinBoard>> menu = new SingleSelectionMenu<GenericOption<WinBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND");
         menu.Show();
 
-        return menu.Selected.Deleg;
+        return menu.Selected.Option;
     }
 
     public static WinnerBoard GetWinnerMenu()
     {
         // Options
-        DelegateOption<WinnerBoard> classicGetWinner = new DelegateOption<WinnerBoard>(BoardWinners.ClassicGetWinner, "Classic");
+        GenericOption<WinnerBoard> classicGetWinner = new GenericOption<WinnerBoard>(BoardWinners.ClassicGetWinner, "Classic");
         // ...
 
-        List<DelegateOption<WinnerBoard>> boardWinnerGetters = new List<DelegateOption<WinnerBoard>>(){ classicGetWinner };
-        SingleSelectionMenu<DelegateOption<WinnerBoard>> winnerGetterMenu = new SingleSelectionMenu<DelegateOption<WinnerBoard>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER");
+        List<GenericOption<WinnerBoard>> boardWinnerGetters = new List<GenericOption<WinnerBoard>>(){ classicGetWinner };
+        SingleSelectionMenu<GenericOption<WinnerBoard>> winnerGetterMenu = new SingleSelectionMenu<GenericOption<WinnerBoard>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER");
         winnerGetterMenu.Show();
 
-        return winnerGetterMenu.Selected.Deleg;
+        return winnerGetterMenu.Selected.Option;
     }
 
     public static bool MakeSureCostumizationMenu()
@@ -106,4 +109,26 @@ static class Menus
 
         return menu.Selected.Equals(agreeCustomize);
     }
+
+    public static CircularList<IPlayer> CustomizePlayersMenu(CircularList<IPlayer> currentPlayers, List<IStrategy> strategies, int numberPlayers)
+    {
+        List<IPlayer> players = currentPlayers.ToArray().ToList();
+        List<GenericOption<IStrategy>> strategyOptions = new List<GenericOption<IStrategy>>();
+
+        for (int i = 0; i < strategies.Count; i++)
+        {
+            strategyOptions.Add(new GenericOption<IStrategy>(strategies[i], strategies[i].ToString()!));
+        }
+        for (int i = 0; i < numberPlayers; i++)
+        {
+            SingleSelectionMenu<GenericOption<IStrategy>> menuPlayer = new SingleSelectionMenu<GenericOption<IStrategy>>(strategyOptions, $"Customize {players[i]}");
+            menuPlayer.Show();
+
+            players[i] = (new Player(players[i].Name, new List<IStrategy>(){ strategies[menuPlayer.SelectedIndex] }));
+        }
+
+        return TemplateUtils.ToCircularList(players);
+    }
+
+
 }

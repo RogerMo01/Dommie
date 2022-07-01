@@ -36,13 +36,8 @@ class CustomPlayersMenu
                 pressedKey = Console.ReadKey().Key;
                 selectionNumber = (int)pressedKey;
 
-
             } while ((selectionNumber > startPoint + (Strategies.Count-1) || selectionNumber < startPoint));
             
-
-            //if(selectionNumber > startPoint + (Strategies.Count-1) || selectionNumber < startPoint) return;
-            // ~~~~~~~~~~~~~~~~~
-
             switch (selectionNumber)
             {
                 case 49:

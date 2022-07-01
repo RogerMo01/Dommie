@@ -76,6 +76,7 @@ class MenuExplorer
     bool JustBoardGame;
     int NumberPlayers = 4;
     int BaseMaxToken = 6;
+    List<Team> Teams;
     ITemplate Template;
     IGame Game;
 
@@ -85,8 +86,11 @@ class MenuExplorer
 
         JustBoardGame = Menus.GameModeMenu();
 
+        // Teams (empty)
+        Teams = new List<Team>();
+
         ITemplate custom = new CustomTemplate();
-        Template = Menus.TemplateMenu(NumberPlayers, Strategies, custom);
+        Template = Menus.TemplateMenu(NumberPlayers, Strategies, custom, Teams);
 
         if(Template.Equals(custom))
         {
@@ -119,12 +123,12 @@ class MenuExplorer
 
         if(!HumanPlay)
         {
-            // PLAYERS MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            CustomPlayersMenu customPlayers = new CustomPlayersMenu(NumberPlayers, playersSelection, Strategies);
-            customPlayers.Show();
-
-            playersSelection = customPlayers.Players;
+            playersSelection = Menus.CustomizePlayersMenu(playersSelection, Strategies, NumberPlayers);
         }
+
+        // CUSTOM TEAM MENU
+        
+        //
         
         // MAX TOKEN MENU ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         maxTokenSelection = Menus.MaxTokenMenu(BaseMaxToken);
@@ -149,6 +153,6 @@ class MenuExplorer
         winnerBoardGetterSelection = Menus.GetWinnerMenu();
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Template = TemplateUtils.BuildTemplate(playersSelection, maxTokenSelection, scoreSelection, overBoardConditionSelection, winnerBoardGetterSelection);
+        Template = TemplateUtils.BuildTemplate(playersSelection, maxTokenSelection, NumberPlayers, scoreSelection, overBoardConditionSelection, winnerBoardGetterSelection, Teams);
     }
 }

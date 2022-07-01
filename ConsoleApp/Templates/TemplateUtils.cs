@@ -11,7 +11,7 @@ public interface ITemplate
 
 static class TemplateUtils
 {
-    private static CircularList<IPlayer> ToCircularList(List<IPlayer> playersList)
+    public static CircularList<IPlayer> ToCircularList(List<IPlayer> playersList)
     {
         CircularList<IPlayer> players = new CircularList<IPlayer>(playersList[0]);
         for (int i = 1; i < playersList.Count; i++)
@@ -31,6 +31,25 @@ static class TemplateUtils
         }
 
         return ToCircularList(players);
+    }
+
+    public static List<Team> AsignTeamsClassic(List<IPlayer> players)
+    {
+        List<Team> teams = new List<Team>(){ new Team(new List<IPlayer>()), new Team(new List<IPlayer>())};
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            if(i %2 == 0)
+            {
+                teams[0].PlayersTeam.Add(players[i]);
+            }
+            else
+            {
+                teams[1].PlayersTeam.Add(players[i]);
+            }
+        }
+
+        return teams;
     }
 
     public static IPlayer GetRandomPlayer(ref List<string> usedNames, List<IStrategy> strategies)
@@ -61,17 +80,16 @@ static class TemplateUtils
         return new Player(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] });
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int score, WinBoard winB, WinnerBoard winnerB)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, WinBoard winB, WinnerBoard winnerB, List<Team> teams)
     {
         Judge judge = new Judge(winB, winnerB);
 
-        TournamentSetting tS = new TournamentSetting(players, maxToken, score, judge);
+        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers,score, judge, teams);
         Tournament t = new Tournament(tS);
 
-        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, judge);
+        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, judge, teams);
         Board b = new Board(bS);
 
         return new CustomTemplate(b, t);
-
     }
 }

@@ -13,14 +13,14 @@ class SimpleOption
     public override string ToString() => this.Title;
 }
 
-class DelegateOption<T>
+class GenericOption<T>
 {
     public string Title { get; }
-    public T Deleg { get; }
-    public DelegateOption(T deleg, string name)
+    public T Option { get; }
+    public GenericOption(T option, string name)
     {
         Title = name;
-        Deleg = deleg;
+        Option = option;
     }
 
     public override string ToString() => this.Title;
