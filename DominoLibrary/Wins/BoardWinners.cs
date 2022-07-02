@@ -55,9 +55,9 @@ public static class BoardWinners
             }
         }
         
-        // sum victory points
-        bool[] gameWinner = GameWinner(winner, board.Players.ToArray());
+        bool[] gameWinner = GameWinner(winner, board.Players.ToArray()); // controlar null case
         
+        // sum victory points
         int points = 0;
         foreach (var player in winner.PlayersTeam)
         {
@@ -133,6 +133,7 @@ public static class BoardWinners
     private static bool[] GameWinner(Team winner, IPlayer[] players)
     {
         bool[] gameWinner = new bool[players.Length];
+
         for (int i = 0; i < winner.PlayersTeam.Count; i++)
         {
             for (int j = 0; j < players.Length; j++)

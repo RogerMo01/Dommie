@@ -20,7 +20,7 @@ static class TemplateUtils
         }
         return players;
     }
-    public static CircularList<IPlayer> GeneratePlayers(int numberPlayers, List<IStrategy> strategies)
+    public static List<IPlayer> GeneratePlayers(int numberPlayers, List<IStrategy> strategies)
     {
         List<IPlayer> players = new List<IPlayer>();
         List<string> usedNames = new List<string>();
@@ -30,10 +30,10 @@ static class TemplateUtils
             players.Add(GetRandomPlayer(ref usedNames, strategies));
         }
 
-        return ToCircularList(players);
+        return players;
     }
 
-    public static List<Team> AsignTeamsClassic(List<IPlayer> players)
+    public static List<Team> AssignTeamsClassic(List<IPlayer> players)
     {
         List<Team> teams = new List<Team>(){ new Team(new List<IPlayer>()), new Team(new List<IPlayer>())};
 

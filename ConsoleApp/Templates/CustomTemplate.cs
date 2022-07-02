@@ -17,5 +17,5 @@ class CustomTemplate : ITemplate
         Tournament = tournament;
     }
 
-    public override string ToString() => "Custom";
+    public override string ToString() => "Customize your own template";
 }

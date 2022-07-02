@@ -9,15 +9,22 @@ class CrazyTokenTemplate : ITemplate
     public Tournament Tournament { get; private set; }
     public string Title { get; private set; }
 
-    public CrazyTokenTemplate(string name, int numberPlayers, int maxToken, List<IStrategy> strategies, List<Team> teams)
+    public CrazyTokenTemplate(string name, int numberPlayers, int maxToken, List<IStrategy> strategies, List<Team> teams, bool singlePlayer)
     {
         Title = name;
 
         // Players
-        CircularList<IPlayer> players = TemplateUtils.GeneratePlayers(6, strategies);
+        CircularList<IPlayer> players = TemplateUtils.ToCircularList(TemplateUtils.GeneratePlayers(6, strategies));
 
         // Teams
-        teams = TemplateUtils.AsignTeamsClassic(players.ToArray().ToList());
+        if(singlePlayer)
+        {
+            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList());
+        }
+        else
+        {
+            teams = TemplateUtils.AssignTeamsClassic(players.ToArray().ToList());
+        }
 
         // Judge
         WinBoard winB = BoardWins.CrazyTokenWinBoard;

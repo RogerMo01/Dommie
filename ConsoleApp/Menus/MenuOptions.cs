@@ -16,11 +16,11 @@ class SimpleOption
 class GenericOption<T>
 {
     public string Title { get; }
-    public T Option { get; }
+    public T Value { get; }
     public GenericOption(T option, string name)
     {
         Title = name;
-        Option = option;
+        Value = option;
     }
 
     public override string ToString() => this.Title;
