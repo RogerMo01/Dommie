@@ -14,9 +14,14 @@ public partial class Menus
 
         return teamsMenu.Selected.Equals(singlePlayer);
     }
-    public static List<Team> AssignTeamsMenu(List<IPlayer> players, bool singlePlayer)
+    public static List<Team> AssignTeamsMenu(List<IPlayer> players, bool singlePlayer, bool humanPlay)
     {
-        if(players.Count < 3) return GenerateUnitaryTeams(players); // solo modificable para (3-6) players
+        if(players.Count < 3)
+        {
+            QuickScreen q = new QuickScreen("No Teams Game allowed for less than 3 Players", 4);
+            q.Show();
+            return GenerateUnitaryTeams(players, humanPlay); // solo modificable para (3-6) players
+        }
 
         List<Team> teams = new List<Team>();
 
@@ -28,19 +33,21 @@ public partial class Menus
 
         if(singlePlayer)
         {
-            return GenerateUnitaryTeams(players);
+            return GenerateUnitaryTeams(players, humanPlay);
         }
         
         return CustomizeTeams(players);
     }
 
-    public static List<Team> GenerateUnitaryTeams(List<IPlayer> players)
+    public static List<Team> GenerateUnitaryTeams(List<IPlayer> players, bool humanPlay)
     {
         List<Team> teams = new List<Team>();
         for (int i = 0; i < players.Count; i++)
         {
             teams.Add( new Team(new List<IPlayer>(){ players[i] }) );
         }
+
+        // Setear al primero como humano
         return teams;
     }
 
@@ -74,13 +81,13 @@ public partial class Menus
                 List<IPlayer> restPlayers = SetAsList(options);
                 teams.Add(new Team(tempTeam));
 
-                List<Team> restTeam = GenerateUnitaryTeams(restPlayers);
+                List<Team> restTeam = GenerateUnitaryTeams(restPlayers, false);
                 for (int k = 0; k < restTeam.Count; k++)
                 {
                     teams.Add(restTeam[k]);
                 }
 
-                QuickScreen q = new QuickScreen("Autocompleting teams", 5);
+                QuickScreen q = new QuickScreen("Autocompleting teams", 4);
                 q.Show();
                 break;
             }

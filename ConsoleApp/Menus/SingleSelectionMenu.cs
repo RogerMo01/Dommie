@@ -58,6 +58,7 @@ class SingleSelectionMenu<T>
             if(selectionNumber == rightArrow)
             {
                 Selected = default(T)!; // null
+                SelectedIndex = -1;
             }
             if(selectionNumber == leftArrow && Selected == null)
             {
@@ -129,7 +130,5 @@ class SingleSelectionMenu<T>
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("ENTER");
         Console.ForegroundColor = ConsoleColor.White;
-        //Console.WriteLine(" to continue\n");
-
     }
 }

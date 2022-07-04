@@ -18,7 +18,7 @@ class ClassicTemplate : ITemplate
         // Teams
         if(singlePlayer)
         {
-            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList());
+            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList(), false);
         }
         else
         {

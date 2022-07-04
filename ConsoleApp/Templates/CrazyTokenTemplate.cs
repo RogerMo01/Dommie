@@ -19,7 +19,7 @@ class CrazyTokenTemplate : ITemplate
         // Teams
         if(singlePlayer)
         {
-            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList());
+            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList(), false);
         }
         else
         {
@@ -35,7 +35,7 @@ class CrazyTokenTemplate : ITemplate
         Random r = new Random();
         int inner = r.Next(4);
 
-        Tournament = new Tournament(new TournamentSetting(players, maxToken, numberPlayers, 300, judge, teams));
+        Tournament = new Tournament(new TournamentSetting(players, maxToken, numberPlayers, 600, judge, teams));
         Board = new Board(new BoardSetting(players, players.First, Tournament.GameTokens, Tournament.TokensPerPlayer, judge, teams));
     }
 

@@ -33,8 +33,9 @@ static partial class Menus
         return menu.Selected.Equals(boardOption);
     }
 
-    public static ITemplate TemplateMenu(List<IStrategy> strategies, ITemplate custom, List<Team> teams, bool singlePlayer)
+    public static ITemplate TemplateMenu(List<IStrategy> strategies, ITemplate custom, bool singlePlayer)
     {
+        List<Team> teams = new();
         // Options
         ITemplate classic_9 = new ClassicTemplate("Classic double-9", 4, 9, strategies, teams, singlePlayer);
         ITemplate classic_6 = new ClassicTemplate("Classic double-6", 4, 6, strategies, teams, singlePlayer);
