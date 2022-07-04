@@ -112,6 +112,7 @@ public partial class Menus
                 teams.Add(new Team(tempTeam));
                 tempTeam = new();
                 currentTeamIndex++;
+                j--;
             }
             else
             {
