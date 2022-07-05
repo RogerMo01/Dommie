@@ -1,14 +1,16 @@
 namespace DominoLibrary;
 
-public class Token
+public class Token :IComparable<Token>
 {
     public int Left { get; private set; }
     public int Right { get; private set; }
+    public int Points {get; private set;}
     
     public Token(int left, int right)
     {
         Left = left;
         Right = right;
+        Points = Left + Right;
     }
 
     public bool EqualTokens(Token obj)
@@ -17,6 +19,13 @@ public class Token
     }
 
     public virtual bool IsPass() => false;
+
+    public int CompareTo(Token token)
+    {
+        if(this.Points < token.Points) return -1;
+        else if(this.Points > token.Points) return 1;
+        else return 0;
+    }
 }
 
 public class Token_onBoard : Token
