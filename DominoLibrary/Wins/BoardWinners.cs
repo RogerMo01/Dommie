@@ -130,6 +130,28 @@ public static class BoardWinners
         return (winner, points);
     }
 
+    public static (Team, int) GetRandomWinner(Board board, Dictionary<IPlayer, List<Token>> playersToken)
+    {
+        Random random = new Random();
+        Team winner = board.Team[random.Next(board.Team.Count - 1)];
+
+        // buscar la mayor puntuacion de fichas en mesa
+        int points = 0;
+        Node<IPlayer> player = board.Players.First;
+        for (int i = 0; i < playersToken.Count; i++)
+        {
+            int count = 0;
+            foreach (var token in playersToken[player.Value])
+            {
+                count += token.Points;
+            }
+
+            if(count > points) points = count;
+            player = player.Next!;
+        }
+
+        return (winner, points);
+    }
     private static bool[] GameWinner(Team winner, IPlayer[] players)
     {
         bool[] gameWinner = new bool[players.Length];
