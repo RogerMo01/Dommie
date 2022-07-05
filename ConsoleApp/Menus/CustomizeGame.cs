@@ -5,7 +5,6 @@ namespace ConsoleApp;
 
 public class CustomizeGame
 {
-
     List<IStrategy> Strategies;
     bool HumanPlay;
     bool SinglePlayerGame;

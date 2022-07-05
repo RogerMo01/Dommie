@@ -7,7 +7,7 @@ public static class BoardWinners
 {
     public static (Team, int) ClassicGetWinner(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
     {
-        Team winner = board.Team.First();
+        Team winner = board.Teams.First();
         int points = 0;
 
         Dictionary<IPlayer, int> finalPuntuation = new Dictionary<IPlayer, int>();
@@ -17,16 +17,16 @@ public static class BoardWinners
             finalPuntuation.Add(item.Key, GetPlayerScore(item.Value));
         }
 
-        if(board.Team.Any(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0)))
+        if(board.Teams.Any(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0)))
         {
-            winner = board.Team.First(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0));
+            winner = board.Teams.First(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0));
         }
         else 
         {
             int pointsPerPlayer = int.MaxValue; 
             IPlayer temporalPlayer = board.Players.First();
 
-            foreach (var team in board.Team)
+            foreach (var team in board.Teams)
             {
                 foreach (var player in team.PlayersTeam)
                 {
@@ -63,13 +63,13 @@ public static class BoardWinners
 
     public static (Team, int) Smallest5MultipleGetWinner(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
     {
-        Team winner = board.Team.First();
+        Team winner = board.Teams.First();
         int points = 0;
 
         int value = int.MaxValue;
         IPlayer currentPlayer = board.Players.First();
 
-        foreach (var team in board.Team)
+        foreach (var team in board.Teams)
         {
             foreach (var player in team.PlayersTeam)
             {
@@ -123,7 +123,7 @@ public static class BoardWinners
     public static (Team, int) GetRandomWinner(Board board, Dictionary<IPlayer, List<Token>> playersToken)
     {
         Random random = new Random();
-        Team winner = board.Team[random.Next(board.Team.Count - 1)];
+        Team winner = board.Teams[random.Next(board.Teams.Count - 1)];
 
         // buscar la mayor puntuacion de fichas en mesa
         int points = 0;

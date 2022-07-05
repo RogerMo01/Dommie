@@ -11,10 +11,10 @@ public partial class Board : IGame
     BoardSetting Settings;
     public Judge Judge;
     Token CrazyToken;
-    private GamePrinter? GamePrinter;  
+    GamePrinter? GamePrinter;  
     public int ConsecutivePasses { get; private set; }
     public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
-    public List<Team> Team { get; private set;}
+    public List<Team> Teams { get; private set;}
 
 
     public Board(BoardSetting setting)
@@ -33,7 +33,20 @@ public partial class Board : IGame
         ConsecutivePasses = 0;
         Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
 
-        Team = setting.Team!;
+        Teams = setting.Team!;
+    }
+    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams)
+    {
+        Players = players;
+        GameTokens = gameTokens;
+        BoardTokens = boardTokens;
+        Ends = ends;
+        Judge = judge;
+        Plays = plays;
+        Teams = teams;
+        PlayersTokens = null!;
+        Settings = null!;
+        CrazyToken = null!;
     }
 
     public GameResult Start()
@@ -117,4 +130,39 @@ public partial class Board : IGame
         GamePrinter.AddBoard(this, PlayersTokens); // pasa las fichas de los jugadores
     }
 
+    public Board Clone()
+    {
+        // Players
+        IPlayer[] newPlayersArr = Players.ToArray();
+        CircularList<IPlayer> newPlayers = new CircularList<IPlayer>(newPlayersArr[0]);
+        for (int i = 1; i < newPlayersArr.Length; i++)
+        {
+            newPlayers.AddLast(newPlayersArr[i]);
+        }
+
+        // Game Tokens
+        List<Token> newGameTokens = GameTokens.ToList();
+
+        // Board Tokens
+        List<Token_onBoard> tempListGameTokens = BoardTokens.ToList();
+        LinkedList<Token_onBoard> newBoardTokens = new();
+        foreach (var item in tempListGameTokens)
+        {
+            newBoardTokens.AddLast(item);
+        }
+
+        // Ends
+        int[] newEnds = Ends.ToArray();
+
+        // Judge
+        Judge newJudge = new Judge(new OverBoard(Judge.WinBoard), new WinnerBoard(Judge.WinnerBoard));
+
+        // Plays
+        List<(IPlayer, Token_onBoard)> newPlays = Plays.ToList();
+
+        // Teams
+        List<Team> newTeams = Teams.ToList();
+
+        return new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams);
+    }
 }
