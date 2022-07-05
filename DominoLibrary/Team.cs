@@ -41,6 +41,6 @@ public class Team
             if(item.Equals(player)) return true;
         }
 
-        return true;
+        return false;
     }
 }
