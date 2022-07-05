@@ -20,11 +20,10 @@ public class Token : IComparable<Token>
 
     public virtual bool IsPass() => false;
 
-    public int CompareTo(Token token)
+    public int CompareTo(Token? token)
     {
-        if(this.Points < token.Points) return -1;
-        else if(this.Points > token.Points) return 1;
-        else return 0;
+        if(token == null) return -1;
+        return this.Points - token.Points;
     }
 
     public Token Clone() => new Token(Left, Right);

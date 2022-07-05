@@ -7,7 +7,7 @@ public class Tournament : IGame
     public List<Token> GameTokens { get; private set; } 
     public int TokensPerPlayer { get; private set; }
     public Node<IPlayer> Inner;
-    private GamePrinter? GamePrinter; 
+    GamePrinter? GamePrinter; 
     public Dictionary<Team, int> TeamsScore { get; private set; }
     public int WinScore { get; private set; }
     public Judge Judge { get; private set; }
@@ -31,8 +31,9 @@ public class Tournament : IGame
 
         while(true)
         {
-            GamePrinter!.ShowTournamentStatus(roundNumber, TeamsScore); //PRINT
+            GamePrinter!.ShowTournamentStatus(roundNumber, TeamsScore);
 
+            // Initilize the Boards
             BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, Judge, Teams);
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
