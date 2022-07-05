@@ -63,9 +63,9 @@ public partial class Board : IGame
             {
                 do
                 {
-                    token = player.Play(this.Clone(), PlayersTokens[player]);
+                    token = player.Play(this.Clone(), PlayersTokens[player].ToList());
                 } 
-                while (!Judge.IsValid(this.Clone(), token));
+                while (!Judge.IsValid(this.Clone(), token.Clone()));
 
                 ConsecutivePasses = 0;
             }
@@ -80,7 +80,7 @@ public partial class Board : IGame
             
             GamePrinter.PrintPlay(); // imprime jugada
 
-            if(Judge.WinBoard(this.Clone(), PlayersTokens, CrazyToken)) { break; }
+            if(Judge.WinBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value), CrazyToken.Clone())) { break; }
         }
 
         (Team team, int score) winner = Judge.WinnerBoard(this.Clone(), PlayersTokens);
@@ -157,9 +157,6 @@ public partial class Board : IGame
 
         // Judge
         Judge newJudge = new Judge(new OverBoard(Judge.WinBoard), new WinnerBoard(Judge.WinnerBoard));
-
-        // Consecutive Passes
-
 
         // Plays
         List<(IPlayer, Token_onBoard)> newPlays = Plays.ToList();

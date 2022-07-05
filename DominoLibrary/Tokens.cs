@@ -26,6 +26,8 @@ public class Token : IComparable<Token>
         else if(this.Points > token.Points) return 1;
         else return 0;
     }
+
+    public Token Clone() => new Token(Left, Right);
 }
 
 public class Token_onBoard : Token
@@ -40,6 +42,8 @@ public class Token_onBoard : Token
         Owner = owner;
         PlayRight = playRight;
     }
+
+    public new Token_onBoard Clone() => new Token_onBoard(new Token(this.Left, this.Right), this.Straight, this.Owner, this.PlayRight);
 }
 
 // solo importa el par'ametro Owner & IsPass() method
