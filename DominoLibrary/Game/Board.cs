@@ -13,7 +13,7 @@ public partial class Board : IGame
     Token CrazyToken;
     GamePrinter? GamePrinter;  
     public int ConsecutivePasses { get; private set; }
-    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new();
     public List<Team> Teams { get; private set;}
 
 

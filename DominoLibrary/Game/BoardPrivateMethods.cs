@@ -62,14 +62,14 @@ public partial class Board
 
         for (int i = 0; i < players.Count; i++)
         {
-            result.Add(firstPlayer.Value, HandOutToPlayer(clonedTokens, tokensPerPlayer));
+            result.Add(firstPlayer.Value, HandOutToOnePlayer(clonedTokens, tokensPerPlayer));
             firstPlayer = firstPlayer.Next!;
         }
 
         return result;
     }
 
-    private static List<Token> HandOutToPlayer(List<Token> tokens, int tokensPerPlayer)
+    private static List<Token> HandOutToOnePlayer(List<Token> tokens, int tokensPerPlayer)
     {
         List<Token> playerTokens = new List<Token>();
         Random random = new Random();
