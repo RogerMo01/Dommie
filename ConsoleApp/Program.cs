@@ -9,8 +9,39 @@ class ConsoleApp
     public static void Main()
     {
         Console.Title = "Dommie";
+        Console.SetWindowSize( 110, 30 );
+        SayHiDommie();
+
+        Lapse l = new Lapse(5);
 
         MenuExplorer menu = new MenuExplorer();
+    }
+    
+    private static void SayHiDommie()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("                OOOOOOO        OOOOO     OOOO       OOOO   OOOO       OOOO   OOO   OOOOOOOOOOO    \n");
+        Console.Write("                OOO  OOO     OOO   OOO   OOO OOO OOO OOO   OOO OOO OOO OOO   OOO   OOO            \n");
+        Console.Write("                OOO   OOO    OOO   OOO   OOO  OOOO   OOO   OOO  OOOO   OOO   OOO   OOO            \n");
+        Console.Write("                OOO    OOO   OOO   OOO   OOO   OO    OOO   OOO   OO    OOO   OOO   OOOOOOO        \n");
+        Console.Write("                OOO    OOO   OOO   OOO   OOO         OOO   OOO         OOO   OOO   OOOOOOO        \n");
+        Console.Write("                OOO   OOO    OOO   OOO   OOO         OOO   OOO         OOO   OOO   OOO            \n");
+        Console.Write("                OOO  OOO     OOO   OOO   OOO         OOO   OOO         OOO   OOO   OOO            \n");
+        Console.Write("                OOOOOOO        OOOOO     OOO         OOO   OOO         OOO   OOO   OOOOOOOOOOO    \n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+
+        Console.ForegroundColor = ConsoleColor.Black;
     }
 }
 
@@ -65,4 +96,5 @@ class MenuExplorer
         
         Game.Start();
     }
+
 }
