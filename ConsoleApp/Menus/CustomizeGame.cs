@@ -58,6 +58,14 @@ public class CustomizeGame
             {
                 case 0: //Players
                 CustomizePlayers();
+                if(SinglePlayerGame)
+                {
+                    Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
+                }
+                else
+                {
+                    Teams = TemplateUtils.AssignTeamsClassic(Players);
+                }
                 break;
 
                 case 1:
