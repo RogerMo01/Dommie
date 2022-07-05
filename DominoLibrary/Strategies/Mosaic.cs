@@ -5,7 +5,7 @@ public class Mosaic : IStrategy
     public Token_onBoard Play(Board board, List<Token> tokens, IPlayer player)
     {
         Token result = tokens[0];
-
+        
         int maxToken = board.GameTokens[board.GameTokens.Count - 1].Right;
        
         int[] total = new int[maxToken + 1];

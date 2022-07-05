@@ -43,7 +43,7 @@ public partial class GamePrinter
 
     public void ShowPlayerTokens()
     {
-        ConsoleColor[] colors = {ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Magenta, ConsoleColor.Cyan};
+        ConsoleColor[] colors = {ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Magenta, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Yellow};
         int color = 0;
 
         Console.WriteLine();

@@ -12,8 +12,8 @@ public partial class Board : IGame
     public Judge Judge;
     Token CrazyToken;
     private GamePrinter? GamePrinter;  
-    public int ConsecutivePasses;
-    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+    public int ConsecutivePasses { get; private set; }
+    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
     public List<Team> Team { get; private set;}
 
 
@@ -75,7 +75,7 @@ public partial class Board : IGame
         return new GameResult(winner.team, winner.score);
     }
     
-    public void ResetEnds()
+    private void ResetEnds()
     {       
         Token_onBoard token = BoardTokens.First!.Value; // tener en cuenta que al inicio de la partida la lista siempre sera null
 
