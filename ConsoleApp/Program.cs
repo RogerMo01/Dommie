@@ -41,7 +41,7 @@ class ConsoleApp
         Console.Write("\n");
         Console.Write("\n");
 
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = ConsoleColor.White;
     }
 }
 
@@ -91,7 +91,7 @@ class MenuExplorer
         GamePrinter gp = new GamePrinter();
         Game.SetGamePrinter(gp); // attach observer
         
-        QuickScreen quickScreen = new("All set =), the game will start soon");
+        QuickScreen quickScreen = new("All set, the game will start soon");
         quickScreen.Show();
         
         Game.Start();

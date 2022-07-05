@@ -25,8 +25,16 @@ public class CustomizeGame
         HumanPlay = humanPlay;
         JustBoardGame = justBoard;
         SinglePlayerGame = singlePlayer;
-        Teams = teams;
         Players = TemplateUtils.GeneratePlayers(NumberPlayers, Strategies);
+
+        if(SinglePlayerGame)
+        {
+            Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
+        }
+        else
+        {
+            Teams = TemplateUtils.AssignTeamsClassic(Players);
+        }
     }
 
     public ITemplate Start()
