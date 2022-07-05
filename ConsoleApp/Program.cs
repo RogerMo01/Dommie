@@ -9,6 +9,7 @@ class ConsoleApp
     public static void Main()
     {
         Console.Title = "Dommie";
+        Console.SetWindowSize( 110, 30 );
         SayHiDommie();
 
         Lapse l = new Lapse(5);
