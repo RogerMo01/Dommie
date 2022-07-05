@@ -143,7 +143,7 @@ public static class BoardWinners
             int count = 0;
             foreach (var token in playersToken[player.Value])
             {
-                count += token.Left + token.Right;
+                count += token.Points;
             }
 
             if(count > points) points = count;
