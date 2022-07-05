@@ -61,7 +61,7 @@ public static class BoardWinners
         return (winner, points);
     }
 
-    public static (Team, int) FewerTokens(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static (Team, int) Smallest5MultipleGetWinner(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
     {
         Team winner = board.Team.First();
         int points = 0;

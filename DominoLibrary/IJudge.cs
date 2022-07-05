@@ -2,17 +2,17 @@ namespace DominoLibrary;
 
 public interface IJudge
 {
-    WinBoard WinBoard {get;}
+    OverBoard WinBoard {get;}
     WinnerBoard WinnerBoard {get;}
     bool IsValid(Board board, Token_onBoard token);
 }
 
 public class Judge
 {
-    public WinBoard WinBoard {get; private set;}
+    public OverBoard WinBoard {get; private set;}
     public WinnerBoard WinnerBoard {get; private set;}
 
-    public Judge(WinBoard winB, WinnerBoard winnerB)
+    public Judge(OverBoard winB, WinnerBoard winnerB)
     {
         WinBoard = winB;
         WinnerBoard = winnerB;

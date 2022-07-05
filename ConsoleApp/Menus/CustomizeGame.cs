@@ -16,7 +16,7 @@ public class CustomizeGame
     int NumberPlayers = 4;
     List<Team> Teams;
     List<IPlayer> Players;
-    WinBoard OverBoardCondition = BoardWins.ClassicWinBoard;
+    OverBoard OverBoardCondition = BoardOvers.ClassicOverBoard;
     WinnerBoard GetWinnerJudgment = BoardWinners.ClassicGetWinner;
 
     public CustomizeGame(List<IStrategy> strategies, bool humanPlay, bool justBoard, bool singlePlayer, List<Team> teams)
