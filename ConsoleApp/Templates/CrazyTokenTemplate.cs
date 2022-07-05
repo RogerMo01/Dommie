@@ -27,7 +27,7 @@ class CrazyTokenTemplate : ITemplate
         }
 
         // Judge
-        WinBoard winB = BoardWins.CrazyTokenWinBoard;
+        OverBoard winB = BoardOvers.CrazyTokenWinBoard;
         WinnerBoard winnerB = BoardWinners.ClassicGetWinner;
         Judge judge = new Judge(winB, winnerB);
 

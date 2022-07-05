@@ -67,15 +67,15 @@ static partial class Menus
         return menu.SelectedIndex + baseMaxToken;
     }
 
-    public static WinBoard OverConditionMenu()
+    public static OverBoard OverConditionMenu()
     {
         // Options
-        GenericOption<WinBoard> classicWinBoard = new GenericOption<WinBoard>(BoardWins.ClassicWinBoard, "Classic");
-        GenericOption<WinBoard> crazyTokenWinBoard = new GenericOption<WinBoard>(BoardWins.CrazyTokenWinBoard, "Crazy Token");
+        GenericOption<OverBoard> classicWinBoard = new GenericOption<OverBoard>(BoardOvers.ClassicOverBoard, "Classic");
+        GenericOption<OverBoard> crazyTokenWinBoard = new GenericOption<OverBoard>(BoardOvers.CrazyTokenWinBoard, "Crazy Token");
         // ...
         
-        List<GenericOption<WinBoard>> boardWins = new List<GenericOption<WinBoard>>(){ classicWinBoard, crazyTokenWinBoard };
-        SingleSelectionMenu<GenericOption<WinBoard>> menu = new SingleSelectionMenu<GenericOption<WinBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND", false);
+        List<GenericOption<OverBoard>> boardWins = new List<GenericOption<OverBoard>>(){ classicWinBoard, crazyTokenWinBoard };
+        SingleSelectionMenu<GenericOption<OverBoard>> menu = new SingleSelectionMenu<GenericOption<OverBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND", false);
         menu.Show();
 
         return menu.Selected.Value;

@@ -26,7 +26,7 @@ class ClassicTemplate : ITemplate
         }
 
         // Judge
-        WinBoard winB = BoardWins.ClassicWinBoard;
+        OverBoard winB = BoardOvers.ClassicOverBoard;
         WinnerBoard winnerB = BoardWinners.ClassicGetWinner;
         Judge judge = new Judge(winB, winnerB);
 

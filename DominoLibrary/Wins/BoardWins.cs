@@ -1,11 +1,11 @@
 using Utils;
 namespace DominoLibrary;
 
-public delegate bool WinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token);
+public delegate bool OverBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token);
 
-public static class BoardWins
+public static class BoardOvers
 {
-    public static bool ClassicWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
+    public static bool ClassicOverBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
     {
         if(token.IsPass()) return false;
 
@@ -24,7 +24,7 @@ public static class BoardWins
         if((board.BoardTokens.First!.Value.EqualTokens(token)) || (board.BoardTokens.Last!.Value.EqualTokens(token))) return true;
         else
         {
-            return ClassicWinBoard(board, playersTokens, token);
+            return ClassicOverBoard(board, playersTokens, token);
         } 
     }
 

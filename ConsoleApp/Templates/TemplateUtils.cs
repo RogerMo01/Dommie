@@ -80,7 +80,7 @@ static class TemplateUtils
         return new Player(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] });
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, WinBoard winB, WinnerBoard winnerB, List<Team> teams)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, List<Team> teams)
     {
         Judge judge = new Judge(winB, winnerB);
 
