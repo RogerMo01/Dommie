@@ -15,6 +15,8 @@ class ConsoleApp
         Lapse l = new Lapse(5);
 
         MenuExplorer menu = new MenuExplorer();
+
+        Console.ForegroundColor = ConsoleColor.White;
     }
     
     private static void SayHiDommie()
@@ -27,19 +29,19 @@ class ConsoleApp
         Console.Write("\n");
         Console.Write("\n");
         Console.Write("\n");
-        Console.Write("                OOOOOOO        OOOOO     OOOO       OOOO   OOOO       OOOO   OOO   OOOOOOOOOOO    \n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("\n");
+        Console.Write("                OOOOOOO        OOOOO     OOOO       OOOO   OOOO       OOOO   OOO   OOOOOOOOO      \n");
         Console.Write("                OOO  OOO     OOO   OOO   OOO OOO OOO OOO   OOO OOO OOO OOO   OOO   OOO            \n");
         Console.Write("                OOO   OOO    OOO   OOO   OOO  OOOO   OOO   OOO  OOOO   OOO   OOO   OOO            \n");
-        Console.Write("                OOO    OOO   OOO   OOO   OOO   OO    OOO   OOO   OO    OOO   OOO   OOOOOOO        \n");
+        Console.Write("                OOO    OOO   OOO   OOO   OOO   OO    OOO   OOO   OO    OOO   OOO   OOOOOO         \n");
         Console.Write("                OOO    OOO   OOO   OOO   OOO         OOO   OOO         OOO   OOO   OOOOOOO        \n");
         Console.Write("                OOO   OOO    OOO   OOO   OOO         OOO   OOO         OOO   OOO   OOO            \n");
         Console.Write("                OOO  OOO     OOO   OOO   OOO         OOO   OOO         OOO   OOO   OOO            \n");
-        Console.Write("                OOOOOOO        OOOOO     OOO         OOO   OOO         OOO   OOO   OOOOOOOOOOO    \n");
-        Console.Write("\n");
-        Console.Write("\n");
-        Console.Write("\n");
-        Console.Write("\n");
-        Console.Write("\n");
+        Console.Write("                OOOOOOO        OOOOO     OOO         OOO   OOO         OOO   OOO   OOOOOOOOOO     \n");
 
         Console.ForegroundColor = ConsoleColor.White;
     }
