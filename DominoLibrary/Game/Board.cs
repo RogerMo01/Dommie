@@ -35,7 +35,7 @@ public partial class Board : IGame
 
         Teams = setting.Team!;
     }
-    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams)
+    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams, int consecPass)
     {
         Players = players;
         GameTokens = gameTokens;
@@ -44,6 +44,7 @@ public partial class Board : IGame
         Judge = judge;
         Plays = plays;
         Teams = teams;
+        ConsecutivePasses = consecPass;
         PlayersTokens = null!;
         Settings = null!;
         CrazyToken = null!;
@@ -62,9 +63,9 @@ public partial class Board : IGame
             {
                 do
                 {
-                    token = player.Play(this, PlayersTokens[player]);
+                    token = player.Play(this.Clone(), PlayersTokens[player]);
                 } 
-                while (!Judge.IsValid(this, token));
+                while (!Judge.IsValid(this.Clone(), token));
 
                 ConsecutivePasses = 0;
             }
@@ -79,10 +80,10 @@ public partial class Board : IGame
             
             GamePrinter.PrintPlay(); // imprime jugada
 
-            if(Judge.WinBoard(this, PlayersTokens, CrazyToken)) { break; }
+            if(Judge.WinBoard(this.Clone(), PlayersTokens, CrazyToken)) { break; }
         }
 
-        (Team team, int score) winner = Judge.WinnerBoard.Invoke(this, PlayersTokens);
+        (Team team, int score) winner = Judge.WinnerBoard(this.Clone(), PlayersTokens);
 
         GamePrinter.PrintBoardWinner(winner.team, winner.score); //PRINT
         return new GameResult(winner.team, winner.score);
@@ -157,12 +158,15 @@ public partial class Board : IGame
         // Judge
         Judge newJudge = new Judge(new OverBoard(Judge.WinBoard), new WinnerBoard(Judge.WinnerBoard));
 
+        // Consecutive Passes
+
+
         // Plays
         List<(IPlayer, Token_onBoard)> newPlays = Plays.ToList();
 
         // Teams
         List<Team> newTeams = Teams.ToList();
 
-        return new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams);
+        return new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
     }
 }

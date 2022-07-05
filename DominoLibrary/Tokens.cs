@@ -1,6 +1,6 @@
 namespace DominoLibrary;
 
-public class Token :IComparable<Token>
+public class Token : IComparable<Token>
 {
     public int Left { get; private set; }
     public int Right { get; private set; }
