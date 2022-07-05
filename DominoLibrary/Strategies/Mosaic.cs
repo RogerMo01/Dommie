@@ -44,7 +44,7 @@ public class Mosaic : IStrategy
         int count = 0;
         GetToken(ref maxEnd, ref count, tokens, total, ref result);
 
-        bool playRight = board.PlayRight(result);
+        bool playRight = board.IsPlayableByRight(result);
         bool straight = board.Straight(result, playRight);
 
         return new Token_onBoard(result, straight, player, playRight);

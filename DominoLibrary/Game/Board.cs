@@ -52,13 +52,14 @@ public partial class Board : IGame
 
     public GameResult Start()
     {
-        GamePrinter!.ShowPlayerTokens(); //PRINT
+        GamePrinter!.ShowPlayerTokens(); //Print initial hand out tokens
         
         foreach (var player in Players)
         {
-            // default es pase, si juega se sustituye
+            // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
 
+            // only if current player have token to play or it's initial play
             if((HaveToken(player)) || BoardTokens.Count == 0)
             {
                 do
@@ -78,14 +79,16 @@ public partial class Board : IGame
 
             UpdateBoard(token, player);
             
-            GamePrinter.PrintPlay(); // imprime jugada
-
-            if(Judge.WinBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value), CrazyToken.Clone())) { break; }
+            GamePrinter.PrintPlay(); // print play
+            
+            // Checks if Board is Over with last play, sending copies of parameters
+            if(Judge.OverBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value), CrazyToken.Clone())) { break; }
         }
 
-        (Team team, int score) winner = Judge.WinnerBoard(this.Clone(), PlayersTokens);
+        // gets the winner of the board
+        (Team team, int score) winner = Judge.WinnerBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
 
-        GamePrinter.PrintBoardWinner(winner.team, winner.score); //PRINT
+        GamePrinter.PrintBoardWinner(winner.team, winner.score);
         return new GameResult(winner.team, winner.score);
     }
     
@@ -110,7 +113,7 @@ public partial class Board : IGame
         return false;
     }
 
-    public bool PlayRight(Token token)
+    public bool IsPlayableByRight(Token token)
     {
         if(Ends[1] == token.Left || Ends[1] == token.Right) return true;
         
@@ -156,7 +159,7 @@ public partial class Board : IGame
         int[] newEnds = Ends.ToArray();
 
         // Judge
-        Judge newJudge = new Judge(new OverBoard(Judge.WinBoard), new WinnerBoard(Judge.WinnerBoard));
+        Judge newJudge = new Judge(new OverBoard(Judge.OverBoard), new WinnerBoard(Judge.WinnerBoard));
 
         // Plays
         List<(IPlayer, Token_onBoard)> newPlays = Plays.ToList();
