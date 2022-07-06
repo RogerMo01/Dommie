@@ -12,6 +12,7 @@ public class Tournament : IGame
     public int WinScore { get; private set; }
     public Judge Judge { get; private set; }
     public List<Team> Teams { get; private set;}
+    bool HumanPlay;
 
     public Tournament(TournamentSetting setting) 
     {
@@ -23,6 +24,7 @@ public class Tournament : IGame
         TeamsScore = SetTeamsScores();
         WinScore = setting.WinScore;
         Judge = setting.Judge!;
+        HumanPlay = setting.HumanPlay;
     }
 
     public GameResult Start()
@@ -32,9 +34,10 @@ public class Tournament : IGame
         while(true)
         {
             GamePrinter!.ShowTournamentStatus(roundNumber, TeamsScore);
+            if(HumanPlay) { Lapse l = new Lapse(3); }
 
             // Initilize the Boards
-            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, Judge, Teams);
+            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, Judge, Teams, HumanPlay);
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
 

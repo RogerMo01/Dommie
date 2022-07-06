@@ -88,7 +88,7 @@ public class SingleSelectionMenu<T>
         Console.Clear();
 
         // Title
-        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("\n");
         Console.WriteLine($"===== {Title} =====\n");
 

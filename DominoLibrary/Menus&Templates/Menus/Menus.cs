@@ -33,13 +33,13 @@ public static partial class Menus
         return menu.Selected.Equals(boardOption);
     }
 
-    public static ITemplate TemplateMenu(List<IStrategy> strategies, ITemplate custom, bool singlePlayer)
+    public static ITemplate TemplateMenu(List<IStrategy> strategies, ITemplate custom, bool singlePlayer, bool humanPlay)
     {
         List<Team> teams = new();
         // Options
-        ITemplate classic_9 = new ClassicTemplate("Classic double-9", 4, 9, strategies, teams, singlePlayer);
-        ITemplate classic_6 = new ClassicTemplate("Classic double-6", 4, 6, strategies, teams, singlePlayer);
-        ITemplate crazyToken = new CrazyTokenTemplate("Crazy Token", 6, 12, strategies, teams, singlePlayer);
+        ITemplate classic_9 = new ClassicTemplate("Classic double-9", 4, 9, strategies, teams, singlePlayer, humanPlay);
+        ITemplate classic_6 = new ClassicTemplate("Classic double-6", 4, 6, strategies, teams, singlePlayer, humanPlay);
+        ITemplate crazyToken = new CrazyTokenTemplate("Crazy Token", 6, 12, strategies, teams, singlePlayer, humanPlay);
         // ...
 
         List<ITemplate> tSelectionables = new List<ITemplate>(){ classic_9, classic_6, crazyToken, custom };
@@ -85,9 +85,11 @@ public static partial class Menus
     {
         // Options
         GenericOption<WinnerBoard> classicGetWinner = new GenericOption<WinnerBoard>(BoardWinners.ClassicGetWinner, "Classic");
+        GenericOption<WinnerBoard> randomGetWinner = new GenericOption<WinnerBoard>(BoardWinners.GetRandomWinner, "Random");
+        GenericOption<WinnerBoard> smallest5Multiple = new GenericOption<WinnerBoard>(BoardWinners.Smallest5MultipleGetWinner, "Smallest 5 Multiple");
         // ...
 
-        List<GenericOption<WinnerBoard>> boardWinnerGetters = new List<GenericOption<WinnerBoard>>(){ classicGetWinner };
+        List<GenericOption<WinnerBoard>> boardWinnerGetters = new List<GenericOption<WinnerBoard>>(){ classicGetWinner, randomGetWinner, smallest5Multiple };
         SingleSelectionMenu<GenericOption<WinnerBoard>> winnerGetterMenu = new SingleSelectionMenu<GenericOption<WinnerBoard>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER", false);
         winnerGetterMenu.Show();
 
@@ -122,7 +124,7 @@ public static partial class Menus
             SingleSelectionMenu<GenericOption<IStrategy>> menuPlayer = new SingleSelectionMenu<GenericOption<IStrategy>>(strategyOptions, $"Customize {players[i]}", false);
             menuPlayer.Show();
 
-            players[i] = (new Player(players[i].Name, new List<IStrategy>(){ strategies[menuPlayer.SelectedIndex] }));
+            players[i] = (new Player(players[i].Name, new List<IStrategy>(){ strategies[menuPlayer.SelectedIndex] }, currentPlayers[i].Color));
         }
 
         return players;

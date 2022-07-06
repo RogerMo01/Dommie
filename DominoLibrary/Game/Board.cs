@@ -52,16 +52,24 @@ public partial class Board : IGame
 
     public GameResult Start()
     {
-        GamePrinter!.ShowPlayerTokens(); //Print initial hand out tokens
+        if(!Settings.HumanPlay)
+        {
+            GamePrinter!.ShowPlayerTokens(); //Print initial hand out tokens
+        }
         
         foreach (var player in Players)
         {
             // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
 
+            if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+
             // only if current player have token to play or it's initial play
             if((HaveToken(player)) || BoardTokens.Count == 0)
             {
+                // freeze two seconds per play when a human is playing
+                if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+
                 do
                 {
                     token = player.Play(this.Clone(), PlayersTokens[player].ToList());
@@ -79,7 +87,7 @@ public partial class Board : IGame
 
             UpdateBoard(token, player);
             
-            GamePrinter.PrintPlay(); // print play
+            GamePrinter!.PrintPlay(); // print play
             
             // Checks if Board is Over with last play, sending copies of parameters
             if(Judge.OverBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value), CrazyToken.Clone())) { break; }
@@ -88,7 +96,10 @@ public partial class Board : IGame
         // gets the winner of the board
         (Team team, int score) winner = Judge.WinnerBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
 
-        GamePrinter.PrintBoardWinner(winner.team, winner.score);
+        GamePrinter!.PrintBoardWinner(winner.team, winner.score);
+
+        if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
+
         return new GameResult(winner.team, winner.score);
     }
     

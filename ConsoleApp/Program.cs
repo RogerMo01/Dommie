@@ -54,6 +54,7 @@ class MenuExplorer
         new BotaGorda(),
         new Mosaic()
     };
+    
 
     bool HumanPlay;
     bool JustBoardGame;
@@ -72,7 +73,7 @@ class MenuExplorer
         SinglePlayer = Menus.SinglePlayerOrTeamMenu();
 
         ITemplate custom = new CustomTemplate();
-        Template = Menus.TemplateMenu(Strategies, custom, SinglePlayer);
+        Template = Menus.TemplateMenu(Strategies, custom, SinglePlayer, HumanPlay);
 
         if(Template.Equals(custom))
         {
