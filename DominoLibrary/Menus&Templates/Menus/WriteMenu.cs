@@ -3,7 +3,7 @@ using DominoLibrary;
 
 namespace ConsoleApp;
 
-class WriteMenu
+public class WriteMenu
 {
     public string Title { get; private set; }
     public int Selected { get; private set; }

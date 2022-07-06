@@ -2,7 +2,7 @@ using Utils;
 using DominoLibrary;
 namespace ConsoleApp;
 
-class SingleSelectionMenu<T>
+public class SingleSelectionMenu<T>
 {
     public List<T> Selectionables { get; }
     public T Selected { get; private set; }

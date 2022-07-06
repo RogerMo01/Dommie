@@ -105,7 +105,7 @@ public class CustomizeGame
         return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, Teams);
     }
 
-    private void CustomizePlayers()
+    public void CustomizePlayers()
     {
         // NUMBER PLAYERS MENU ~~~~~~
         NumberPlayers = Menus.NumberPlayersMenu();
@@ -122,7 +122,7 @@ public class CustomizeGame
             // ~~~~~~~~~~~~~~~~~~~
         }
     }
-    private void CustomizeTeams()
+    public void CustomizeTeams()
     {
         SinglePlayerGame = Menus.SinglePlayerOrTeamMenu();
 

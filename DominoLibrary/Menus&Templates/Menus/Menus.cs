@@ -3,7 +3,7 @@ using DominoLibrary;
 
 namespace ConsoleApp;
 
-static partial class Menus
+public static partial class Menus
 {
     public static bool HumanPlayMenu()
     {

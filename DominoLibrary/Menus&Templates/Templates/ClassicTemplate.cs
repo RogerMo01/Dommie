@@ -2,7 +2,7 @@ using DominoLibrary;
 using Utils;
 namespace ConsoleApp;
 
-class ClassicTemplate : ITemplate
+public class ClassicTemplate : ITemplate
 {
     public Board Board { get; private set; }
     public Tournament Tournament { get; private set; }

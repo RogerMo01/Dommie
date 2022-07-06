@@ -2,7 +2,7 @@ using DominoLibrary;
 using Utils;
 namespace ConsoleApp;
 
-class SimpleOption
+public class SimpleOption
 {
     public string Title { get; }
     public SimpleOption(string name)
@@ -13,7 +13,7 @@ class SimpleOption
     public override string ToString() => this.Title;
 }
 
-class GenericOption<T>
+public class GenericOption<T>
 {
     public string Title { get; }
     public T Value { get; }

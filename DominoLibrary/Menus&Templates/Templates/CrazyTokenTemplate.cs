@@ -3,7 +3,7 @@ using Utils;
 namespace ConsoleApp;
 
 
-class CrazyTokenTemplate : ITemplate
+public class CrazyTokenTemplate : ITemplate
 {
     public Board Board { get; private set; }
     public Tournament Tournament { get; private set; }

@@ -9,7 +9,7 @@ public interface ITemplate
     public string Title { get; }
 }
 
-static class TemplateUtils
+public static class TemplateUtils
 {
     public static CircularList<IPlayer> ToCircularList(List<IPlayer> playersList)
     {
