@@ -1,22 +1,14 @@
 using Utils;
 namespace DominoLibrary;
 
-public delegate (Team, int) WinnerBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens);
+public delegate (Team, int) WinnerBoard(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens);
 
 public static class BoardWinners
 {
-    public static (Team, int) ClassicGetWinner(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static (Team, int) ClassicGetWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens)
     {
         Team winner = board.Teams.First();
-        int points = 0;
-
-        Dictionary<IPlayer, int> finalPuntuation = new Dictionary<IPlayer, int>();
-
-        foreach (var item in playersTokens)
-        {
-            finalPuntuation.Add(item.Key, GetPlayerScore(item.Value));
-        }
-
+        
         if(board.Teams.Any(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0)))
         {
             winner = board.Teams.First(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0));
@@ -24,20 +16,26 @@ public static class BoardWinners
         else 
         {
             int pointsPerPlayer = int.MaxValue; 
-            IPlayer temporalPlayer = board.Players.First();
+            IPlayer currentPlayer = board.Players.First();
 
             foreach (var team in board.Teams)
             {
                 foreach (var player in team.PlayersTeam)
                 {
-                    if(finalPuntuation[player] < pointsPerPlayer)
+                    int  currentPointsPerPlayer= 0;
+                    for (int i = 0; i < playersTokens[player].Count; i++)
                     {
-                        pointsPerPlayer = finalPuntuation[player];
-                        temporalPlayer = player;
+                        currentPointsPerPlayer += playersTokens[player][i].Points;
+                    }
+
+                    if(currentPointsPerPlayer < pointsPerPlayer)
+                    {
+                        pointsPerPlayer = currentPointsPerPlayer;
+                        currentPlayer = player;
                         winner = team;
                     }
 
-                    if((finalPuntuation[player] == pointsPerPlayer) && (!team.Contains(temporalPlayer)))
+                    if(( currentPointsPerPlayer == pointsPerPlayer) && (!team.Contains(currentPlayer)))
                     {
                         winner = null!;
                     }
@@ -45,26 +43,12 @@ public static class BoardWinners
             }
         }
 
-        if(winner == null!) return (winner!, points);
-
-        // sumar puntos
-        Node<IPlayer> current = board.Players.First;
-        for (int i = 0; i < finalPuntuation.Count; i++)
-        {
-            if(!winner.Contains(current.Value))
-            {
-                points += finalPuntuation[current.Value];
-            }
-            current = current.Next!;
-        }
-
-        return (winner, points);
+        return (winner, pointsGetter(board, winner, playersTokens));
     }
 
-    public static (Team, int) Smallest5MultipleGetWinner(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static (Team, int) Smallest5MultipleGetWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens)
     {
         Team winner = board.Teams.First();
-        int points = 0;
 
         int value = int.MaxValue;
         IPlayer currentPlayer = board.Players.First();
@@ -73,22 +57,22 @@ public static class BoardWinners
         {
             foreach (var player in team.PlayersTeam)
             {
-                int aux = 0;
+                int pointsPerPlayer = 0;
                 for (int i = 0; i < playersTokens[player].Count; i++)
                 {
-                    aux += playersTokens[player][i].Points;
+                    pointsPerPlayer += playersTokens[player][i].Points;
                 }
 
-                if(((aux % 5) == 0) && (aux != 0))
+                if(((pointsPerPlayer % 5) == 0) && (pointsPerPlayer != 0))
                 {
-                    if(aux < value)
+                    if(pointsPerPlayer < value)
                     {
-                        value = aux;
+                        value = pointsPerPlayer;
                         currentPlayer = player;
                         winner = team;
                     }
 
-                    if((aux == value) && (!team.Contains(currentPlayer)))
+                    if((pointsPerPlayer == value) && (!team.Contains(currentPlayer)))
                     {
                         winner = null!;
                     }
@@ -97,61 +81,16 @@ public static class BoardWinners
         }
 
         if(value == int.MaxValue) winner = null!;
-        if(winner == null) return (winner!, points);
-      
-        // sumar puntos
-        Dictionary<IPlayer, int> finalPuntuation = new Dictionary<IPlayer, int>();
 
-        foreach (var item in playersTokens)
-        {
-            finalPuntuation.Add(item.Key, GetPlayerScore(item.Value));
-        }
-
-        Node<IPlayer> current = board.Players.First;
-        for (int i = 0; i < finalPuntuation.Count; i++)
-        {
-            if(!winner.Contains(current.Value))
-            {
-                points += 5 * finalPuntuation[current.Value];
-            }
-            current = current.Next!;   
-        }
-
-        return (winner, points); 
+        return (winner, pointsGetter(board, winner, playersTokens));
     }
 
-    public static (Team, int) GetRandomWinner(Board board, Dictionary<IPlayer, List<Token>> playersToken)
+    public static (Team, int) GetRandomWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersToken)
     {
         Random random = new Random();
         Team winner = board.Teams[random.Next(board.Teams.Count - 1)];
 
-        // buscar la mayor puntuacion de fichas en mesa
-        int points = 0;
-        Node<IPlayer> player = board.Players.First;
-        for (int i = 0; i < playersToken.Count; i++)
-        {
-            int count = 0;
-            foreach (var token in playersToken[player.Value])
-            {
-                count += token.Points;
-            }
-
-            if(count > points) points = count;
-            player = player.Next!;
-        }
-
-        return (winner, points);
+        return (winner, pointsGetter(board, winner, playersToken));
     }
     
-    private static int GetPlayerScore(List<Token> tokens)
-    {
-        int value = 0;
-        foreach (var token in tokens)
-        {
-            value += token.Points;
-        }
-
-        return value;
-    }
-
 }
