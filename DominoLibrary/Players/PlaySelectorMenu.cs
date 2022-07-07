@@ -73,7 +73,7 @@ public class PlaySelectorMenu
             if(Selectionables[i]!.Equals(Selected)){
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write("->");
-            }   
+            }
             else{
                 Console.Write(" ");
             }
@@ -93,7 +93,6 @@ public class PlaySelectorMenu
     private void PrintBoard()
     {
         Console.ForegroundColor = ConsoleColor.DarkYellow;
-        //Console.WriteLine("\n");
         Console.WriteLine("\n Board Tokens:");
         Console.WriteLine("");
 
@@ -113,6 +112,42 @@ public class PlaySelectorMenu
             Console.WriteLine(player);
         }
         Console.WriteLine("\n");
+
+        PrintLastPlays();        
+    }
+    private void PrintLastPlays()
+    {
+        int lastPlays = Math.Min(Board.Players.Count * 2, Board.Plays.Count);
+        List<(IPlayer player, Token_onBoard token)> lastPlaysList = new();
+
+        for (int i = Board.Plays.Count - 1; i >= Board.Plays.Count - lastPlays; i--)
+        {
+            lastPlaysList.Add(Board.Plays[i]);
+        }
+
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine($"=== Last {lastPlays} Plays: ===");
+
+        foreach (var play in lastPlaysList)
+        {
+            if(play.token.IsPass())
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{play.player} pass");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"{play.player} play {play.token}");
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
     }
 
 
