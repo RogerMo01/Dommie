@@ -4,7 +4,7 @@ public class PlaySelectorMenu
 {
     public List<Token> Selectionables { get; }
     public Token Selected { get; private set; }
-    public string Title { get; private set; } = " +++ Choose a Token to play +++";
+    public string Title { get; private set; } = " === Choose a Token to play ===";
     public int SelectedIndex { get; private set; } = 0;
     Board Board;
 

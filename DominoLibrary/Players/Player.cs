@@ -13,7 +13,7 @@ public class Player : IPlayer
         Color = color;
     }
 
-    public Token_onBoard Play(Board board, List<Token> tokens)
+    public Token_onBoard Play(Board board, List<Token> tokens, HumanPlayerMenu humanPlayerMenu)
     {
         return Strategies[0].Play(board, tokens, this);
     }
