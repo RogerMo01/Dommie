@@ -3,7 +3,7 @@ using DominoLibrary;
 
 namespace ConsoleApp;
 
-class CustomTemplate : ITemplate
+public class CustomTemplate : ITemplate
 {
     public Board Board { get; private set; } = null!;
     public Tournament Tournament { get; private set; } = null!;

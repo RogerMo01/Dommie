@@ -27,14 +27,22 @@ public partial class GamePrinter
         if(play.IsPass())
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{player.Name} pass");
+            Console.Write($"\n{player.Name} pass");
         }
         else
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
             string side = (play.PlayRight) ? "Right" : "Left";
 
-            Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
+            Console.ForegroundColor = play.Owner.Color;
+            Console.Write($"\n{play.Owner}");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" played ");
+            Console.ForegroundColor = play.Owner.Color;
+            Console.Write(play);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write($" by {side}");
+
+            //Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
             Console.ForegroundColor = ConsoleColor.White;
         }
         
@@ -43,15 +51,12 @@ public partial class GamePrinter
 
     public void ShowPlayerTokens()
     {
-        ConsoleColor[] colors = {ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Magenta, ConsoleColor.Cyan, ConsoleColor.DarkCyan, ConsoleColor.Yellow};
-        int color = 0;
-
         Console.WriteLine();
         Console.WriteLine("Tokens hand out was:");
         
         foreach (var item in PlayerTokens!)
         {
-            Console.ForegroundColor = colors[color];
+            Console.ForegroundColor = item.Key.Color;
             Console.WriteLine($"{item.Key.Name}:");
 
             foreach (var token in item.Value)
@@ -60,7 +65,6 @@ public partial class GamePrinter
             }
 
             Console.WriteLine();
-            color++;
         }
         Console.WriteLine();
     }
@@ -80,8 +84,8 @@ public partial class GamePrinter
         }
         try
         {
-           Console.WriteLine($"{winner} Win this round with {score} points");
             
+            Console.WriteLine($"{winner} Win this round with {score} points");
         }
         catch (NullReferenceException)
         {

@@ -27,6 +27,8 @@ public class Token : IComparable<Token>
     }
 
     public Token Clone() => new Token(Left, Right);
+
+    public override string ToString() => $"[{this.Left}:{this.Right}]";
 }
 
 public class Token_onBoard : Token
@@ -43,6 +45,8 @@ public class Token_onBoard : Token
     }
 
     public new Token_onBoard Clone() => new Token_onBoard(new Token(this.Left, this.Right), this.Straight, this.Owner, this.PlayRight);
+    
+    public override string ToString() => (Straight) ? $"[{Left}:{Right}]" : $"[{Right}:{Left}]";
 }
 
 // solo importa el par'ametro Owner & IsPass() method

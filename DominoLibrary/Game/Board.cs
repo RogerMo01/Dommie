@@ -11,7 +11,7 @@ public partial class Board : IGame
     BoardSetting Settings;
     public Judge Judge;
     Token CrazyToken;
-    GamePrinter? GamePrinter;  
+    GamePrinter? GamePrinter;
     public int ConsecutivePasses { get; private set; }
     public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new();
     public List<Team> Teams { get; private set;}
@@ -52,19 +52,27 @@ public partial class Board : IGame
 
     public GameResult Start()
     {
-        GamePrinter!.ShowPlayerTokens(); //Print initial hand out tokens
+        if(!Settings.HumanPlay)
+        {
+            GamePrinter!.ShowPlayerTokens(); //Print initial hand out tokens
+        }
         
         foreach (var player in Players)
         {
             // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
 
+            if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+
             // only if current player have token to play or it's initial play
             if((HaveToken(player)) || BoardTokens.Count == 0)
             {
+                // freeze two seconds per play when a human is playing
+                if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+
                 do
                 {
-                    token = player.Play(this.Clone(), PlayersTokens[player].ToList());
+                    token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
                 } 
                 while (!Judge.IsValid(this.Clone(), token.Clone()));
 
@@ -79,7 +87,7 @@ public partial class Board : IGame
 
             UpdateBoard(token, player);
             
-            GamePrinter.PrintPlay(); // print play
+            GamePrinter!.PrintPlay(); // print play
             
             // Checks if Board is Over with last play, sending copies of parameters
             if(Judge.OverBoard(this.Clone(), PlayersTokens.ToDictionary(x => x.Key, x => x.Value), CrazyToken.Clone())) { break; }
@@ -89,6 +97,9 @@ public partial class Board : IGame
         (Team players , int score) winner = Judge.WinnerBoard(this.Clone(), Judge.PointsWinner, PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
     
         GamePrinter.PrintBoardWinner(winner.players, winner.score);
+        
+        if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
+        
         return new GameResult(winner.players, winner.score);
     }
     
@@ -167,6 +178,8 @@ public partial class Board : IGame
         // Teams
         List<Team> newTeams = Teams.ToList();
 
-        return new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
+        Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
+        
+        return toReturn; //________________________________________________________________________________________________________________________________________________
     }
 }

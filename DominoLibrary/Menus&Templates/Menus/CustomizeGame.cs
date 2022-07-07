@@ -26,6 +26,12 @@ public class CustomizeGame
         SinglePlayerGame = singlePlayer;
         Players = TemplateUtils.GeneratePlayers(NumberPlayers, Strategies);
 
+        if(HumanPlay)
+        {
+            Random r = new();
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
+        }
+
         if(SinglePlayerGame)
         {
             Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
@@ -102,10 +108,10 @@ public class CustomizeGame
         } while (menu.Selected != null);      
         
 
-        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, Teams);
+        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, Teams, HumanPlay);
     }
 
-    private void CustomizePlayers()
+    public void CustomizePlayers()
     {
         // NUMBER PLAYERS MENU ~~~~~~
         NumberPlayers = Menus.NumberPlayersMenu();
@@ -113,7 +119,11 @@ public class CustomizeGame
 
         // Generar players
         Players = TemplateUtils.GeneratePlayers(NumberPlayers, Strategies);
-        if(HumanPlay){} // poner al jugador humano de primero en la lista !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if(HumanPlay)
+        {
+            Random r = new();
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
+        }
         
         if(!HumanPlay)
         {
@@ -122,13 +132,13 @@ public class CustomizeGame
             // ~~~~~~~~~~~~~~~~~~~
         }
     }
-    private void CustomizeTeams()
+    public void CustomizeTeams()
     {
         SinglePlayerGame = Menus.SinglePlayerOrTeamMenu();
 
         if (!SinglePlayerGame)
         {
-            // CUSTOM TEAM MENU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // CUSTOM TEAM MENU ~~~~~
             Teams = Menus.AssignTeamsMenu(Players, SinglePlayerGame, HumanPlay);
             // ~~~~~~~~~~~~~~~~~~~~~~
         }

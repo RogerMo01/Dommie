@@ -2,7 +2,7 @@ using Utils;
 using DominoLibrary;
 namespace ConsoleApp;
 
-class SingleSelectionMenu<T>
+public class SingleSelectionMenu<T>
 {
     public List<T> Selectionables { get; }
     public T Selected { get; private set; }
@@ -88,7 +88,7 @@ class SingleSelectionMenu<T>
         Console.Clear();
 
         // Title
-        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("\n");
         Console.WriteLine($"===== {Title} =====\n");
 

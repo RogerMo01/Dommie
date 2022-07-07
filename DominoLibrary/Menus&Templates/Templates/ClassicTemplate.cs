@@ -2,18 +2,24 @@ using DominoLibrary;
 using Utils;
 namespace ConsoleApp;
 
-class ClassicTemplate : ITemplate
+public class ClassicTemplate : ITemplate
 {
     public Board Board { get; private set; }
     public Tournament Tournament { get; private set; }
     public string Title { get; private set; }
 
-    public ClassicTemplate(string name, int numberPlayers, int maxToken, List<IStrategy> strategies, List<Team> teams, bool singlePlayer)
+    public ClassicTemplate(string name, int numberPlayers, int maxToken, List<IStrategy> strategies, List<Team> teams, bool singlePlayer, bool humanPlay)
     {
         Title = name;
         
         // Players
-        CircularList<IPlayer> players = TemplateUtils.ToCircularList(TemplateUtils.GeneratePlayers(4, strategies));
+        List<IPlayer> listPlayers = TemplateUtils.GeneratePlayers(4, strategies);
+        if(humanPlay) // set first player as human
+        {
+            Random rand = new();
+            listPlayers[rand.Next(4)] = new HumanPlayer(strategies, ConsoleColor.White);
+        }
+        CircularList<IPlayer> players = TemplateUtils.ToCircularList(listPlayers);
 
         // Teams
         if(singlePlayer)
@@ -34,8 +40,8 @@ class ClassicTemplate : ITemplate
         Random r = new Random();
         int inner = r.Next(4);
 
-        Tournament = new Tournament(new TournamentSetting(players, maxToken, numberPlayers, 100, judge, teams));
-        Board = new Board(new BoardSetting(players, players.First, Tournament.GameTokens, Tournament.TokensPerPlayer, judge, teams));
+        Tournament = new Tournament(new TournamentSetting(players, maxToken, numberPlayers, 100, judge, teams, humanPlay));
+        Board = new Board(new BoardSetting(players, players.First, Tournament.GameTokens, Tournament.TokensPerPlayer, judge, teams, humanPlay));
     }
 
     public override string ToString() => this.Title;

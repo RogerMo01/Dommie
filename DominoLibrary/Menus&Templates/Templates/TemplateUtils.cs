@@ -9,7 +9,7 @@ public interface ITemplate
     public string Title { get; }
 }
 
-static class TemplateUtils
+public static class TemplateUtils
 {
     public static CircularList<IPlayer> ToCircularList(List<IPlayer> playersList)
     {
@@ -25,9 +25,18 @@ static class TemplateUtils
         List<IPlayer> players = new List<IPlayer>();
         List<string> usedNames = new List<string>();
 
+        ConsoleColor[] colors = {
+            ConsoleColor.Blue,
+            ConsoleColor.Cyan,
+            ConsoleColor.Magenta,
+            ConsoleColor.Green,
+            ConsoleColor.DarkBlue,
+            ConsoleColor.Yellow
+        };
+
         for (int i = players.Count; i < numberPlayers; i++)
         {
-            players.Add(GetRandomPlayer(ref usedNames, strategies));
+            players.Add(GetRandomPlayer(ref usedNames, strategies, colors[i]));
         }
 
         return players;
@@ -52,14 +61,14 @@ static class TemplateUtils
         return teams;
     }
 
-    public static IPlayer GetRandomPlayer(ref List<string> usedNames, List<IStrategy> strategies)
+    public static IPlayer GetRandomPlayer(ref List<string> usedNames, List<IStrategy> strategies, ConsoleColor color)
     {
-        string[] names = new string[] // se pueden poner m'as
+        string[] names = // se pueden poner m'as
         {
             "Eleven", "Mike", "Dustin", "Jane", "Hooper",
             "Will", "Lucas", "Joyce", "Nancy", "Steve",
             "Jonathan", "Max", "Vecna", "Mindflyer", "Bob",
-            "Demogorgon", "Erika", "Eddie"
+            "Demogorgon", "Erika", "Eddie", "Billy"
         };
 
         Random r = new Random();
@@ -77,17 +86,17 @@ static class TemplateUtils
             }
         }
         
-        return new Player(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] });
+        return new Player(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] }, color);
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, List<Team> teams)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, List<Team> teams, bool humanPlay)
     {
         Judge judge = new Judge(winB, winnerB);
 
-        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers,score, judge, teams);
+        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers,score, judge, teams, humanPlay);
         Tournament t = new Tournament(tS);
 
-        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, judge, teams);
+        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, judge, teams, humanPlay);
         Board b = new Board(bS);
 
         return new CustomTemplate(b, t);

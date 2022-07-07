@@ -1,25 +1,25 @@
+using ConsoleApp;
 namespace DominoLibrary;
 
-public class Player : IPlayer
+public class HumanPlayer : IPlayer
 {
-    public string Name { get; }
+    public string Name { get; } = "You";
+
     public List<IStrategy> Strategies { get; }
+
     public ConsoleColor Color { get; }
 
-    public Player(string name, List<IStrategy> strategies, ConsoleColor color)
+
+    public HumanPlayer(List<IStrategy> strategies, ConsoleColor color)
     {
-        Name = name;
         Strategies = strategies;
         Color = color;
     }
 
     public Token_onBoard Play(Board board, List<Token> tokens, HumanPlayerMenu humanPlayerMenu)
     {
-        return Strategies[0].Play(board, tokens, this);
+        return humanPlayerMenu(this);
     }
 
-    public override string ToString()
-    {
-        return this.Name;
-    }
+    public override string ToString() => Name;
 }
