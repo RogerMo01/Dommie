@@ -34,7 +34,9 @@ public class ClassicTemplate : ITemplate
         // Judge
         OverBoard winB = BoardOvers.ClassicOverBoard;
         WinnerBoard winnerB = BoardWinners.ClassicGetWinner;
-        Judge judge = new Judge(winB, winnerB);
+        PointsGetter pointsGetter = PointsWinner.ClassicGetPoints;
+
+        Judge judge = new Judge(winB, winnerB, pointsGetter);
 
         // Inner
         Random r = new Random();

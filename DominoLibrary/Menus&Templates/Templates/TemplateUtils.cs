@@ -89,9 +89,9 @@ public static class TemplateUtils
         return new Player(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] }, color);
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, List<Team> teams, bool humanPlay)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, List<Team> teams, bool humanPlay)
     {
-        Judge judge = new Judge(winB, winnerB);
+        Judge judge = new Judge(winB, winnerB, pointsGetter);
 
         TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers,score, judge, teams, humanPlay);
         Tournament t = new Tournament(tS);
