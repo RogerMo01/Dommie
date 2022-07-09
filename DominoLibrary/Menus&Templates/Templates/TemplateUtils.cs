@@ -86,7 +86,7 @@ public static class TemplateUtils
             }
         }
         
-        return new Player(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] }, color);
+        return new SingleStrategyPlayer(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] }, color);
     }
 
     public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, List<Team> teams, bool humanPlay)
