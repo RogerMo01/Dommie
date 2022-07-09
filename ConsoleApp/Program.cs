@@ -20,8 +20,11 @@ class ConsoleApp
 
         Lapse l = new Lapse(5);
 
+        MainSkipIntro();
+    }
+    public static void MainSkipIntro()
+    {
         MenuExplorer menu = new MenuExplorer();
-
         Console.ForegroundColor = ConsoleColor.White;
     }
     
@@ -106,7 +109,7 @@ class MenuExplorer
         Console.WriteLine("Press any key to end game");
         Console.ReadKey();
 
-        if(PlayAgainMenu()) { ConsoleApp.Main(); }
+        if(PlayAgainMenu()) { ConsoleApp.MainSkipIntro(); }
     }
 
     private bool PlayAgainMenu()
