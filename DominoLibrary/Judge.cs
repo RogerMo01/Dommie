@@ -27,7 +27,7 @@ public class Judge
 
             if(!token.PlayRight && ((token.Straight && board.Ends[0] == token.Right) || (!token.Straight && board.Ends[0] == token.Left))) return true;
         }
+        
         return false;
     }
-
 }
