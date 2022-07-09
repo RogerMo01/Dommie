@@ -67,7 +67,6 @@ class MenuExplorer
 
     bool HumanPlay;
     bool JustBoardGame;
-    bool SinglePlayer = true;
     List<Team> Teams = new();
     ITemplate Template;
     IGame Game;
