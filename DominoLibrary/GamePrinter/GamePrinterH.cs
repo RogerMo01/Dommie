@@ -19,9 +19,16 @@ public partial class GamePrinter
         playSidedSelectorMenu.Show();
         bool playRight = playSidedSelectorMenu.Selected == playRightOption;
 
-        Token_onBoard play = new Token_onBoard(tokenSelectorMenu.Selected, Board.Straight(selectedToken, playRight), player, playRight);
-        return play;
+        // try it Straight and upside down
+        Token_onBoard play = new Token_onBoard(tokenSelectorMenu.Selected, true, player, playRight);
+        if(Board.Judge.IsValid(Board, play))
+        {
+            return play;
+        }
+        else { return new Token_onBoard(tokenSelectorMenu.Selected, false, player, playRight); }
+        
     }
+    
     private Dictionary<IPlayer, int> GetTokensLeft()
     {
         Dictionary<IPlayer, int> playersTokensLeft = new Dictionary<IPlayer, int>();

@@ -68,8 +68,6 @@ public partial class Board : IGame
             // only if current player have token to play or it's initial play
             if((HaveToken(player)) || BoardTokens.Count == 0)
             {
-                //if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
-
                 do
                 {
                     token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
@@ -114,15 +112,6 @@ public partial class Board : IGame
         Ends[1] = (token.Straight) ? token.Right : token.Left;
     }
 
-    public bool Playable(Token token)
-    {
-        foreach (var item in Ends)
-        {
-            if(item == token.Left || item == token.Right) return true;
-        }
-
-        return false;
-    }
 
     public bool IsPlayableByRight(Token token)
     {

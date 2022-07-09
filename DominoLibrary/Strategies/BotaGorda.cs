@@ -11,7 +11,7 @@ public class BotaGorda : IStrategy
         foreach (var token in tokens)
         {
             int value = 0;
-            if(board.Playable(token) || (board.BoardTokens.Count == 0))
+            if(Playable(token, board) || (board.BoardTokens.Count == 0))
             {
                 value = token.Left + token.Right;
                 if(value > points)
@@ -21,11 +21,20 @@ public class BotaGorda : IStrategy
                 }
             }
         }
-
+        
         bool playRight = board.IsPlayableByRight(result);
         bool straight = board.Straight(result, playRight);
 
         return new Token_onBoard(result, straight, player, playRight);
+    }
+    private bool Playable(Token token, Board board)
+    {
+        foreach (var item in board.Ends)
+        {
+            if(item == token.Left || item == token.Right) return true;
+        }
+
+        return false;
     }
 
     public override string ToString() => "BotaGorda";
