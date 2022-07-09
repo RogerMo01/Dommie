@@ -94,7 +94,7 @@ public partial class Board : IGame
         }
 
         // gets the winner of the board
-        (Team players , int score) winner = Judge.WinnerBoard(this.Clone(), Judge.PointsWinner, PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
+        (Team players , int score) winner = Judge.WinnerBoard(this.Clone(), Judge.WinnerPointsGetter, PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
     
         GamePrinter.PrintBoardWinner(winner.players, winner.score);
         
@@ -170,7 +170,7 @@ public partial class Board : IGame
         int[] newEnds = Ends.ToArray();
 
         // Judge
-        Judge newJudge = new Judge(new OverBoard(Judge.OverBoard), new WinnerBoard(Judge.WinnerBoard), new PointsGetter(Judge.PointsWinner));
+        Judge newJudge = new Judge(new OverBoard(Judge.OverBoard), new WinnerBoard(Judge.WinnerBoard), new PointsGetter(Judge.WinnerPointsGetter));
 
         // Plays
         List<(IPlayer, Token_onBoard)> newPlays = Plays.ToList();

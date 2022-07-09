@@ -17,6 +17,7 @@ public class CustomizeGame
     List<IPlayer> Players;
     OverBoard OverBoardCondition = BoardOvers.ClassicOverBoard;
     WinnerBoard GetWinnerJudgment = BoardWinners.ClassicGetWinner;
+    PointsGetter GetWinnerPoints = PointsWinner.ClassicGetPoints;
 
     public CustomizeGame(List<IStrategy> strategies, bool humanPlay, bool justBoard, bool singlePlayer, List<Team> teams)
     {
@@ -48,7 +49,8 @@ public class CustomizeGame
         SimpleOption teamsMenu = new SimpleOption("Teams");
         SimpleOption maxTokenMenu = new SimpleOption("Max Token");
         SimpleOption overBoardMenu = new SimpleOption("Over Board Condition");
-        SimpleOption getWinnerMenu = new SimpleOption("Get Winner Judgment");
+        SimpleOption getWinnerMenu = new SimpleOption("Winner getter Judgment");
+        SimpleOption getPoints = new SimpleOption("Points getter Judgment");
         SimpleOption scoreMenu = new SimpleOption("Set Tournament Win Score");
 
         List<SimpleOption> options = new(){ playersMenu, teamsMenu, maxTokenMenu, overBoardMenu, getWinnerMenu, scoreMenu };
@@ -90,6 +92,10 @@ public class CustomizeGame
                 break;
 
                 case 5:
+                GetWinnerPoints = Menus.GetWinnerPoints();
+                break;
+
+                case 6:
                 if(!JustBoardGame)
                 {
                     WriteMenu scoreWriteMenu = new WriteMenu("DECIDE AND WRITE THE NEEDED POINTS TO WIN THE TOURNAMENT");
@@ -108,7 +114,7 @@ public class CustomizeGame
         } while (menu.Selected != null);      
         
 
-        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, Teams, HumanPlay);
+        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, GetWinnerPoints, Teams, HumanPlay);
     }
 
     public void CustomizePlayers()

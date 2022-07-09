@@ -90,10 +90,24 @@ public static partial class Menus
         // ...
 
         List<GenericOption<WinnerBoard>> boardWinnerGetters = new List<GenericOption<WinnerBoard>>(){ classicGetWinner, randomGetWinner, smallest5Multiple };
-        SingleSelectionMenu<GenericOption<WinnerBoard>> winnerGetterMenu = new SingleSelectionMenu<GenericOption<WinnerBoard>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER", false);
-        winnerGetterMenu.Show();
+        SingleSelectionMenu<GenericOption<WinnerBoard>> menu = new SingleSelectionMenu<GenericOption<WinnerBoard>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER", false);
+        menu.Show();
 
-        return winnerGetterMenu.Selected.Value;
+        return menu.Selected.Value;
+    }
+
+    public static PointsGetter GetWinnerPoints()
+    {
+        // Options
+        GenericOption<PointsGetter> classicPointsGetter = new GenericOption<PointsGetter>(PointsWinner.ClassicGetPoints, "Classic");
+        GenericOption<PointsGetter> get5MultiplesPoints = new GenericOption<PointsGetter>(PointsWinner.Get5MultiplesPoints, "5 Multiples");
+        // ...
+
+        List<GenericOption<PointsGetter>> boardWinnerGetters = new List<GenericOption<PointsGetter>>(){ classicPointsGetter, get5MultiplesPoints };
+        SingleSelectionMenu<GenericOption<PointsGetter>> menu = new SingleSelectionMenu<GenericOption<PointsGetter>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE WINNER'S POINTS", false);
+        menu.Show();
+
+        return menu.Selected.Value;
     }
 
     public static bool MakeSureCostumizationMenu()

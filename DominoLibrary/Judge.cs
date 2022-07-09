@@ -4,13 +4,13 @@ public class Judge
 {
     public OverBoard OverBoard {get; private set;}
     public WinnerBoard WinnerBoard {get; private set;}
-    public PointsGetter PointsWinner {get; private set;}
+    public PointsGetter WinnerPointsGetter {get; private set;}
 
     public Judge(OverBoard winB, WinnerBoard winnerB, PointsGetter pointsW)
     {
         OverBoard = winB;
         WinnerBoard = winnerB;
-        PointsWinner = pointsW;
+        WinnerPointsGetter = pointsW;
     }
 
     public bool IsValid(Board board, Token_onBoard token)
