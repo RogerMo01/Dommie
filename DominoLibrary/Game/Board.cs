@@ -112,22 +112,6 @@ public partial class Board : IGame
         Ends[1] = (token.Straight) ? token.Right : token.Left;
     }
 
-
-    public bool IsPlayableByRight(Token token)
-    {
-        if(Ends[1] == token.Left || Ends[1] == token.Right) return true;
-        
-        return false;
-    }
-
-    public bool Straight(Token token, bool playRight)
-    {
-        if(playRight && (Ends[1] == token.Left)) { return true; }
-        if(!playRight && (Ends[0] == token.Right)) { return true; }
-
-        return false; 
-    }
-
     public void SetGamePrinter(GamePrinter gp)
     {
         GamePrinter = gp;
