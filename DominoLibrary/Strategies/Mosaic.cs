@@ -4,79 +4,108 @@ public class Mosaic : IStrategy
 {
     public Token_onBoard Play(Board board, List<Token> tokens, IPlayer player)
     {
-        Token result = tokens[0];
-        
         int maxToken = board.GameTokens[board.GameTokens.Count - 1].Right;
        
-        int[] total = new int[maxToken + 1];
+        int[] countPerToken = new int[maxToken + 1];
         foreach (var token in tokens)
         {
-            total[token.Left] ++;
-            total[token.Right] ++;
+            countPerToken[token.Left] ++;
+            countPerToken[token.Right] ++;
         }
 
-        int countToken = 0;
-        int maxEnd = 0;
+        int max = CurrentMaximum(board, tokens, countPerToken);
+        
+        List<Token> auxTokens = new List<Token>();
+        foreach (var token in tokens)
+        {
+            if(max.Equals(token.Left) || max.Equals(token.Right))
+            {
+                auxTokens.Add(token);
+            }
+        }
+
+        Token current = TokenMostAmountHand(auxTokens, countPerToken, max);
+    
+        bool playRight = true ? (board.Ends[1].Equals(current.Left) || board.Ends[1].Equals(current.Right) || board.BoardTokens.Count == 0) : playRight = false;
+
+        Token_onBoard result = new Token_onBoard(current, true, player, playRight);
+        if(board.Judge.IsValid(board, result)) return result;
+        else return new Token_onBoard(current, false, player, playRight);
+    }
+
+    private Token TokenMostAmountHand(List<Token> tokens, int[] countPerToken, int max)
+    {
+        Token result = tokens.First();
+        int aux = 0;
+
+        foreach (var token in tokens)
+        {
+            int current = 0;
+            if(token.Left != max)
+            {
+                current = countPerToken[token.Left];
+            }
+
+            else current = countPerToken[token.Right];
+
+            if(current == aux)
+            {
+                if(result.Points < token.Points) result = token;
+            }
+            
+            if(current > aux)
+            { 
+                aux = current;
+                result = token;
+            }
+        }
+
+        return result;
+    }
+ 
+    private int CurrentMaximum(Board board, List<Token> tokens, int[] countPerToken)
+    {
+        int max = 0;
+        int currentMax = 0;
 
         if(board.BoardTokens.Count == 0)
         {
-            for (int i = 0; i < total.Length; i++)
+            for (int i = 0; i < countPerToken.Length; i++)
             {
-                if(total[i] > countToken)
+                if(countPerToken[i] == currentMax)
                 {
-                    countToken = total[i];
-                    maxEnd = i;
+                    if(i > max) max = i;
+                }
+
+                if(countPerToken[i] > currentMax)
+                {
+                    currentMax = countPerToken[i];
+                    max = i;
                 }
             }
         }
-
         else
         {
-            if(total[board.Ends[0]] == total[board.Ends[1]]) maxEnd = Math.Max(board.Ends[0], board.Ends[1]);
-
-            if(total[board.Ends[0]] > total[board.Ends[1]])
+            
+            for (int i = 0; i < board.Ends.Length; i++)
             {
-                maxEnd = board.Ends[0];
-            }
-            else maxEnd = board.Ends[1];
-        }
-
-        int count = 0;
-        GetToken(ref maxEnd, ref count, tokens, total, ref result);
-
-        bool playRight = board.IsPlayableByRight(result);
-        bool straight = board.Straight(result, playRight);
-
-        return new Token_onBoard(result, straight, player, playRight);
-    } 
-
-    private void GetToken(ref int maxEnd, ref int count, List<Token> tokens, int[] total, ref Token result)
-    {
-        foreach (var token in tokens)
-        {
-            if((token.Left == maxEnd) || (token.Right == maxEnd))
-            {
-                if(token.Left == maxEnd)
+                if(countPerToken[board.Ends[i]] > currentMax)
                 {
-                    if(total[token.Right] > count)
-                    {
-                        count = total[token.Right];
-                        result = token;
-                    }
+                    currentMax = countPerToken[board.Ends[i]];
+                    max = board.Ends[i];
                 }
 
-                else
+                if(countPerToken[board.Ends[i]] == currentMax)
                 {
-                    if(total[token.Left] > count)
-                    {
-                        count = total[token.Left];
-                        result = token;
-                    }
+                    if(board.Ends[i] > max) max = board.Ends[i];
                 }
             }
         }
+
+        return max;
     }
 
+    
     public override string ToString() => "Mosaic";
     public string Info { get; } = " This Player will always try to keep a mosaic of diferent tokens in hand";
 }

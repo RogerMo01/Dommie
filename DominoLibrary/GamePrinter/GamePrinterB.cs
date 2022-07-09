@@ -19,6 +19,11 @@ public partial class GamePrinter
 
     public void PrintPlay()
     {
+        if(Board!.Players.ToArray().Any(x => x is HumanPlayer))
+        {
+            Console.Clear();
+        }
+
         int size = Board!.Plays.Count;
         Token_onBoard play = Board.Plays[size - 1].token_OnBoard;
         IPlayer player = Board.Plays[size - 1].player;

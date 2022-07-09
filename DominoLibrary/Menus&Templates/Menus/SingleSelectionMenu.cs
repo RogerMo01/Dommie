@@ -123,12 +123,20 @@ public class SingleSelectionMenu<T>
             {
                 System.Console.WriteLine("\n                       Continue");
             }
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($"\nPress ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("RIGHT ARROW");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($" to select Continue option");
         }
 
         Console.ForegroundColor = ConsoleColor.White;
-        Console.Write($"\nSelect and Press ");
+        Console.Write($"\nSelect an option and Press ");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("ENTER");
         Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($" to customize it\n");
     }
 }

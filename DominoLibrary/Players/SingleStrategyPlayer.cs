@@ -1,12 +1,12 @@
 namespace DominoLibrary;
 
-public class Player : IPlayer
+public class SingleStrategyPlayer : IPlayer
 {
     public string Name { get; }
     public List<IStrategy> Strategies { get; }
     public ConsoleColor Color { get; }
 
-    public Player(string name, List<IStrategy> strategies, ConsoleColor color)
+    public SingleStrategyPlayer(string name, List<IStrategy> strategies, ConsoleColor color)
     {
         Name = name;
         Strategies = strategies;

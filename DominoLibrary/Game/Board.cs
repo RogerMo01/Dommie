@@ -61,15 +61,13 @@ public partial class Board : IGame
         {
             // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
-
-            if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+            
+            // freeze two seconds per play
+            if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
 
             // only if current player have token to play or it's initial play
             if((HaveToken(player)) || BoardTokens.Count == 0)
             {
-                // freeze two seconds per play when a human is playing
-                if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
-
                 do
                 {
                     token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
@@ -96,7 +94,7 @@ public partial class Board : IGame
         // gets the winner of the board
         (Team players , int score) winner = Judge.WinnerBoard(this.Clone(), Judge.WinnerPointsGetter, PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
     
-        GamePrinter.PrintBoardWinner(winner.players, winner.score);
+        GamePrinter!.PrintBoardWinner(winner.players, winner.score);
         
         if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
         
@@ -112,31 +110,6 @@ public partial class Board : IGame
         token = BoardTokens.Last!.Value;
 
         Ends[1] = (token.Straight) ? token.Right : token.Left;
-    }
-
-    public bool Playable(Token token)
-    {
-        foreach (var item in Ends)
-        {
-            if(item == token.Left || item == token.Right) return true;
-        }
-
-        return false;
-    }
-
-    public bool IsPlayableByRight(Token token)
-    {
-        if(Ends[1] == token.Left || Ends[1] == token.Right) return true;
-        
-        return false;
-    }
-
-    public bool Straight(Token token, bool playRight)
-    {
-        if(playRight && (Ends[1] == token.Left)) { return true; }
-        if(!playRight && (Ends[0] == token.Right)) { return true; }
-
-        return false; 
     }
 
     public void SetGamePrinter(GamePrinter gp)
@@ -180,6 +153,6 @@ public partial class Board : IGame
 
         Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
         
-        return toReturn; //________________________________________________________________________________________________________________________________________________
+        return toReturn;
     }
 }

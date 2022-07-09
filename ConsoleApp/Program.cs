@@ -1,4 +1,5 @@
 ﻿using DominoLibrary;
+using System.Runtime.InteropServices;
 using Utils;
 
 namespace ConsoleApp;
@@ -9,13 +10,21 @@ class ConsoleApp
     public static void Main()
     {
         Console.Title = "Dommie";
-        Console.SetWindowSize( 110, 30 );
+
+        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            Console.SetWindowSize( 110, 30 );
+        }
+
         SayHiDommie();
 
         Lapse l = new Lapse(5);
 
+        MainSkipIntro();
+    }
+    public static void MainSkipIntro()
+    {
         MenuExplorer menu = new MenuExplorer();
-
         Console.ForegroundColor = ConsoleColor.White;
     }
     
@@ -54,12 +63,10 @@ class MenuExplorer
         new BotaGorda(),
         new Mosaic()
     };
-    
+
 
     bool HumanPlay;
     bool JustBoardGame;
-    int BaseMaxToken = 6;
-    bool SinglePlayer;
     List<Team> Teams = new();
     ITemplate Template;
     IGame Game;
@@ -70,18 +77,17 @@ class MenuExplorer
 
         JustBoardGame = Menus.GameModeMenu();
 
-        SinglePlayer = Menus.SinglePlayerOrTeamMenu();
-
         ITemplate custom = new CustomTemplate();
-        Template = Menus.TemplateMenu(Strategies, custom, SinglePlayer, HumanPlay);
+        Template = Menus.TemplateMenu(Strategies, custom, HumanPlay);
 
+        // Customize Menu Option
         if(Template.Equals(custom))
         {
             bool agreeCustomization = false;
             do
             {
-                CustomizeGame customizer = new CustomizeGame(Strategies, HumanPlay, JustBoardGame, SinglePlayer, Teams);
-                Template = customizer.Start();
+                CustomizeGame customizer = new CustomizeGame(Strategies, HumanPlay, Teams);
+                Template = customizer.Start(ref JustBoardGame);
 
                 agreeCustomization = Menus.MakeSureCostumizationMenu();
 
@@ -92,12 +98,29 @@ class MenuExplorer
         Game = (JustBoardGame) ? Template.Board : Template.Tournament;
 
         GamePrinter gp = new GamePrinter();
-        Game.SetGamePrinter(gp); // attach observer
+        Game.SetGamePrinter(gp); // attach printer
         
         QuickScreen quickScreen = new("All set, the game will start soon");
         quickScreen.Show();
         
         Game.Start();
+
+        Console.WriteLine("Press any key to end game");
+        Console.ReadKey();
+
+        if(PlayAgainMenu()) { ConsoleApp.MainSkipIntro(); }
+    }
+
+    private bool PlayAgainMenu()
+    {
+        SimpleOption playAgainOption = new SimpleOption("Play again");
+        SimpleOption quitOption = new SimpleOption("Quit");
+
+        List<SimpleOption> options = new List<SimpleOption>(){ playAgainOption, quitOption };
+        SingleSelectionMenu<SimpleOption> menu = new SingleSelectionMenu<SimpleOption>(options, "THANKS FOR PLAYING DOMMIE, now what? ", false);
+        menu.Show();
+
+        return menu.Selected.Equals(playAgainOption);
     }
 
 }
