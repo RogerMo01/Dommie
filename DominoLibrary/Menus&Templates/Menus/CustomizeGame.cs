@@ -7,8 +7,7 @@ public class CustomizeGame
 {
     List<IStrategy> Strategies;
     bool HumanPlay;
-    bool SinglePlayerGame;
-    bool JustBoardGame;
+    bool SinglePlayerGame = true;
     int BaseMaxToken = 6;
     int MaxToken = 6;
     int ScoreTournamentWin = 100;
@@ -19,12 +18,10 @@ public class CustomizeGame
     WinnerBoard GetWinnerJudgment = BoardWinners.ClassicGetWinner;
     PointsGetter GetWinnerPoints = PointsWinner.ClassicGetPoints;
 
-    public CustomizeGame(List<IStrategy> strategies, bool humanPlay, bool justBoard, bool singlePlayer, List<Team> teams)
+    public CustomizeGame(List<IStrategy> strategies, bool humanPlay, List<Team> teams)
     {
         Strategies = strategies;
         HumanPlay = humanPlay;
-        JustBoardGame = justBoard;
-        SinglePlayerGame = singlePlayer;
         Players = TemplateUtils.GeneratePlayers(NumberPlayers, Strategies);
 
         if(HumanPlay)
@@ -33,27 +30,21 @@ public class CustomizeGame
             Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
         }
 
-        if(SinglePlayerGame)
-        {
-            Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
-        }
-        else
-        {
-            Teams = TemplateUtils.AssignTeamsClassic(Players);
-        }
+        Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
     }
 
-    public ITemplate Start()
+    public ITemplate Start(ref bool JustBoardGame)
     {
+        SimpleOption justBoardMenu = new SimpleOption("Game Mode");
         SimpleOption playersMenu = new SimpleOption("Players");
         SimpleOption teamsMenu = new SimpleOption("Teams");
         SimpleOption maxTokenMenu = new SimpleOption("Max Token");
         SimpleOption overBoardMenu = new SimpleOption("Over Board Condition");
         SimpleOption getWinnerMenu = new SimpleOption("Winner getter Judgment");
-        SimpleOption getPoints = new SimpleOption("Points getter Judgment");
+        SimpleOption getPointsMenu = new SimpleOption("Points getter Judgment");
         SimpleOption scoreMenu = new SimpleOption("Set Tournament Win Score");
 
-        List<SimpleOption> options = new(){ playersMenu, teamsMenu, maxTokenMenu, overBoardMenu, getWinnerMenu, scoreMenu };
+        List<SimpleOption> options = new(){ justBoardMenu, playersMenu, teamsMenu, maxTokenMenu, overBoardMenu, getWinnerMenu, getPointsMenu, scoreMenu };
 
         SingleSelectionMenu<SimpleOption> menu = new(options, "CUSTOMIZE THE GAME", true);
         
@@ -63,7 +54,11 @@ public class CustomizeGame
 
             switch (menu.SelectedIndex)
             {
-                case 0: //Players
+                case 0:
+                JustBoardGame = Menus.GameModeMenu();
+                break;
+
+                case 1: //Players
                 CustomizePlayers();
                 if(SinglePlayerGame)
                 {
@@ -75,36 +70,38 @@ public class CustomizeGame
                 }
                 break;
 
-                case 1:
+                case 2:
                 CustomizeTeams();
                 break;
 
-                case 2:
+                case 3:
                 MaxToken = Menus.MaxTokenMenu(BaseMaxToken);
                 break;
 
-                case 3:
+                case 4:
                 OverBoardCondition = Menus.OverConditionMenu();
                 break;
 
-                case 4:
+                case 5:
                 GetWinnerJudgment = Menus.GetWinnerMenu();
                 break;
 
-                case 5:
+                case 6:
                 GetWinnerPoints = Menus.GetWinnerPoints();
                 break;
 
-                case 6:
+                case 7:
                 if(!JustBoardGame)
                 {
                     WriteMenu scoreWriteMenu = new WriteMenu("DECIDE AND WRITE THE NEEDED POINTS TO WIN THE TOURNAMENT");
                     scoreWriteMenu.Show();
                     ScoreTournamentWin = scoreWriteMenu.Selected;
                 }
-                break;
-
-                case -1: // Continue Option
+                else
+                {
+                    QuickScreen screen = new QuickScreen("No allowed in Single Play", 3);
+                    screen.Show();
+                }
                 break;
 
                 default:
