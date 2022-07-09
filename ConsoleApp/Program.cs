@@ -1,4 +1,5 @@
 ﻿using DominoLibrary;
+using System.Runtime.InteropServices;
 using Utils;
 
 namespace ConsoleApp;
@@ -9,7 +10,12 @@ class ConsoleApp
     public static void Main()
     {
         Console.Title = "Dommie";
-        Console.SetWindowSize( 110, 30 );
+
+        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            Console.SetWindowSize( 110, 30 );
+        }
+
         SayHiDommie();
 
         Lapse l = new Lapse(5);
@@ -58,7 +64,6 @@ class MenuExplorer
 
     bool HumanPlay;
     bool JustBoardGame;
-    int BaseMaxToken = 6;
     bool SinglePlayer;
     List<Team> Teams = new();
     ITemplate Template;
@@ -98,6 +103,26 @@ class MenuExplorer
         quickScreen.Show();
         
         Game.Start();
+
+        Console.WriteLine("Press any key to end game");
+        Console.ReadKey();
+
+        if(PlayAgainMenu()) { ConsoleApp.Main(); }
+        
     }
+
+    private bool PlayAgainMenu()
+    {
+        SimpleOption playAgainOption = new SimpleOption("Play again");
+        SimpleOption quitOption = new SimpleOption("Quit");
+
+        List<SimpleOption> options = new List<SimpleOption>(){ playAgainOption, quitOption };
+        SingleSelectionMenu<SimpleOption> menu = new SingleSelectionMenu<SimpleOption>(options, "THANKS FOR PLAYING DOMMIE, now what? ", false);
+        menu.Show();
+
+        return menu.Selected.Equals(playAgainOption);
+    }
+
+
 
 }

@@ -133,7 +133,7 @@ public class SingleSelectionMenu<T>
         }
 
         Console.ForegroundColor = ConsoleColor.White;
-        Console.Write($"Select an option and Press ");
+        Console.Write($"\nSelect an option and Press ");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.Write("ENTER");
         Console.ForegroundColor = ConsoleColor.White;

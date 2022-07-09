@@ -61,14 +61,14 @@ public partial class Board : IGame
         {
             // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
-
-            if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+            
+            // freeze two seconds per play
+            if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
 
             // only if current player have token to play or it's initial play
             if((HaveToken(player)) || BoardTokens.Count == 0)
             {
-                // freeze two seconds per play when a human is playing
-                if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
+                //if(Settings.HumanPlay) { Lapse l = new Lapse(1); }
 
                 do
                 {
@@ -96,7 +96,7 @@ public partial class Board : IGame
         // gets the winner of the board
         (Team players , int score) winner = Judge.WinnerBoard(this.Clone(), Judge.WinnerPointsGetter, PlayersTokens.ToDictionary(x => x.Key, x => x.Value));
     
-        GamePrinter.PrintBoardWinner(winner.players, winner.score);
+        GamePrinter!.PrintBoardWinner(winner.players, winner.score);
         
         if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
         
