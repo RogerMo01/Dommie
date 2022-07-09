@@ -60,7 +60,7 @@ class MenuExplorer
         new BotaGorda(),
         new Mosaic()
     };
-    
+
 
     bool HumanPlay;
     bool JustBoardGame;
@@ -107,7 +107,6 @@ class MenuExplorer
         Console.ReadKey();
 
         if(PlayAgainMenu()) { ConsoleApp.Main(); }
-        
     }
 
     private bool PlayAgainMenu()
@@ -121,7 +120,5 @@ class MenuExplorer
 
         return menu.Selected.Equals(playAgainOption);
     }
-
-
 
 }

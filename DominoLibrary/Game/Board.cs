@@ -153,6 +153,6 @@ public partial class Board : IGame
 
         Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
         
-        return toReturn; //________________________________________________________________________________________________________________________________________________
+        return toReturn;
     }
 }

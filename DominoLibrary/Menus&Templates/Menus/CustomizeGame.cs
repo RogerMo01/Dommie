@@ -145,6 +145,5 @@ public class CustomizeGame
             Teams = Menus.AssignTeamsMenu(Players, SinglePlayerGame, HumanPlay);
             // ~~~~~~~~~~~~~~~~~~~~~~
         }
-        
     }
 }

@@ -2,7 +2,6 @@ using DominoLibrary;
 using Utils;
 namespace ConsoleApp;
 
-
 public class CrazyTokenTemplate : ITemplate
 {
     public Board Board { get; private set; }
