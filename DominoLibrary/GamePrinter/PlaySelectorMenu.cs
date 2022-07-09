@@ -7,12 +7,15 @@ public class PlaySelectorMenu
     public string Title { get; private set; } = " === Choose a Token to play ===";
     public int SelectedIndex { get; private set; } = 0;
     Board Board;
+    Dictionary<IPlayer, int> PlayersTokensLeft;
 
-    public PlaySelectorMenu(List<Token> selectionables, Board board)
+
+    public PlaySelectorMenu(List<Token> selectionables, Board board, Dictionary<IPlayer, int> playersTokensLeft)
     {
         Selectionables = selectionables;
         Selected = Selectionables.First();
         Board = board;
+        PlayersTokensLeft = playersTokensLeft;
     }
 
     public void Modify(ConsoleKey key)
@@ -88,12 +91,14 @@ public class PlaySelectorMenu
         Console.Write(" to play it\n");
 
         PrintBoard();
+        PrintUnknownTokens();
+        PrintLastPlays();        
     }
 
     private void PrintBoard()
     {
         Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.WriteLine("\n Board Tokens:");
+        Console.WriteLine($"=== Board Tokens: ===");
         Console.WriteLine("");
 
         foreach (var item in Board.BoardTokens)
@@ -103,18 +108,45 @@ public class PlaySelectorMenu
         }
 
         Console.WriteLine("\n");
+    }
 
+    private void PrintUnknownTokens()
+    {
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine($"=== Player's Tokens Left: ===");
         IPlayer[] players = Board.Players.ToArray();
+
+        int largestName = players.Max(x => x.Name.Length);
 
         foreach (var player in players)
         {
+            int currentNameLength = player.Name.Length;
+
             Console.ForegroundColor = player.Color;
-            Console.WriteLine(player);
+            Console.Write($"\n{player}:");
+
+            // fill with blanks ~~~
+            for (int i = 0; i < largestName - currentNameLength; i++)
+            {
+                Console.Write(" ");
+            }// ~~~~~~~~~~~~~~~~~~~
+
+            // print tokens
+            for (int i = 0; i < PlayersTokensLeft[player]; i++)
+            {
+                if(player is HumanPlayer)
+                {
+                    Console.Write(" " + Selectionables[i]);
+                }
+                else
+                {
+                    Console.Write(" [?:?]");
+                }
+            }
         }
         Console.WriteLine("\n");
-
-        PrintLastPlays();        
     }
+
     private void PrintLastPlays()
     {
         int lastPlays = Math.Min(Board.Players.Count * 2, Board.Plays.Count);
@@ -137,7 +169,7 @@ public class PlaySelectorMenu
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = play.player.Color;
                 Console.WriteLine($"{play.player} play {play.token}");
             }
 
@@ -147,7 +179,6 @@ public class PlaySelectorMenu
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.White;
-
     }
 
 

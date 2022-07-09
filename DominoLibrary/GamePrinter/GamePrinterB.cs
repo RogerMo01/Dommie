@@ -19,6 +19,8 @@ public partial class GamePrinter
 
     public void PrintPlay()
     {
+        Console.Clear();
+        
         int size = Board!.Plays.Count;
         Token_onBoard play = Board.Plays[size - 1].token_OnBoard;
         IPlayer player = Board.Plays[size - 1].player;

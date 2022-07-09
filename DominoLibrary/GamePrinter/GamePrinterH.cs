@@ -7,7 +7,7 @@ public partial class GamePrinter
     {
         List<Token> tokens = PlayerTokens![player];
 
-        PlaySelectorMenu tokenSelectorMenu = new(tokens, Board!.Clone());
+        PlaySelectorMenu tokenSelectorMenu = new(tokens, Board!.Clone(), GetTokensLeft());
         tokenSelectorMenu.Show();
         Token selectedToken = tokenSelectorMenu.Selected;
 
@@ -22,4 +22,15 @@ public partial class GamePrinter
         Token_onBoard play = new Token_onBoard(tokenSelectorMenu.Selected, Board.Straight(selectedToken, playRight), player, playRight);
         return play;
     }
+    private Dictionary<IPlayer, int> GetTokensLeft()
+    {
+        Dictionary<IPlayer, int> playersTokensLeft = new Dictionary<IPlayer, int>();
+
+        foreach (var player in PlayerTokens!)
+        {
+            playersTokensLeft.Add(player.Key, player.Value.Count);
+        }
+
+        return playersTokensLeft;
+    } 
 }
