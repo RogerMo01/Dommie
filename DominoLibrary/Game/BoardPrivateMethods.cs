@@ -52,38 +52,6 @@ public partial class Board
         }
     }
 
-    private static Dictionary<IPlayer, List<Token>> HandOut(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
-    {
-        Dictionary<IPlayer, List<Token>> result = new Dictionary<IPlayer, List<Token>>();
-
-        List<Token> clonedTokens = tokens.ToList();
-
-        Node<IPlayer> firstPlayer = players.First;
-
-        for (int i = 0; i < players.Count; i++)
-        {
-            result.Add(firstPlayer.Value, HandOutToOnePlayer(clonedTokens, tokensPerPlayer));
-            firstPlayer = firstPlayer.Next!;
-        }
-
-        return result;
-    }
-
-    private static List<Token> HandOutToOnePlayer(List<Token> tokens, int tokensPerPlayer)
-    {
-        List<Token> playerTokens = new List<Token>();
-        Random random = new Random();
-
-        for (int i = 0; i < tokensPerPlayer ; i++)  
-        {
-            int index = random.Next(tokens.Count - 1);
-            playerTokens.Add(tokens[index]);
-            tokens.RemoveAt(index);
-        }
-
-        return playerTokens;
-    }
-
     private Token GetCrazyToken()
     {
         int handOut = Settings.TokensPerPlayer;
