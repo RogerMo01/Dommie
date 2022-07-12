@@ -68,6 +68,20 @@ public static partial class Menus
         return menu.SelectedIndex + baseMaxToken;
     }
 
+    public static HandOut HandOutMenu()
+    {
+        // Options
+        GenericOption<HandOut> randomHandOut = new GenericOption<HandOut>(HandOuts.Random_HandOut, "Random");
+        GenericOption<HandOut> biggerFirst = new GenericOption<HandOut>(HandOuts.BiggerFirst, "Bigger First");
+        // ...
+
+        List<GenericOption<HandOut>> options = new List<GenericOption<HandOut>>(){ randomHandOut, biggerFirst };
+        SingleSelectionMenu<GenericOption<HandOut>> menu = new SingleSelectionMenu<GenericOption<HandOut>>(options, "CHOOSE HAND OUT JUDGMENT", false);
+        menu.Show();
+
+        return menu.Selected.Value;
+    }
+
     public static OverBoard OverConditionMenu()
     {
         // Options

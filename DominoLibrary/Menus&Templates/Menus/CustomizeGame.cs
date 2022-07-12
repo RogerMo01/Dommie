@@ -17,6 +17,7 @@ public class CustomizeGame
     OverBoard OverBoardCondition = BoardOvers.ClassicOverBoard;
     WinnerBoard GetWinnerJudgment = BoardWinners.ClassicGetWinner;
     PointsGetter GetWinnerPoints = PointsWinner.ClassicGetPoints;
+    HandOut HandOutJudgment = HandOuts.Random_HandOut;
 
     public CustomizeGame(List<IStrategy> strategies, bool humanPlay, List<Team> teams)
     {
@@ -39,12 +40,13 @@ public class CustomizeGame
         SimpleOption playersMenu = new SimpleOption("Players");
         SimpleOption teamsMenu = new SimpleOption("Teams");
         SimpleOption maxTokenMenu = new SimpleOption("Max Token");
+        SimpleOption handOutMenu = new SimpleOption("Hand Out Judgment");
         SimpleOption overBoardMenu = new SimpleOption("Over Board Condition");
         SimpleOption getWinnerMenu = new SimpleOption("Winner getter Judgment");
         SimpleOption getPointsMenu = new SimpleOption("Points getter Judgment");
         SimpleOption scoreMenu = new SimpleOption("Set Tournament Win Score");
 
-        List<SimpleOption> options = new(){ justBoardMenu, playersMenu, teamsMenu, maxTokenMenu, overBoardMenu, getWinnerMenu, getPointsMenu, scoreMenu };
+        List<SimpleOption> options = new(){ justBoardMenu, playersMenu, teamsMenu, maxTokenMenu, handOutMenu, overBoardMenu, getWinnerMenu, getPointsMenu, scoreMenu };
 
         SingleSelectionMenu<SimpleOption> menu = new(options, "CUSTOMIZE THE GAME", true);
         
@@ -79,18 +81,22 @@ public class CustomizeGame
                 break;
 
                 case 4:
-                OverBoardCondition = Menus.OverConditionMenu();
+                HandOutJudgment = Menus.HandOutMenu();
                 break;
 
                 case 5:
-                GetWinnerJudgment = Menus.GetWinnerMenu();
+                OverBoardCondition = Menus.OverConditionMenu();
                 break;
 
                 case 6:
-                GetWinnerPoints = Menus.GetWinnerPoints();
+                GetWinnerJudgment = Menus.GetWinnerMenu();
                 break;
 
                 case 7:
+                GetWinnerPoints = Menus.GetWinnerPoints();
+                break;
+
+                case 8:
                 if(!JustBoardGame)
                 {
                     WriteMenu scoreWriteMenu = new WriteMenu("DECIDE AND WRITE THE NEEDED POINTS TO WIN THE TOURNAMENT");
@@ -111,7 +117,7 @@ public class CustomizeGame
         } while (menu.Selected != null);      
         
 
-        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, GetWinnerPoints, Teams, HumanPlay);
+        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, GetWinnerPoints, Teams, HumanPlay, HandOutJudgment);
     }
 
     public void CustomizePlayers()

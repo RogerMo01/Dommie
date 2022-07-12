@@ -35,15 +35,18 @@ public class ClassicTemplate : ITemplate
         OverBoard winB = BoardOvers.ClassicOverBoard;
         WinnerBoard winnerB = BoardWinners.ClassicGetWinner;
         PointsGetter pointsGetter = PointsWinner.ClassicGetPoints;
-
+        
         Judge judge = new Judge(winB, winnerB, pointsGetter);
 
         // Inner
         Random r = new Random();
         int inner = r.Next(4);
 
-        Tournament = new Tournament(new TournamentSetting(players, maxToken, numberPlayers, 100, judge, teams, humanPlay));
-        Board = new Board(new BoardSetting(players, players.First, Tournament.GameTokens, Tournament.TokensPerPlayer, judge, teams, humanPlay));
+        // HandOut
+        HandOut handOut = HandOuts.Random_HandOut;
+
+        Tournament = new Tournament(new TournamentSetting(players, maxToken, numberPlayers, handOut, 100, judge, teams, humanPlay));
+        Board = new Board(new BoardSetting(players, players.First, Tournament.GameTokens, Tournament.TokensPerPlayer, handOut, judge, teams, humanPlay));
     }
 
     public override string ToString() => this.Title;

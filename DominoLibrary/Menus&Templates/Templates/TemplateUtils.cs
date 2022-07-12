@@ -89,14 +89,14 @@ public static class TemplateUtils
         return new SingleStrategyPlayer(names[nameChoice], new List<IStrategy>(){ strategies[strategyChoice] }, color);
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, List<Team> teams, bool humanPlay)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, List<Team> teams, bool humanPlay, HandOut handOut)
     {
         Judge judge = new Judge(winB, winnerB, pointsGetter);
 
-        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers,score, judge, teams, humanPlay);
+        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers, handOut, score, judge, teams, humanPlay);
         Tournament t = new Tournament(tS);
 
-        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, judge, teams, humanPlay);
+        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, handOut, judge, teams, humanPlay);
         Board b = new Board(bS);
 
         return new CustomTemplate(b, t);
