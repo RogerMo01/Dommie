@@ -9,11 +9,19 @@ public static class BoardOvers
     {
         if(token.IsPass()) return false;
 
-        if(board.ConsecutivePasses == board.Players.Count) return true;
+        if(AllPass(board.Plays, board.Players.Count)) return true;
         else
         {
             return PlayerWithoutToken(board, playersTokens);
         }
+    }
+    private static bool AllPass(List<(IPlayer player, Token_onBoard token_OnBoard)> plays, int numberPlayers)
+    {
+        for (int i = plays.Count - 1; i >= plays.Count - numberPlayers; i--)
+        {
+            if(plays[i].token_OnBoard.IsPass()) return false;
+        }
+        return true;
     }
 
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)

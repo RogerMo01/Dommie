@@ -12,7 +12,6 @@ public partial class Board : IGame
     public Judge Judge;
     Token CrazyToken;
     GamePrinter? GamePrinter;
-    public int ConsecutivePasses { get; private set; }
     public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new();
     public List<Team> Teams { get; private set;}
 
@@ -30,12 +29,11 @@ public partial class Board : IGame
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
-        ConsecutivePasses = 0;
         Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
 
         Teams = setting.Team!;
     }
-    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams, int consecPass)
+    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams)
     {
         Players = players;
         GameTokens = gameTokens;
@@ -44,7 +42,6 @@ public partial class Board : IGame
         Judge = judge;
         Plays = plays;
         Teams = teams;
-        ConsecutivePasses = consecPass;
         PlayersTokens = null!;
         Settings = null!;
         CrazyToken = null!;
@@ -73,12 +70,6 @@ public partial class Board : IGame
                     token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
                 } 
                 while (!Judge.IsValid(this.Clone(), token.Clone()));
-
-                ConsecutivePasses = 0;
-            }
-            else
-            {
-                ConsecutivePasses ++;
             }
             
             Plays.Add((player, token));
@@ -151,7 +142,7 @@ public partial class Board : IGame
         // Teams
         List<Team> newTeams = Teams.ToList();
 
-        Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
+        Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams);
         
         return toReturn;
     }
