@@ -17,11 +17,14 @@ public static class BoardOvers
     }
     private static bool AllPass(List<(IPlayer player, Token_onBoard token_OnBoard)> plays, int numberPlayers)
     {
+        if(plays.Count < numberPlayers) return false;
+        bool result = true;
+
         for (int i = plays.Count - 1; i >= plays.Count - numberPlayers; i--)
         {
-            if(plays[i].token_OnBoard.IsPass()) return false;
+            if(!plays[i].token_OnBoard.IsPass()) result = false;
         }
-        return true;
+        return result;
     }
 
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
