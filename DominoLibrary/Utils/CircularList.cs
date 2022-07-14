@@ -7,17 +7,24 @@ public class CircularList<T> : IEnumerable<T>
     public Node<T> First { get; set; }
     public Node<T> Last { get; set; }
     public int Count { get; private set; }
+    IEnumerator<T> Enumerator;
 
-    public CircularList(T initialValue)
+    public CircularList(T initialValue) : this(new Node<T>(initialValue)){ }
+    public CircularList(Node<T> initialNode)
     {
-        Node<T> node = new Node<T>(initialValue);
         Count = 1;
 
-        First = node;
-        Last = node;
+        First = initialNode;
+        Last = initialNode;
 
-        node.Next = node;
-        node.Previous = node;
+        initialNode.Next = initialNode;
+        initialNode.Previous = initialNode;
+
+        Enumerator = new CircularEnumerator<T>(initialNode);
+    }
+    public CircularList(Node<T> initialNode, IEnumerator<T> enumerator) : this(initialNode)
+    {
+        Enumerator = enumerator;
     }
 
     public void AddLast(T item) 
@@ -80,7 +87,7 @@ public class CircularList<T> : IEnumerable<T>
     
     public IEnumerator<T> GetEnumerator()
     {
-        return new CircularEnumerator<T>(First);
+        return Enumerator;
     }
 
     IEnumerator IEnumerable.GetEnumerator()

@@ -113,7 +113,8 @@ public partial class Board : IGame
     {
         // Players
         IPlayer[] newPlayersArr = Players.ToArray();
-        CircularList<IPlayer> newPlayers = new CircularList<IPlayer>(newPlayersArr[0]);
+        Node<IPlayer> firstNode = new Node<IPlayer>(newPlayersArr[0]);
+        CircularList<IPlayer> newPlayers = new CircularList<IPlayer>(firstNode, new ClassicEnumerator<IPlayer>(firstNode));
         for (int i = 1; i < newPlayersArr.Length; i++)
         {
             newPlayers.AddLast(newPlayersArr[i]);
