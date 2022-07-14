@@ -8,11 +8,11 @@ class CircularEnumerator<T> : IEnumerator<T>
     Node<T> CurrentNode;
     public CircularEnumerator(Node<T> first)
     {
-        CurrentNode = first.Previous!;
+        CurrentNode = first!;
         First = first;
     }
 
-    public T Current => CurrentNode.Value;
+    public T Current => CurrentNode.Previous!.Value;
 
     object IEnumerator.Current => Current!;
 
