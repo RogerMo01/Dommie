@@ -94,4 +94,16 @@ public class CircularList<T> : IEnumerable<T>
     {
         return GetEnumerator();
     }
+
+    public CircularList<T> Clone()
+    {
+        T[] arr = this.ToArray();
+        Node<T> node = new Node<T>(arr[0]);
+        CircularList<T> result = new CircularList<T>(node, new ClassicEnumerator<T>(node));
+        for (int i = 1; i < Count; i++)
+        {
+            result.AddLast(arr[i]);
+        }
+        return result;
+    }
 }

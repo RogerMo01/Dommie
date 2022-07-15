@@ -24,7 +24,7 @@ public partial class Board : IGame
         GameTokens = setting.GameTokens;
         Judge = setting.Judge!;
 
-        PlayersTokens = setting.HandOut!(GameTokens, Players, setting.TokensPerPlayer);
+        PlayersTokens = setting.HandOut!(GameTokens, Players.Clone(), setting.TokensPerPlayer);
         CrazyToken = GetCrazyToken();
 
         BoardTokens = new LinkedList<Token_onBoard>();   
@@ -123,13 +123,7 @@ public partial class Board : IGame
     public Board Clone()
     {
         // Players
-        IPlayer[] newPlayersArr = Players.ToArray();
-        Node<IPlayer> firstNode = new Node<IPlayer>(newPlayersArr[0]);
-        CircularList<IPlayer> newPlayers = new CircularList<IPlayer>(firstNode, new ClassicEnumerator<IPlayer>(firstNode));
-        for (int i = 1; i < newPlayersArr.Length; i++)
-        {
-            newPlayers.AddLast(newPlayersArr[i]);
-        }
+        CircularList<IPlayer> newPlayers = Players.Clone();
 
         // Game Tokens
         List<Token> newGameTokens = GameTokens.ToList();
