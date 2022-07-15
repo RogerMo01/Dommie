@@ -72,7 +72,7 @@ public static partial class Menus
     {
         // Options
         GenericOption<HandOut> randomHandOut = new GenericOption<HandOut>(HandOuts.Random_HandOut, "Random");
-        GenericOption<HandOut> biggerFirst = new GenericOption<HandOut>(HandOuts.BiggerFirst, "Bigger First");
+        GenericOption<HandOut> biggerFirst = new GenericOption<HandOut>(HandOuts.BiggerFirstUnfair, "Bigger First and Unfair");
         // ...
 
         List<GenericOption<HandOut>> options = new List<GenericOption<HandOut>>(){ randomHandOut, biggerFirst };
