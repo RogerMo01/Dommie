@@ -56,6 +56,8 @@ public partial class Board : IGame
         
         foreach (var player in Players)
         {
+            int wrongPlays = 0;
+
             // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
             
@@ -67,9 +69,18 @@ public partial class Board : IGame
             {
                 do
                 {
+                    if(wrongPlays >= 3)
+                    {
+                        token = new Pass(new Token(-1, -1), true, player, true);
+                        break;
+                    }
+
                     token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
+                    wrongPlays++;
                 } 
-                while (!Judge.IsValid(this.Clone(), token.Clone()));
+                while (!Judge.IsValid(this.Clone(), token.Clone()) && wrongPlays <= 3);
+
+                wrongPlays = 0;
             }
             
             Plays.Add((player, token));
