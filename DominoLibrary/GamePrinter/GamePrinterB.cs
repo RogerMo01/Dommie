@@ -85,17 +85,10 @@ public partial class GamePrinter
         if(winner == null) 
         {
             Console.WriteLine("\nTie Game");
-            return;
         }
-        try
+        else
         {
-            
             Console.WriteLine($"{winner} Win this round with {score} points");
-        }
-        catch (NullReferenceException)
-        {
-            //Console.WriteLine("\nTie Game");
-            System.Console.WriteLine("entro al vhg");
         }
         
         Console.ForegroundColor = ConsoleColor.White;
