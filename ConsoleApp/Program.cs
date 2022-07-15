@@ -61,7 +61,8 @@ class MenuExplorer
     List<IStrategy> Strategies = new List<IStrategy>()
     {
         new BotaGorda(),
-        new Mosaic()
+        new Mosaic(),
+        new Random_Strategy()
     };
 
 

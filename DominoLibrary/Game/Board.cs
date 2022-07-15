@@ -25,7 +25,7 @@ public partial class Board : IGame
         GameTokens = setting.GameTokens;
         Judge = setting.Judge!;
 
-        PlayersTokens = setting.HandOut(GameTokens, Players, setting.TokensPerPlayer);
+        PlayersTokens = setting.HandOut!(GameTokens, Players, setting.TokensPerPlayer);
         CrazyToken = GetCrazyToken();
 
         BoardTokens = new LinkedList<Token_onBoard>();   

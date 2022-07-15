@@ -13,7 +13,7 @@ public class Tournament : IGame
     public Judge Judge { get; private set; }
     public List<Team> Teams { get; private set;}
     bool HumanPlay;
-    HandOut HandOut {get; set;}
+    HandOut? HandOut {get; set;}
 
     public Tournament(TournamentSetting setting) 
     {
@@ -39,7 +39,7 @@ public class Tournament : IGame
             if(HumanPlay) { Lapse l = new Lapse(3); }
 
             // Initilize the Boards
-            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, HandOut, Judge, Teams, HumanPlay);
+            BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, HandOut!, Judge, Teams, HumanPlay);
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
 
