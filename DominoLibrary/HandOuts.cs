@@ -45,28 +45,27 @@ public static class HandOuts
 
         clonedTokens.Sort();
 
-        Node<IPlayer> currentPlayer = players.First;
+        IPlayer[] player = players.ToArray();
+        Random random = new Random();
+        int totalTokens = tokensPerPlayer * player.Length;
 
-        while(tokensPerPlayer != 0)
+        while(totalTokens != 0)
         {
-            for(int i = 0; i < players.Count; i++)
+            IPlayer currentPlayer = player[random.Next(player.Length)];
+    
+            int index = clonedTokens.Count - 1;
+
+            if(!result.ContainsKey(currentPlayer))
             {
-                int index = clonedTokens.Count - 1;
-
-                if(!result.ContainsKey(currentPlayer.Value))
-                {
-                    result.Add(currentPlayer.Value, new List<Token>(){clonedTokens[index]});
-                }
-                else
-                {
-                    result[currentPlayer.Value].Add(clonedTokens[index]);
-                }
-
-                clonedTokens.RemoveAt(index);
-                currentPlayer = currentPlayer.Next!;
+                result.Add(currentPlayer, new List<Token>(){clonedTokens[index]});
+            }
+            else
+            {
+                result[currentPlayer].Add(clonedTokens[index]);
             }
 
-            tokensPerPlayer--;
+            clonedTokens.RemoveAt(index);
+            totalTokens--;
         }
 
         return result;
