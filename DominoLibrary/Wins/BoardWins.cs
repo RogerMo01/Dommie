@@ -27,9 +27,12 @@ public static class BoardOvers
 
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token crazyToken)
     {
+        // crazy token on board
         if(board.Plays.Last().token_OnBoard.Equals(crazyToken)) return true;
-
-        return false;
+        else
+        {
+            return ClassicOverBoard(board, playersTokens, crazyToken);
+        } 
     }
 
     private static bool PlayerWithoutToken(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
