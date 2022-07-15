@@ -21,15 +21,8 @@ public class CrazyTokenTemplate : ITemplate
         }
         CircularList<IPlayer> players = TemplateUtils.ToCircularList(listPlayers);
 
-        // Teams
-        if(singlePlayer)
-        {
-            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList(), false);
-        }
-        else
-        {
-            teams = TemplateUtils.AssignTeamsClassic(players.ToArray().ToList());
-        }
+        // Teams        
+        teams = TemplateUtils.AssignTeamsClassic(players.ToArray().ToList());
 
         // Judge
         OverBoard winB = BoardOvers.CrazyTokenWinBoard;
