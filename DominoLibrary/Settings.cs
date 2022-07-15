@@ -7,7 +7,7 @@ public abstract class Setting
     public Judge? Judge { get; set; }
     public List<Team>? Team { get; set; }
     public bool HumanPlay { get; set; }
-    public HandOut HandOut {get; set; }
+    public HandOut? HandOut {get; set; }
 
 }
 
