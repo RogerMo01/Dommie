@@ -28,7 +28,7 @@ public class CustomizeGame
         if(HumanPlay)
         {
             Random r = new();
-            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0], ConsoleColor.White);
         }
 
         Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
@@ -131,7 +131,7 @@ public class CustomizeGame
         if(HumanPlay)
         {
             Random r = new();
-            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0], ConsoleColor.White);
         }
         
         if(!HumanPlay)

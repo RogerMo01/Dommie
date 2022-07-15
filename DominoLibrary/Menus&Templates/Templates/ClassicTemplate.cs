@@ -17,7 +17,7 @@ public class ClassicTemplate : ITemplate
         if(humanPlay) // set first player as human
         {
             Random rand = new();
-            listPlayers[rand.Next(4)] = new HumanPlayer(strategies, ConsoleColor.White);
+            listPlayers[rand.Next(4)] = new HumanPlayer(strategies[0], ConsoleColor.White);
         }
         CircularList<IPlayer> players = TemplateUtils.ToCircularList(listPlayers);
 

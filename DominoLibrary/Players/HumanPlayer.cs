@@ -5,14 +5,14 @@ public class HumanPlayer : IPlayer
 {
     public string Name { get; } = "You";
 
-    public List<IStrategy> Strategies { get; }
+    public IStrategy Strategy { get; }
 
     public ConsoleColor Color { get; }
 
 
-    public HumanPlayer(List<IStrategy> strategies, ConsoleColor color)
+    public HumanPlayer(IStrategy strategies, ConsoleColor color)
     {
-        Strategies = strategies;
+        Strategy = strategies;
         Color = color;
     }
 

@@ -153,7 +153,7 @@ public static partial class Menus
             SingleSelectionMenu<GenericOption<IStrategy>> menuPlayer = new SingleSelectionMenu<GenericOption<IStrategy>>(strategyOptions, $"Customize {players[i]}", false);
             menuPlayer.Show();
 
-            players[i] = (new SingleStrategyPlayer(players[i].Name, new List<IStrategy>(){ strategies[menuPlayer.SelectedIndex] }, currentPlayers[i].Color));
+            players[i] = (new SingleStrategyPlayer(players[i].Name, strategies[menuPlayer.SelectedIndex], currentPlayers[i].Color));
         }
 
         return players;

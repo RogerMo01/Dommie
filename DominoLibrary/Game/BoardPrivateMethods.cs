@@ -54,14 +54,16 @@ public partial class Board
 
     private Token GetCrazyToken()
     {
-        int handOut = Settings.TokensPerPlayer;
+        Random r = new Random();
 
-        Random random = new Random();
-        int index = random.Next((handOut * Players.Count));
+        Token selectionToken = GameTokens.Last();
 
-        int indexPlayer = index / handOut;
-        int indexToken = index % handOut;
+        do
+        {
+            selectionToken = GameTokens[r.Next(GameTokens.Count)];
 
-        return PlayersTokens[PlayersTokens.ToArray()[indexPlayer].Key][indexToken];
+        } while (!PlayersTokens.Any(x => x.Value.Contains(selectionToken)));
+
+        return selectionToken;
     }
 }
