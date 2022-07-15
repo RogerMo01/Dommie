@@ -57,7 +57,7 @@ public partial class Board
         int handOut = Settings.TokensPerPlayer;
 
         Random random = new Random();
-        int index = random.Next((handOut * Players.Count) - 1);
+        int index = random.Next((handOut * Players.Count));
 
         int indexPlayer = index / handOut;
         int indexToken = index % handOut;

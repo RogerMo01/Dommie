@@ -88,7 +88,7 @@ public static class BoardWinners
     public static (Team, int) GetRandomWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersToken)
     {
         Random random = new Random();
-        Team winner = board.Teams[random.Next(board.Teams.Count - 1)];
+        Team winner = board.Teams[random.Next(board.Teams.Count)];
 
         return (winner, pointsGetter(board, winner, playersToken));
     }
