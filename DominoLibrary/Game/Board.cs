@@ -12,7 +12,6 @@ public partial class Board : IGame
     public Judge Judge;
     Token CrazyToken;
     GamePrinter? GamePrinter;
-    public int ConsecutivePasses { get; private set; }
     public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new();
     public List<Team> Teams { get; private set;}
 
@@ -25,17 +24,16 @@ public partial class Board : IGame
         GameTokens = setting.GameTokens;
         Judge = setting.Judge!;
 
-        PlayersTokens = setting.HandOut!(GameTokens, Players, setting.TokensPerPlayer);
+        PlayersTokens = setting.HandOut!(GameTokens, Players.Clone(), setting.TokensPerPlayer);
         CrazyToken = GetCrazyToken();
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
-        ConsecutivePasses = 0;
         Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
 
         Teams = setting.Team!;
     }
-    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams, int consecPass)
+    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams)
     {
         Players = players;
         GameTokens = gameTokens;
@@ -44,7 +42,6 @@ public partial class Board : IGame
         Judge = judge;
         Plays = plays;
         Teams = teams;
-        ConsecutivePasses = consecPass;
         PlayersTokens = null!;
         Settings = null!;
         CrazyToken = null!;
@@ -59,6 +56,8 @@ public partial class Board : IGame
         
         foreach (var player in Players)
         {
+            int wrongPlays = 0;
+
             // default is pass, if it's a play, will be substituted
             Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
             
@@ -70,15 +69,18 @@ public partial class Board : IGame
             {
                 do
                 {
-                    token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
-                } 
-                while (!Judge.IsValid(this.Clone(), token.Clone()));
+                    if(wrongPlays >= 3)
+                    {
+                        token = new Pass(new Token(-1, -1), true, player, true);
+                        break;
+                    }
 
-                ConsecutivePasses = 0;
-            }
-            else
-            {
-                ConsecutivePasses ++;
+                    token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
+                    wrongPlays++;
+                } 
+                while (!Judge.IsValid(this.Clone(), token.Clone()) && wrongPlays <= 3);
+
+                wrongPlays = 0;
             }
             
             Plays.Add((player, token));
@@ -121,12 +123,7 @@ public partial class Board : IGame
     public Board Clone()
     {
         // Players
-        IPlayer[] newPlayersArr = Players.ToArray();
-        CircularList<IPlayer> newPlayers = new CircularList<IPlayer>(newPlayersArr[0]);
-        for (int i = 1; i < newPlayersArr.Length; i++)
-        {
-            newPlayers.AddLast(newPlayersArr[i]);
-        }
+        CircularList<IPlayer> newPlayers = Players.Clone();
 
         // Game Tokens
         List<Token> newGameTokens = GameTokens.ToList();
@@ -151,7 +148,7 @@ public partial class Board : IGame
         // Teams
         List<Team> newTeams = Teams.ToList();
 
-        Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams, ConsecutivePasses);
+        Board toReturn = new Board(newPlayers, newGameTokens, newBoardTokens, newEnds, newJudge, newPlays, newTeams);
         
         return toReturn;
     }

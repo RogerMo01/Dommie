@@ -26,7 +26,7 @@ public class Tournament : IGame
         WinScore = setting.WinScore;
         Judge = setting.Judge!;
         HumanPlay = setting.HumanPlay;
-        HandOut = setting.HandOut;
+        HandOut = setting.HandOut!;
     }
 
     public GameResult Start()

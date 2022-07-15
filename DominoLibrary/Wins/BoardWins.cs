@@ -5,27 +5,31 @@ public delegate bool OverBoard(Board board, Dictionary<IPlayer, List<Token>> pla
 
 public static class BoardOvers
 {
-    public static bool ClassicOverBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
+    public static bool ClassicOverBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token crazyToken)
     {
-        if(token.IsPass()) return false;
-
-        if(board.ConsecutivePasses == board.Players.Count) return true;
+        if(AllPass(board.Plays, board.Players.Count)) return true;
         else
         {
             return PlayerWithoutToken(board, playersTokens);
         }
     }
-
-    public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token token)
+    private static bool AllPass(List<(IPlayer player, Token_onBoard token_OnBoard)> plays, int numberPlayers)
     {
-        if(token.IsPass()) return false;
+        if(plays.Count < numberPlayers) return false;
+        bool result = true;
 
-        // crazy token on board
-        if((board.BoardTokens.First!.Value.EqualTokens(token)) || (board.BoardTokens.Last!.Value.EqualTokens(token))) return true;
-        else
+        for (int i = plays.Count - 1; i >= plays.Count - numberPlayers; i--)
         {
-            return ClassicOverBoard(board, playersTokens, token);
-        } 
+            if(!plays[i].token_OnBoard.IsPass()) result = false;
+        }
+        return result;
+    }
+
+    public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token crazyToken)
+    {
+        if(board.Plays.Last().token_OnBoard.Equals(crazyToken)) return true;
+
+        return false;
     }
 
     private static bool PlayerWithoutToken(Board board, Dictionary<IPlayer, List<Token>> playersTokens)
