@@ -5,7 +5,7 @@ public class BotaGorda : IStrategy
     public Token_onBoard Play(Board board, List<Token> tokens, IPlayer player)
     {
         Token current = tokens[0];
-        int points = -1;
+        int points = int.MinValue;
 
         foreach (var token in tokens)
         {

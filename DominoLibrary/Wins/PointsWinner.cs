@@ -47,8 +47,6 @@ public class PointsWinner
         return points;
     }
 
-
-
     private static Dictionary<IPlayer, int> PresetPlayerPoints(Dictionary<IPlayer, List<Token>> playersTokens)
     {
         Dictionary<IPlayer, int> finalPuntuation = new Dictionary<IPlayer, int>();

@@ -7,12 +7,12 @@ public class Random_Strategy : IStrategy
         Random random = new Random();
         if(board.BoardTokens.Count == 0)
         { 
-            return new Token_onBoard(tokens[random.Next(tokens.Count - 1)], true, player, true);
+            return new Token_onBoard(tokens[random.Next(tokens.Count)], true, player, true);
         }
         else
         {
             List<Token> aux = Possible_TokensPlay(tokens, board.Ends);
-            Token current = aux[random.Next(aux.Count - 1)];
+            Token current = aux[random.Next(aux.Count)];
         
             bool playRight = true ? (board.Ends[1].Equals(current.Left) || board.Ends[1].Equals(current.Right) || board.BoardTokens.Count == 0) : playRight = false;
             
