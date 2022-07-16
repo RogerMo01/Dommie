@@ -159,8 +159,6 @@ public static partial class Menus
         return players;
     }
 
-    
-    
     public static int NumberPlayersMenu()
     {
         int min = 2;

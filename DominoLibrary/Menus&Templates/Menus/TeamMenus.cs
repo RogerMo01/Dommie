@@ -20,16 +20,10 @@ public partial class Menus
         {
             QuickScreen q = new QuickScreen("No Teams Game allowed for less than 3 Players", 4);
             q.Show();
-            return GenerateUnitaryTeams(players, humanPlay); // solo modificable para (3-6) players
+            return GenerateUnitaryTeams(players, humanPlay); // only modifiable from (3-6) players
         }
 
         List<Team> teams = new List<Team>();
-
-        // SimpleOption singlePlayer = new SimpleOption("Single player Play");
-        // List<SimpleOption> options = new List<SimpleOption>(){ singlePlayer, new SimpleOption("Play with Teams")};
-
-        // SingleSelectionMenu<SimpleOption> teamsMenu = new SingleSelectionMenu<SimpleOption>(options, "TEAM PLAY", false);
-        // teamsMenu.Show();
 
         if(singlePlayer)
         {
@@ -47,7 +41,6 @@ public partial class Menus
             teams.Add( new Team(new List<IPlayer>(){ players[i] }) );
         }
 
-        // Setear al primero como humano
         return teams;
     }
 
@@ -62,7 +55,7 @@ public partial class Menus
         List<IPlayer> tempTeam = new List<IPlayer>();
 
 
-        // hacer menu con los jugadores como opciones
+        // make menu with players as options 
         List<GenericOption<IPlayer>> options = new();
 
         for (int j = 0; j < numberOfPlayers; j++)
@@ -71,11 +64,10 @@ public partial class Menus
         }
 
 
-        // por cada jugador
+        // for each players
         for (int j = 0; j < numberOfPlayers; j++)
         {
-         
-            // misma cantidad de jugadores que de equipos restantes (Autocompletar)
+            // same numbers of players and left teams (Autocomplete)
             if((numberOfTeams - currentTeamIndex) == (numberOfPlayers - j))
             {
                 List<IPlayer> restPlayers = SetAsList(options);
@@ -91,7 +83,8 @@ public partial class Menus
                 q.Show();
                 break;
             }
-            // queda solo un equipo (Autocompletar)
+
+            // only one team left (Autocomplete)
             if (currentTeamIndex == numberOfTeams)
             {
                 List<IPlayer> restPlayers = SetAsList(options);

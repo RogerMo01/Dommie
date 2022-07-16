@@ -28,11 +28,12 @@ public static class BoardOvers
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token crazyToken)
     {
         // crazy token on board
-        if(board.Plays.Last().token_OnBoard.Equals(crazyToken)) return true;
-        else
+        Token_onBoard playedToken = board.Plays.Last().token_OnBoard;
+        if(((playedToken.Left == crazyToken.Left && playedToken.Right == crazyToken.Right) || (playedToken.Left == crazyToken.Right && playedToken.Right == crazyToken.Left)) || 
+        AllPass(board.Plays, board.Players.Count)) return true;
         {
-            return ClassicOverBoard(board, playersTokens, crazyToken);
-        } 
+            return false;
+        }
     }
 
     private static bool PlayerWithoutToken(Board board, Dictionary<IPlayer, List<Token>> playersTokens)

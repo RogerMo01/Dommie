@@ -47,7 +47,6 @@ public partial class GamePrinter
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write($" by {side}");
 
-            //Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
             Console.ForegroundColor = ConsoleColor.White;
         }
         
