@@ -19,7 +19,7 @@ public class CustomizeGame
     PointsGetter GetWinnerPoints = PointsWinner.ClassicGetPoints;
     HandOut HandOutJudgment = HandOuts.Random_HandOut;
 
-    public CustomizeGame(List<IStrategy> strategies, bool humanPlay, List<Team> teams)
+    public CustomizeGame(List<IStrategy> strategies, bool humanPlay)
     {
         Strategies = strategies;
         HumanPlay = humanPlay;

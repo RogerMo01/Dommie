@@ -68,7 +68,6 @@ class MenuExplorer
 
     bool HumanPlay;
     bool JustBoardGame;
-    List<Team> Teams = new();
     ITemplate Template;
     IGame Game;
 
@@ -87,7 +86,7 @@ class MenuExplorer
             bool agreeCustomization = false;
             do
             {
-                CustomizeGame customizer = new CustomizeGame(Strategies, HumanPlay, Teams);
+                CustomizeGame customizer = new CustomizeGame(Strategies, HumanPlay);
                 Template = customizer.Start(ref JustBoardGame);
 
                 agreeCustomization = Menus.MakeSureCostumizationMenu();
