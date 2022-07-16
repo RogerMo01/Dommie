@@ -30,10 +30,10 @@ public class SingleSelectionMenu<T>
         
         if(selectionNumber != upArrow && selectionNumber != downArrow && selectionNumber != leftArrow && selectionNumber != rightArrow)
         {
-            return; // no es valido
+            return; // not valid
         }
 
-        // Solo funcionar con las flechas left y right en caso de estar en continue
+        // in Continue case, only works with Left and Right arrows
         if(Selected == null && selectionNumber != leftArrow && selectionNumber != rightArrow) return;
 
         if(selectionNumber == upArrow)
