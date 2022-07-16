@@ -72,7 +72,7 @@ public static class BoardWinners
                         winner = team;
                     }
 
-                    if((pointsPerPlayer == value) && (!team.Contains(currentPlayer)))
+                    else if((pointsPerPlayer == value) && (!team.Contains(currentPlayer)))
                     {
                         winner = null!;
                     }

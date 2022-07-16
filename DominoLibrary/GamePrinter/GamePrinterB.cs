@@ -47,7 +47,6 @@ public partial class GamePrinter
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write($" by {side}");
 
-            //Console.WriteLine( (play.Straight) ?  $"{play.Owner.Name} played [{play.Left}:{play.Right}] by {side}" : $"{play.Owner.Name} played [{play.Right}:{play.Left}] by {side}" );
             Console.ForegroundColor = ConsoleColor.White;
         }
         
@@ -85,17 +84,10 @@ public partial class GamePrinter
         if(winner == null) 
         {
             Console.WriteLine("\nTie Game");
-            return;
         }
-        try
+        else
         {
-            
             Console.WriteLine($"{winner} Win this round with {score} points");
-        }
-        catch (NullReferenceException)
-        {
-            //Console.WriteLine("\nTie Game");
-            System.Console.WriteLine("entro al vhg");
         }
         
         Console.ForegroundColor = ConsoleColor.White;

@@ -37,7 +37,7 @@ public static class HandOuts
         return playerTokens;
     }
 
-    public static Dictionary<IPlayer, List<Token>> BiggerFirst(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
+    public static Dictionary<IPlayer, List<Token>> BiggerFirstUnfair(List<Token> tokens, CircularList<IPlayer> players, int tokensPerPlayer)
     {
         Dictionary<IPlayer, List<Token>> result = new Dictionary<IPlayer, List<Token>>();
 
@@ -46,23 +46,26 @@ public static class HandOuts
         clonedTokens.Sort();
 
         IPlayer[] player = players.ToArray();
+
         Random random = new Random();
         int totalTokens = tokensPerPlayer * player.Length;
 
+        // hand out at least one token per player
+        foreach (var item in player)
+        {
+            result.Add(item, new List<Token>(){clonedTokens[clonedTokens.Count - 1]});
+            clonedTokens.RemoveAt(clonedTokens.Count - 1);
+            totalTokens--;
+        }
+
+        // random hand out
         while(totalTokens != 0)
         {
             IPlayer currentPlayer = player[random.Next(player.Length)];
     
             int index = clonedTokens.Count - 1;
 
-            if(!result.ContainsKey(currentPlayer))
-            {
-                result.Add(currentPlayer, new List<Token>(){clonedTokens[index]});
-            }
-            else
-            {
-                result[currentPlayer].Add(clonedTokens[index]);
-            }
+            result[currentPlayer].Add(clonedTokens[index]);
 
             clonedTokens.RemoveAt(index);
             totalTokens--;

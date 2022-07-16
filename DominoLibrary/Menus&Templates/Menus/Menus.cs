@@ -72,7 +72,7 @@ public static partial class Menus
     {
         // Options
         GenericOption<HandOut> randomHandOut = new GenericOption<HandOut>(HandOuts.Random_HandOut, "Random");
-        GenericOption<HandOut> biggerFirst = new GenericOption<HandOut>(HandOuts.BiggerFirst, "Bigger First");
+        GenericOption<HandOut> biggerFirst = new GenericOption<HandOut>(HandOuts.BiggerFirstUnfair, "Bigger First and Unfair");
         // ...
 
         List<GenericOption<HandOut>> options = new List<GenericOption<HandOut>>(){ randomHandOut, biggerFirst };
@@ -153,14 +153,12 @@ public static partial class Menus
             SingleSelectionMenu<GenericOption<IStrategy>> menuPlayer = new SingleSelectionMenu<GenericOption<IStrategy>>(strategyOptions, $"Customize {players[i]}", false);
             menuPlayer.Show();
 
-            players[i] = (new SingleStrategyPlayer(players[i].Name, new List<IStrategy>(){ strategies[menuPlayer.SelectedIndex] }, currentPlayers[i].Color));
+            players[i] = (new SingleStrategyPlayer(players[i].Name, strategies[menuPlayer.SelectedIndex], currentPlayers[i].Color));
         }
 
         return players;
     }
 
-    
-    
     public static int NumberPlayersMenu()
     {
         int min = 2;

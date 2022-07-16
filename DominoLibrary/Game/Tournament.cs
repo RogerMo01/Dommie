@@ -90,7 +90,7 @@ public class Tournament : IGame
 
     private void UpdateTournament(GameResult gameResult)
     {
-        // si no hay ganador no hay q actualizar puntos y sale otro jugador
+        // if there is no winner you do not have to update points and another player comes out
         try
         {
             Inner = Players.FindNode(gameResult.Winner.PlayersTeam.First());
@@ -117,13 +117,13 @@ public class Tournament : IGame
         return gameTokens;    
     }
 
-    private (Team, int) GetWinner() // defaul por puntos
+    private (Team, int) GetWinner() // defaul for points
     {   
         Team winner = TeamsScore.First(x => x.Value >= WinScore).Key;
         return (winner, TeamsScore[winner]);
     }
    
-    private bool IsOver() // default por puntos
+    private bool IsOver() // default for points
     {
         foreach (var team in Teams)
         {

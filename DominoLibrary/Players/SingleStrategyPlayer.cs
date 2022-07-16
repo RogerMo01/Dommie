@@ -3,19 +3,19 @@ namespace DominoLibrary;
 public class SingleStrategyPlayer : IPlayer
 {
     public string Name { get; }
-    public List<IStrategy> Strategies { get; }
+    public IStrategy Strategy { get; }
     public ConsoleColor Color { get; }
 
-    public SingleStrategyPlayer(string name, List<IStrategy> strategies, ConsoleColor color)
+    public SingleStrategyPlayer(string name, IStrategy strategies, ConsoleColor color)
     {
         Name = name;
-        Strategies = strategies;
+        Strategy = strategies;
         Color = color;
     }
 
     public Token_onBoard Play(Board board, List<Token> tokens, HumanPlayerMenu humanPlayerMenu)
     {
-        return Strategies[0].Play(board, tokens, this);
+        return Strategy.Play(board, tokens, this);
     }
 
     public override string ToString()

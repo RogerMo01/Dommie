@@ -19,7 +19,7 @@ public class CustomizeGame
     PointsGetter GetWinnerPoints = PointsWinner.ClassicGetPoints;
     HandOut HandOutJudgment = HandOuts.Random_HandOut;
 
-    public CustomizeGame(List<IStrategy> strategies, bool humanPlay, List<Team> teams)
+    public CustomizeGame(List<IStrategy> strategies, bool humanPlay)
     {
         Strategies = strategies;
         HumanPlay = humanPlay;
@@ -28,7 +28,7 @@ public class CustomizeGame
         if(HumanPlay)
         {
             Random r = new();
-            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0], ConsoleColor.White);
         }
 
         Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
@@ -131,7 +131,7 @@ public class CustomizeGame
         if(HumanPlay)
         {
             Random r = new();
-            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies, ConsoleColor.White);
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0], ConsoleColor.White);
         }
         
         if(!HumanPlay)

@@ -17,19 +17,12 @@ public class CrazyTokenTemplate : ITemplate
         if(humanPlay) // set first player as human
         {
             Random rand = new();
-            listPlayers[rand.Next(5)] = new HumanPlayer(strategies, ConsoleColor.White);
+            listPlayers[rand.Next(5)] = new HumanPlayer(strategies[0], ConsoleColor.White);
         }
         CircularList<IPlayer> players = TemplateUtils.ToCircularList(listPlayers);
 
-        // Teams
-        if(singlePlayer)
-        {
-            teams = Menus.GenerateUnitaryTeams(players.ToArray().ToList(), false);
-        }
-        else
-        {
-            teams = TemplateUtils.AssignTeamsClassic(players.ToArray().ToList());
-        }
+        // Teams        
+        teams = TemplateUtils.AssignTeamsClassic(players.ToArray().ToList());
 
         // Judge
         OverBoard winB = BoardOvers.CrazyTokenWinBoard;
