@@ -31,7 +31,7 @@ public class Token : IComparable<Token>
     public override string ToString() => $"[{this.Left}:{this.Right}]";
 }
 
-public class Token_onBoard : Token
+public class Token_onBoard : Token, IPlay
 {
     public bool Straight { get; private set; }
     public IPlayer Owner { get; private set; }
@@ -44,14 +44,26 @@ public class Token_onBoard : Token
         PlayRight = playRight;
     }
 
-    public new Token_onBoard Clone() => new Token_onBoard(new Token(this.Left, this.Right), this.Straight, this.Owner, this.PlayRight);
+    public new IPlay Clone() => new Token_onBoard(new Token(this.Left, this.Right), this.Straight, this.Owner, this.PlayRight);
     
     public override string ToString() => (Straight) ? $"[{Left}:{Right}]" : $"[{Right}:{Left}]";
 }
 
-// solo importa el par'ametro Owner & IsPass() method
-public class Pass : Token_onBoard
+public class Pass : IPlay
 {
-    public Pass(Token token, bool straight, IPlayer owner, bool playRight) : base(token, straight, owner, playRight){}
-    public override bool IsPass() => true;
+    public int Left { get => -1;}
+    public int Right { get => -1;}
+    public int Points { get => -1; }
+    public bool Straight { get => true; }
+    public IPlayer Owner { get ; }
+    public bool PlayRight { get => true; }
+
+    public override string ToString() => "PASS";
+
+    public IPlay Clone() => new Pass(Owner);
+
+    public Pass(IPlayer owner)
+    {
+        Owner = owner;
+    }
 }

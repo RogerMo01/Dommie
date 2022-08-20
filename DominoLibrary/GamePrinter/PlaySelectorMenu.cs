@@ -150,7 +150,7 @@ public class PlaySelectorMenu
     private void PrintLastPlays()
     {
         int lastPlays = Math.Min(Board.Players.Count * 2, Board.Plays.Count);
-        List<(IPlayer player, Token_onBoard token)> lastPlaysList = new();
+        List<(IPlayer player, IPlay token)> lastPlaysList = new();
 
         for (int i = Board.Plays.Count - 1; i >= Board.Plays.Count - lastPlays; i--)
         {
@@ -160,17 +160,17 @@ public class PlaySelectorMenu
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine($"=== Last {lastPlays} Plays: ===");
 
-        foreach (var play in lastPlaysList)
+        foreach (var item in lastPlaysList)
         {
-            if(play.token.IsPass())
+            if(item.token is Pass)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{play.player} pass");
+                Console.WriteLine($"{item.player} pass");
             }
             else
             {
-                Console.ForegroundColor = play.player.Color;
-                Console.WriteLine($"{play.player} play {play.token}");
+                Console.ForegroundColor = item.player.Color;
+                Console.WriteLine($"{item.player} play {item.token}");
             }
 
             Console.ForegroundColor = ConsoleColor.White;

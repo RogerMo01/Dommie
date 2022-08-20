@@ -21,17 +21,17 @@ public partial class Board
         return false;
     }
 
-    private void UpdateBoard(Token_onBoard token, IPlayer player)
+    private void UpdateBoard(IPlay play, IPlayer player)
     {
-        if(!token.IsPass())
+        if(!(play is Pass))
         {
-            if(token.PlayRight)
+            if(play.PlayRight)
             {
-                BoardTokens.AddLast(token);
+                BoardTokens.AddLast((Token_onBoard)play);
             }
             else
             {
-                BoardTokens.AddFirst(token);
+                BoardTokens.AddFirst((Token_onBoard)play);
             }
 
             int index = 0;
@@ -39,7 +39,7 @@ public partial class Board
             // find token in player hand to remove it
             for (int i = 0; i < PlayersTokens[player].Count; i++)
             {
-                if((token.Left == PlayersTokens[player][i].Left) && (token.Right == PlayersTokens[player][i].Right))
+                if((play.Left == PlayersTokens[player][i].Left) && (play.Right == PlayersTokens[player][i].Right))
                 {
                     index = i;
                     break; 

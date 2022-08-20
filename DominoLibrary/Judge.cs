@@ -13,9 +13,9 @@ public class Judge
         WinnerPointsGetter = pointsW;
     }
 
-    public bool IsValid(Board board, Token_onBoard token)
+    public bool IsValid(Board board, IPlay play)
     {
-        if(token.IsPass())
+        if(play is Pass)
         {
             return false;
         }
@@ -23,9 +23,9 @@ public class Judge
         {
             if(board.BoardTokens.Count == 0) return true;
 
-            if(token.PlayRight && ((token.Straight && board.Ends[1] == token.Left) || (!token.Straight && board.Ends[1] == token.Right))) return true;
+            if(play.PlayRight && ((play.Straight && board.Ends[1] == play.Left) || (!play.Straight && board.Ends[1] == play.Right))) return true;
 
-            if(!token.PlayRight && ((token.Straight && board.Ends[0] == token.Right) || (!token.Straight && board.Ends[0] == token.Left))) return true;
+            if(!play.PlayRight && ((play.Straight && board.Ends[0] == play.Right) || (!play.Straight && board.Ends[0] == play.Left))) return true;
         }
         
         return false;

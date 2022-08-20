@@ -25,11 +25,11 @@ public partial class GamePrinter
         }
 
         int size = Board!.Plays.Count;
-        Token_onBoard play = Board.Plays[size - 1].token_OnBoard;
+        IPlay play = Board.Plays[size - 1].play;
         IPlayer player = Board.Plays[size - 1].player;
         
         Console.WriteLine();
-        if(play.IsPass())
+        if(play is Pass)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write($"\n{player.Name} pass");

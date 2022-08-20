@@ -12,7 +12,7 @@ public partial class Board : IGame
     public Judge Judge;
     Token CrazyToken;
     GamePrinter? GamePrinter;
-    public List<(IPlayer player, Token_onBoard token_OnBoard)> Plays { get; private set; } = new();
+    public List<(IPlayer player, IPlay play)> Plays { get; private set; } = new();
     public List<Team> Teams { get; private set;}
 
 
@@ -29,11 +29,11 @@ public partial class Board : IGame
 
         BoardTokens = new LinkedList<Token_onBoard>();   
 
-        Plays = new List<(IPlayer player, Token_onBoard token_OnBoard)>();
+        Plays = new List<(IPlayer player, IPlay token_OnBoard)>();
 
         Teams = setting.Team!;
     }
-    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , Token_onBoard)> plays, List<Team> teams)
+    private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , IPlay)> plays, List<Team> teams)
     {
         Players = players;
         GameTokens = gameTokens;
@@ -59,7 +59,7 @@ public partial class Board : IGame
             int wrongPlays = 0;
 
             // default is pass, if it's a play, will be substituted
-            Token_onBoard token = new Pass(new Token(-1, -1), true, player, true);
+            IPlay play = new Pass(player);
             
             // freeze two seconds per play
             if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
@@ -71,21 +71,21 @@ public partial class Board : IGame
                 {
                     if(wrongPlays >= 3)
                     {
-                        token = new Pass(new Token(-1, -1), true, player, true);
+                        play = new Pass(player);
                         break;
                     }
 
-                    token = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
+                    play = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
                     wrongPlays++;
                 } 
-                while (!Judge.IsValid(this.Clone(), token.Clone()) && wrongPlays <= 3);
+                while (!Judge.IsValid(this.Clone(), play.Clone()) && wrongPlays <= 3);
 
                 wrongPlays = 0;
             }
             
-            Plays.Add((player, token));
+            Plays.Add((player, play));
 
-            UpdateBoard(token, player);
+            UpdateBoard(play, player);
             
             GamePrinter!.PrintPlay(); // print play
             
@@ -143,7 +143,7 @@ public partial class Board : IGame
         Judge newJudge = new Judge(new OverBoard(Judge.OverBoard), new WinnerBoard(Judge.WinnerBoard), new PointsGetter(Judge.WinnerPointsGetter));
 
         // Plays
-        List<(IPlayer, Token_onBoard)> newPlays = Plays.ToList();
+        List<(IPlayer, IPlay)> newPlays = Plays.ToList();
 
         // Teams
         List<Team> newTeams = Teams.ToList();
