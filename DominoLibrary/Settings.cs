@@ -13,7 +13,6 @@ public abstract class Setting
 
 public class BoardSetting : Setting
 {
-    public Node<IPlayer> Inner { get; private set; }
     public List<Token> GameTokens { get; private set; }
     public int TokensPerPlayer { get; private set; }
 
@@ -21,7 +20,6 @@ public class BoardSetting : Setting
     {
         Players = players;
         GameTokens = gameTokens;
-        Inner = inner;
         TokensPerPlayer = tokensPerPlayer;
         Judge = judge;
         Team = team;

@@ -5,12 +5,15 @@ public class Judge
     public OverBoard OverBoard {get; private set;}
     public WinnerBoard WinnerBoard {get; private set;}
     public PointsGetter WinnerPointsGetter {get; private set;}
+    public Inner InnerSelector { get; }
 
-    public Judge(OverBoard winB, WinnerBoard winnerB, PointsGetter pointsW)
+
+    public Judge(OverBoard winB, WinnerBoard winnerB, PointsGetter pointsW, Inner innerSelect)
     {
         OverBoard = winB;
         WinnerBoard = winnerB;
         WinnerPointsGetter = pointsW;
+        InnerSelector = innerSelect;
     }
 
     public bool IsValid(Board board, IPlay play)

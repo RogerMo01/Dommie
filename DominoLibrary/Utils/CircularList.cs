@@ -106,4 +106,32 @@ public class CircularList<T> : IEnumerable<T>
         }
         return result;
     }
+
+    public CircularList<T> RotateTill(T item)
+    {
+        T[] items = this.ToArray();
+        int index = 0;
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            if(items[i]!.Equals(item)) 
+            {
+                index = i;
+                break;
+            }
+        }
+
+        CircularList<T> result = new CircularList<T>(items[index]);
+
+        for (int i = index + 1; i < items.Length; i++)
+        {
+            result.AddLast(items[i]);
+        }
+        for (int i = 0; i < index; i++)
+        {
+            result.AddLast(items[i]);
+        }
+
+        return result;
+    }
 }
