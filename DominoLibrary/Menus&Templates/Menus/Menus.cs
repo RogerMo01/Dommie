@@ -182,9 +182,10 @@ public static partial class Menus
         GenericOption<Inner> randomGetInner = new GenericOption<Inner>(InnerPlayer.Random_Inner, "Random");
         GenericOption<Inner> biggerToken = new GenericOption<Inner>(InnerPlayer.Bigger_Token, "Bigger Token");
         GenericOption<Inner> minDouble = new GenericOption<Inner>(InnerPlayer.Min_Double, "Min Double");
+        GenericOption<Inner> maxData = new GenericOption<Inner>(InnerPlayer.Max_Data, "Max Data");
         // ...
 
-        List<GenericOption<Inner>> innerOptions = new List<GenericOption<Inner>>(){ randomGetInner, biggerToken, minDouble };
+        List<GenericOption<Inner>> innerOptions = new List<GenericOption<Inner>>(){ randomGetInner, biggerToken, minDouble, maxData };
         SingleSelectionMenu<GenericOption<Inner>> menu = new SingleSelectionMenu<GenericOption<Inner>>(innerOptions, "CHOOSE JUDGEMENT TO GET INNER", false);
         menu.Show();
 
