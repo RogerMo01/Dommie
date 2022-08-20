@@ -29,7 +29,7 @@ public class Tournament : IGame
         HandOut = setting.HandOut!;
     }
 
-    public GameResult Start()
+    public GameResult RunRound()
     {
         int roundNumber = 1;
 
@@ -43,7 +43,7 @@ public class Tournament : IGame
             Board board = new Board(bs);
             board.SetGamePrinter(GamePrinter!);
 
-            GameResult boardResult = board.Start();
+            GameResult boardResult = board.RunRound();
 
             GamePrinter.PrintPoints(boardResult.Score);
             UpdateTournament(boardResult);

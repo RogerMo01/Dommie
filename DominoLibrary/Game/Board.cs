@@ -47,7 +47,7 @@ public partial class Board : IGame
         CrazyToken = null!;
     }
 
-    public GameResult Start()
+    public GameResult RunRound()
     {
         if(!Settings.HumanPlay)
         {
@@ -56,32 +56,10 @@ public partial class Board : IGame
         
         foreach (var player in Players)
         {
-            int wrongPlays = 0;
-
-            // default is pass, if it's a play, will be substituted
-            IPlay play = new Pass(player);
+            IPlay play = GetPlay(player);
             
             // freeze two seconds per play
             if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
-
-            // only if current player have token to play or it's initial play
-            if((HaveToken(player)) || BoardTokens.Count == 0)
-            {
-                do
-                {
-                    if(wrongPlays >= 3)
-                    {
-                        play = new Pass(player);
-                        break;
-                    }
-
-                    play = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
-                    wrongPlays++;
-                } 
-                while (!Judge.IsValid(this.Clone(), play.Clone()) && wrongPlays <= 3);
-
-                wrongPlays = 0;
-            }
             
             Plays.Add((player, play));
 
@@ -101,6 +79,35 @@ public partial class Board : IGame
         if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
         
         return new GameResult(winner.players, winner.score);
+    }
+
+    private IPlay GetPlay(IPlayer player)
+    {
+        int wrongPlays = 0;
+
+        // default is pass, if it's a play, will be substituted
+        IPlay play = new Pass(player);
+
+        // only if current player have token to play or it's initial play
+        if((HaveToken(player)) || BoardTokens.Count == 0)
+        {
+            do
+            {
+                if(wrongPlays >= 3)
+                {
+                    play = new Pass(player);
+                    break;
+                }
+
+                play = player.Play(this.Clone(), PlayersTokens[player].ToList(), GamePrinter!.HumanPlayerMenu);
+                wrongPlays++;
+            } 
+            while (!Judge.IsValid(this.Clone(), play.Clone()) && wrongPlays <= 3);
+
+            wrongPlays = 0;
+        }
+
+        return play;
     }
     
     private void ResetEnds()
