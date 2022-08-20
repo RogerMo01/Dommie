@@ -25,18 +25,9 @@ public static class TemplateUtils
         List<IPlayer> players = new List<IPlayer>();
         List<string> usedNames = new List<string>();
 
-        ConsoleColor[] colors = {
-            ConsoleColor.Blue,
-            ConsoleColor.Cyan,
-            ConsoleColor.Magenta,
-            ConsoleColor.Green,
-            ConsoleColor.DarkBlue,
-            ConsoleColor.Yellow
-        };
-
         for (int i = players.Count; i < numberPlayers; i++)
         {
-            players.Add(GetRandomPlayer(ref usedNames, strategies, colors[i]));
+            players.Add(GetRandomPlayer(ref usedNames, strategies));
         }
 
         return players;
@@ -61,7 +52,7 @@ public static class TemplateUtils
         return teams;
     }
 
-    public static IPlayer GetRandomPlayer(ref List<string> usedNames, List<IStrategy> strategies, ConsoleColor color)
+    public static IPlayer GetRandomPlayer(ref List<string> usedNames, List<IStrategy> strategies)
     {
         string[] names = // se pueden poner m'as
         {
@@ -86,7 +77,7 @@ public static class TemplateUtils
             }
         }
         
-        return new SingleStrategyPlayer(names[nameChoice], strategies[strategyChoice], color);
+        return new SingleStrategyPlayer(names[nameChoice], strategies[strategyChoice]);
     }
 
     public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, List<Team> teams, bool humanPlay, HandOut handOut)

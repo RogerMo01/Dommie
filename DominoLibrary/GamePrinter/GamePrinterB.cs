@@ -1,15 +1,18 @@
 namespace DominoLibrary;
+using Utils;
 
 public partial class GamePrinter
 {
     Board? Board;
     Dictionary<IPlayer, List<Token>>? PlayerTokens;
     Tournament? Tournament;
+    Dictionary<IPlayer, ConsoleColor>? PlayersColors;
 
     public void AddBoard(Board board, Dictionary<IPlayer, List<Token>> playerTokens)
     {
         Board = board;
         PlayerTokens = playerTokens;
+        PlayersColors = Utils.AssignColors(Board.Players.ToArray());
     }
 
     public void PrintPoints(int score)
@@ -38,11 +41,11 @@ public partial class GamePrinter
         {
             string side = (play.PlayRight) ? "Right" : "Left";
 
-            Console.ForegroundColor = play.Owner.Color;
+            Console.ForegroundColor = PlayersColors![play.Owner];
             Console.Write($"\n{play.Owner}");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write(" played ");
-            Console.ForegroundColor = play.Owner.Color;
+            Console.ForegroundColor = PlayersColors[play.Owner];
             Console.Write(play);
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write($" by {side}");
@@ -60,7 +63,7 @@ public partial class GamePrinter
         
         foreach (var item in PlayerTokens!)
         {
-            Console.ForegroundColor = item.Key.Color;
+            Console.ForegroundColor = PlayersColors![item.Key];
             Console.WriteLine($"{item.Key.Name}:");
 
             foreach (var token in item.Value)

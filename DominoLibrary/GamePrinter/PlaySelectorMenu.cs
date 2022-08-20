@@ -1,4 +1,5 @@
 namespace DominoLibrary;
+using Utils;
 
 public class PlaySelectorMenu
 {
@@ -9,6 +10,8 @@ public class PlaySelectorMenu
     Board Board;
     Dictionary<IPlayer, int> PlayersTokensLeft;
 
+    Dictionary<IPlayer, ConsoleColor> PlayersColors;
+
 
     public PlaySelectorMenu(List<Token> selectionables, Board board, Dictionary<IPlayer, int> playersTokensLeft)
     {
@@ -16,6 +19,7 @@ public class PlaySelectorMenu
         Selected = Selectionables.First();
         Board = board;
         PlayersTokensLeft = playersTokensLeft;
+        PlayersColors = Utils.AssignColors(Board.Players.ToArray());
     }
 
     public void Modify(ConsoleKey key)
@@ -103,7 +107,7 @@ public class PlaySelectorMenu
 
         foreach (var item in Board.BoardTokens)
         {
-            Console.ForegroundColor = item.Owner.Color;
+            Console.ForegroundColor = PlayersColors[item.Owner];
             Console.Write(item);
         }
 
@@ -122,7 +126,7 @@ public class PlaySelectorMenu
         {
             int currentNameLength = player.Name.Length;
 
-            Console.ForegroundColor = player.Color;
+            Console.ForegroundColor = PlayersColors[player];
             Console.Write($"\n{player}:");
 
             // fill with blanks ~~~
@@ -169,7 +173,7 @@ public class PlaySelectorMenu
             }
             else
             {
-                Console.ForegroundColor = item.player.Color;
+                Console.ForegroundColor = PlayersColors[item.player];
                 Console.WriteLine($"{item.player} play {item.token}");
             }
 
