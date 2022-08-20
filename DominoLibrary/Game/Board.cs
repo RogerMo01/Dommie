@@ -47,7 +47,7 @@ public partial class Board : IGame
         CrazyToken = null!;
     }
 
-    public GameResult RunRound()
+    public GameResult Start()
     {
         if(!Settings.HumanPlay)
         {
