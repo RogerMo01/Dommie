@@ -3,7 +3,7 @@ using Utils;
 
 public interface IGame 
 {
-    GameResult Start();
+    GameResult RunRound();
 
     void SetGamePrinter(GamePrinter gamePrinter);
 }

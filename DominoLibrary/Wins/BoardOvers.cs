@@ -13,14 +13,14 @@ public static class BoardOvers
             return PlayerWithoutToken(board, playersTokens);
         }
     }
-    private static bool AllPass(List<(IPlayer player, Token_onBoard token_OnBoard)> plays, int numberPlayers)
+    private static bool AllPass(List<(IPlayer player, IPlay play)> plays, int numberPlayers)
     {
         if(plays.Count < numberPlayers) return false;
         bool result = true;
 
         for (int i = plays.Count - 1; i >= plays.Count - numberPlayers; i--)
         {
-            if(!plays[i].token_OnBoard.IsPass()) result = false;
+            if(!(plays[i].play is Pass)) result = false;
         }
         return result;
     }
@@ -28,7 +28,7 @@ public static class BoardOvers
     public static bool CrazyTokenWinBoard(Board board, Dictionary<IPlayer, List<Token>> playersTokens, Token crazyToken)
     {
         // crazy token on board
-        Token_onBoard playedToken = board.Plays.Last().token_OnBoard;
+        IPlay playedToken = board.Plays.Last().play;
         if(((playedToken.Left == crazyToken.Left && playedToken.Right == crazyToken.Right) || (playedToken.Left == crazyToken.Right && playedToken.Right == crazyToken.Left)) || 
         AllPass(board.Plays, board.Players.Count)) return true;
         {

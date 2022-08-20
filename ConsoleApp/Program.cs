@@ -103,7 +103,7 @@ class MenuExplorer
         QuickScreen quickScreen = new("All set, the game will start soon");
         quickScreen.Show();
         
-        Game.Start();
+        Game.RunRound();
 
         Console.WriteLine("Press any key to end game");
         Console.ReadKey();
