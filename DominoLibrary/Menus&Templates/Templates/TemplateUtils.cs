@@ -80,9 +80,9 @@ public static class TemplateUtils
         return new SingleStrategyPlayer(names[nameChoice], strategies[strategyChoice]);
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, List<Team> teams, bool humanPlay, HandOut handOut)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, Inner innerSelect, List<Team> teams, bool humanPlay, HandOut handOut)
     {
-        Judge judge = new Judge(winB, winnerB, pointsGetter);
+        Judge judge = new Judge(winB, winnerB, pointsGetter, innerSelect);
 
         TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers, handOut, score, judge, teams, humanPlay);
         Tournament t = new Tournament(tS);

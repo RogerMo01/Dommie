@@ -28,7 +28,9 @@ public class CrazyTokenTemplate : ITemplate
         OverBoard winB = BoardOvers.CrazyTokenWinBoard;
         WinnerBoard winnerB = BoardWinners.ClassicGetWinner;
         PointsGetter pointsGetter = PointsWinner.ClassicGetPoints;
-        Judge judge = new Judge(winB, winnerB, pointsGetter);
+        Inner innerSelector = InnerPlayer.Random_Inner;
+        
+        Judge judge = new Judge(winB, winnerB, pointsGetter, innerSelector);
 
         // Inner
         Random r = new Random();

@@ -11,7 +11,7 @@ public static class InnerPlayer
         
         Random random = new Random();
 
-        return players[random.Next(players.Length - 1)];
+        return players[random.Next(players.Length)];
     }
 
     public static IPlayer Bigger_Token(Dictionary<IPlayer, List<Token>> PlayersTokens)

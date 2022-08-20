@@ -175,4 +175,19 @@ public static partial class Menus
         
         return menu.Selected.Value;
     }
+
+    public static Inner InnerSelectorMenu()
+    {
+        // Options
+        GenericOption<Inner> randomGetInner = new GenericOption<Inner>(InnerPlayer.Random_Inner, "Random");
+        GenericOption<Inner> biggerToken = new GenericOption<Inner>(InnerPlayer.Bigger_Token, "Bigger Token");
+        GenericOption<Inner> minDouble = new GenericOption<Inner>(InnerPlayer.Min_Double, "Min Double");
+        // ...
+
+        List<GenericOption<Inner>> innerOptions = new List<GenericOption<Inner>>(){ randomGetInner, biggerToken, minDouble };
+        SingleSelectionMenu<GenericOption<Inner>> menu = new SingleSelectionMenu<GenericOption<Inner>>(innerOptions, "CHOOSE JUDGEMENT TO GET INNER", false);
+        menu.Show();
+
+        return menu.Selected.Value;
+    }
 }

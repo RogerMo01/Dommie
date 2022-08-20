@@ -29,7 +29,7 @@ public static class HandOuts
 
         for (int i = 0; i < tokensPerPlayer ; i++)  
         {
-            int index = random.Next(tokens.Count - 1);
+            int index = random.Next(tokens.Count);
             playerTokens.Add(tokens[index]);
             tokens.RemoveAt(index);
         }

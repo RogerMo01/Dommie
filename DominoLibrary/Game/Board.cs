@@ -32,6 +32,8 @@ public partial class Board : IGame
         Plays = new List<(IPlayer player, IPlay token_OnBoard)>();
 
         Teams = setting.Team!;
+
+        Players = Players.RotateTill(Judge.InnerSelector(PlayersTokens));
     }
     private Board(CircularList<IPlayer> players, List<Token> gameTokens, LinkedList<Token_onBoard> boardTokens, int[] ends, Judge judge, List<(IPlayer , IPlay)> plays, List<Team> teams)
     {
@@ -147,7 +149,7 @@ public partial class Board : IGame
         int[] newEnds = Ends.ToArray();
 
         // Judge
-        Judge newJudge = new Judge(new OverBoard(Judge.OverBoard), new WinnerBoard(Judge.WinnerBoard), new PointsGetter(Judge.WinnerPointsGetter));
+        Judge newJudge = new Judge(new OverBoard(Judge.OverBoard), new WinnerBoard(Judge.WinnerBoard), new PointsGetter(Judge.WinnerPointsGetter), new Inner(Judge.InnerSelector));
 
         // Plays
         List<(IPlayer, IPlay)> newPlays = Plays.ToList();
