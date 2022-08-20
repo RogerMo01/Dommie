@@ -1,4 +1,5 @@
 using DominoLibrary;
+using System.Diagnostics;
 namespace Utils;
 
 public static class Utils
@@ -22,5 +23,14 @@ public static class Utils
         }
 
         return assignation;
+    }
+
+    public static void Lapse(int seconds)
+    {
+        Stopwatch crono = new Stopwatch();
+
+        crono.Start();
+        while (crono.ElapsedMilliseconds < seconds * 1000){}
+        crono.Stop();
     }
 }

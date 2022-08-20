@@ -36,7 +36,7 @@ public class Tournament : IGame
         while(true)
         {
             GamePrinter!.ShowTournamentStatus(roundNumber, TeamsScore);
-            if(HumanPlay) { Lapse l = new Lapse(3); }
+            if(HumanPlay) { Utils.Utils.Lapse(3); }
 
             // Initilize the Boards
             BoardSetting bs = new BoardSetting(Players, Inner, GameTokens, TokensPerPlayer, HandOut!, Judge, Teams, HumanPlay);

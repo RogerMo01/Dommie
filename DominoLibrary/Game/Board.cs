@@ -58,10 +58,10 @@ public partial class Board : IGame
         
         foreach (var player in Players)
         {
-            IPlay play = GetPlay(player);
-            
             // freeze two seconds per play
-            if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
+            if(Settings.HumanPlay) { Utils.Utils.Lapse(2); }
+            
+            IPlay play = GetPlay(player);
             
             Plays.Add((player, play));
 
@@ -78,7 +78,7 @@ public partial class Board : IGame
     
         GamePrinter!.PrintBoardWinner(winner.players, winner.score);
         
-        if(Settings.HumanPlay) { Lapse l = new Lapse(2); }
+        if(Settings.HumanPlay) { Utils.Utils.Lapse(2); }
         
         return new GameResult(winner.players, winner.score);
     }

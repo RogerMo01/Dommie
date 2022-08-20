@@ -18,7 +18,7 @@ class ConsoleApp
 
         SayHiDommie();
 
-        Lapse l = new Lapse(5);
+        Utils.Utils.Lapse(5);
 
         MainSkipIntro();
     }
