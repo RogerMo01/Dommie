@@ -14,41 +14,43 @@ public class CustomizeGame
     int NumberPlayers = 4;
     List<Team> Teams;
     List<IPlayer> Players;
-    OverBoard OverBoardCondition = BoardOvers.ClassicOverBoard;
-    WinnerBoard GetWinnerJudgment = BoardWinners.ClassicGetWinner;
+    OverRound OverRoundCondition = RoundOvers.ClassicOverRound;
+    WinnerRoundGetter GetWinnerJudgment = RoundWinners.ClassicGetWinner;
     PointsGetter GetWinnerPoints = PointsWinner.ClassicGetPoints;
     HandOut HandOutJudgment = HandOuts.Random_HandOut;
-    Inner InnerSelector = InnerPlayer.Random_Inner;
+    InnerGetter InnerSelector = InnerPlayer.Random_Inner;
+    HumanPlayerMenu HumanMenu;
 
-    public CustomizeGame(List<IStrategy> strategies, bool humanPlay)
+    public CustomizeGame(List<IStrategy> strategies, bool humanPlay, HumanPlayerMenu humanMenu)
     {
         Strategies = strategies;
         HumanPlay = humanPlay;
         Players = TemplateUtils.GeneratePlayers(NumberPlayers, Strategies);
+        HumanMenu = humanMenu;
 
         if(HumanPlay)
         {
             Random r = new();
-            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0], ConsoleColor.White);
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0]);
         }
 
         Teams = Menus.GenerateUnitaryTeams(Players, HumanPlay);
     }
 
-    public ITemplate Start(ref bool JustBoardGame)
+    public ITemplate Start(ref bool JustRoundGame)
     {
-        SimpleOption justBoardMenu = new SimpleOption("Game Mode");
+        SimpleOption justRoundMenu = new SimpleOption("Game Mode");
         SimpleOption playersMenu = new SimpleOption("Players");
         SimpleOption teamsMenu = new SimpleOption("Teams");
         SimpleOption maxTokenMenu = new SimpleOption("Max Token");
         SimpleOption handOutMenu = new SimpleOption("Hand Out Judgment");
         SimpleOption innerSelector = new SimpleOption("Inner Selector");
-        SimpleOption overBoardMenu = new SimpleOption("Over Board Condition");
+        SimpleOption overRoundMenu = new SimpleOption("Over Round Condition");
         SimpleOption getWinnerMenu = new SimpleOption("Winner getter Judgment");
         SimpleOption getPointsMenu = new SimpleOption("Points getter Judgment");
         SimpleOption scoreMenu = new SimpleOption("Set Tournament Win Score");
 
-        List<SimpleOption> options = new(){ justBoardMenu, playersMenu, teamsMenu, maxTokenMenu, handOutMenu, innerSelector, overBoardMenu, getWinnerMenu, getPointsMenu, scoreMenu };
+        List<SimpleOption> options = new(){ justRoundMenu, playersMenu, teamsMenu, maxTokenMenu, handOutMenu, innerSelector, overRoundMenu, getWinnerMenu, getPointsMenu, scoreMenu };
 
         SingleSelectionMenu<SimpleOption> menu = new(options, "CUSTOMIZE THE GAME", true);
         
@@ -59,7 +61,7 @@ public class CustomizeGame
             switch (menu.SelectedIndex)
             {
                 case 0:
-                JustBoardGame = Menus.GameModeMenu();
+                JustRoundGame = Menus.GameModeMenu();
                 break;
 
                 case 1: //Players
@@ -91,7 +93,7 @@ public class CustomizeGame
                 break;
 
                 case 6:
-                OverBoardCondition = Menus.OverConditionMenu();
+                OverRoundCondition = Menus.OverConditionMenu();
                 break;
 
                 case 7:
@@ -103,7 +105,7 @@ public class CustomizeGame
                 break;
 
                 case 9:
-                if(!JustBoardGame)
+                if(!JustRoundGame)
                 {
                     WriteMenu scoreWriteMenu = new WriteMenu("DECIDE AND WRITE THE NEEDED POINTS TO WIN THE TOURNAMENT");
                     scoreWriteMenu.Show();
@@ -123,7 +125,7 @@ public class CustomizeGame
         } while (menu.Selected != null);      
         
 
-        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverBoardCondition, GetWinnerJudgment, GetWinnerPoints, InnerSelector, Teams, HumanPlay, HandOutJudgment);
+        return TemplateUtils.BuildTemplate(TemplateUtils.ToCircularList(Players), MaxToken, NumberPlayers, ScoreTournamentWin, OverRoundCondition, GetWinnerJudgment, GetWinnerPoints, InnerSelector, Teams, HumanPlay, HandOutJudgment, HumanMenu);
     }
 
     public void CustomizePlayers()
@@ -137,7 +139,7 @@ public class CustomizeGame
         if(HumanPlay)
         {
             Random r = new();
-            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0], ConsoleColor.White);
+            Players[r.Next(NumberPlayers)] = new HumanPlayer(Strategies[0]);
         }
         
         if(!HumanPlay)

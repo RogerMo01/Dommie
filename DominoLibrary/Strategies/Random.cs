@@ -2,22 +2,22 @@ namespace DominoLibrary;
 
 public class Random_Strategy : IStrategy
 {
-    public Token_onBoard Play(Board board, List<Token> tokens, IPlayer player)
+    public Token_onBoard Play(BoardInfo info, List<Token> tokens, IPlayer player)
     {
         Random random = new Random();
-        if(board.BoardTokens.Count == 0)
+        if(info.BoardTokens!.Count == 0)
         { 
             return new Token_onBoard(tokens[random.Next(tokens.Count)], true, player, true);
         }
         else
         {
-            List<Token> aux = Possible_TokensPlay(tokens, board.Ends);
+            List<Token> aux = Possible_TokensPlay(tokens, info.Ends!);
             Token current = aux[random.Next(aux.Count)];
         
-            bool playRight = true ? (board.Ends[1].Equals(current.Left) || board.Ends[1].Equals(current.Right) || board.BoardTokens.Count == 0) : playRight = false;
+            bool playRight = true ? (info.Ends![1].Equals(current.Left) || info.Ends[1].Equals(current.Right) || info.BoardTokens.Count == 0) : playRight = false;
             
             Token_onBoard result = new Token_onBoard(current, true, player, playRight);
-            if(board.Judge.IsValid(board, result)) return result;
+            if(info.Judge!.IsValid(info.BoardTokens.Count, info.Ends, result)) return result;
             else return new Token_onBoard(current, false, player, playRight);
         }
     }
@@ -41,5 +41,4 @@ public class Random_Strategy : IStrategy
     }
 
     public override string ToString() => "Random";
-    public string Info { get; } = "This player will always play a random token among the valid tokens in his hand.";
 }

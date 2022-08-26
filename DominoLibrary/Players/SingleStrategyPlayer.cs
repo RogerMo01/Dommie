@@ -11,9 +11,9 @@ public class SingleStrategyPlayer : IPlayer
         Strategy = strategies;
     }
 
-    public Token_onBoard Play(Board board, List<Token> tokens, HumanPlayerMenu humanPlayerMenu)
+    public Token_onBoard Play(BoardInfo info, List<Token> tokens, HumanPlayerMenu menu)
     {
-        return Strategy.Play(board, tokens, this);
+        return Strategy.Play(info, tokens, this);
     }
 
     public override string ToString()

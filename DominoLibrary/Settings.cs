@@ -5,44 +5,41 @@ public abstract class Setting
 {
     public CircularList<IPlayer>? Players { get; set; }
     public Judge? Judge { get; set; }
-    public List<Team>? Team { get; set; }
-    public bool HumanPlay { get; set; }
-    public HandOut? HandOut {get; set; }
-
+    public List<Team>? Teams { get; set; }
+    public int MaxToken { get; set; }
+    public HumanPlayerMenu? HumanMenu { get; set; }
 }
 
-public class BoardSetting : Setting
+public class RoundSetting : Setting
 {
     public List<Token> GameTokens { get; private set; }
     public int TokensPerPlayer { get; private set; }
 
-    public BoardSetting(CircularList<IPlayer> players, Node<IPlayer> inner, List<Token> gameTokens, int tokensPerPlayer, HandOut handOut, Judge judge, List<Team> team, bool humanPlay)
+    public RoundSetting(CircularList<IPlayer> players, List<Token> gameTokens, int tokensPerPlayer, Judge judge, List<Team> teams, int maxToken, HumanPlayerMenu humanMenu)
     {
         Players = players;
         GameTokens = gameTokens;
         TokensPerPlayer = tokensPerPlayer;
         Judge = judge;
-        Team = team;
-        HumanPlay = humanPlay;
-        HandOut = handOut;
+        Teams = teams;
+        MaxToken = maxToken;
+        HumanMenu = humanMenu;
     }
 }
 
 public class TournamentSetting : Setting
 {
-    public int MaxToken { get; private set; }
     public int WinScore { get; private set; }
     public int TotalPlayers {get; private set; }
 
-    public TournamentSetting(CircularList<IPlayer> players, int maxToken, int totalPlayers, HandOut handOut, int winScore, Judge judge, List<Team> team, bool humanPlay)
+    public TournamentSetting(CircularList<IPlayer> players, int maxToken, int totalPlayers, int winScore, Judge judge, List<Team> team, HumanPlayerMenu humanMenu)
     {
         Players = players;
-        MaxToken = maxToken;
         TotalPlayers = totalPlayers;
         WinScore = winScore;
         Judge = judge;
-        Team = team;
-        HumanPlay = humanPlay;
-        HandOut = handOut;
+        Teams = team;
+        MaxToken = maxToken;
+        HumanMenu = humanMenu;
     }
 }

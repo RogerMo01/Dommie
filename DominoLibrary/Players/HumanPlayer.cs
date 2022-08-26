@@ -1,25 +1,21 @@
-using ConsoleApp;
 namespace DominoLibrary;
+
+public delegate Token_onBoard HumanPlayerMenu(BoardInfo info, List<Token> tokens, IPlayer player);
 
 public class HumanPlayer : IPlayer
 {
     public string Name { get; } = "You";
-
     public IStrategy Strategy { get; }
 
-    public ConsoleColor Color { get; }
-
-
-    public HumanPlayer(IStrategy strategies, ConsoleColor color)
+    public HumanPlayer(IStrategy strategies)
     {
         Strategy = strategies;
-        Color = color;
     }
 
-    public Token_onBoard Play(Board board, List<Token> tokens, HumanPlayerMenu humanPlayerMenu)
+    public Token_onBoard Play(BoardInfo info, List<Token> tokens, HumanPlayerMenu menu)
     {
-        return humanPlayerMenu(this);
+        return menu(info, tokens, this);
     }
-
+    
     public override string ToString() => Name;
 }

@@ -33,14 +33,14 @@ public static partial class Menus
         return menu.Selected.Equals(boardOption);
     }
 
-    public static ITemplate TemplateMenu(List<IStrategy> strategies, ITemplate custom, bool humanPlay)
+    public static ITemplate TemplateMenu(List<IStrategy> strategies, ITemplate custom, bool humanPlay, HumanPlayerMenu humanMenu)
     {
         List<Team> teams = new();
         // Options
-        ITemplate classic_9 = new ClassicTemplate("Classic double-9 (Teams)", 4, 9, strategies, teams, false, humanPlay);
-        ITemplate classic_9noTeams = new ClassicTemplate("Classic double-9 (Single Player)", 4, 9, strategies, teams, true, humanPlay);
-        ITemplate classic_6 = new ClassicTemplate("Classic double-6", 4, 6, strategies, teams, false, humanPlay);
-        ITemplate crazyToken = new CrazyTokenTemplate("Crazy Token", 6, 12, strategies, teams, false, humanPlay);
+        ITemplate classic_9 = new ClassicTemplate("Classic double-9 (Teams)", 4, 9, strategies, teams, false, humanPlay, humanMenu);
+        ITemplate classic_9noTeams = new ClassicTemplate("Classic double-9 (Single Player)", 4, 9, strategies, teams, true, humanPlay, humanMenu);
+        ITemplate classic_6 = new ClassicTemplate("Classic double-6", 4, 6, strategies, teams, false, humanPlay, humanMenu);
+        ITemplate crazyToken = new CrazyTokenTemplate("Crazy Token", 6, 12, strategies, teams, false, humanPlay, humanMenu);
         // ...
 
         List<ITemplate> tSelectionables = new List<ITemplate>(){ classic_9, classic_9noTeams, classic_6, crazyToken, custom };
@@ -82,30 +82,30 @@ public static partial class Menus
         return menu.Selected.Value;
     }
 
-    public static OverBoard OverConditionMenu()
+    public static OverRound OverConditionMenu()
     {
         // Options
-        GenericOption<OverBoard> classicWinBoard = new GenericOption<OverBoard>(BoardOvers.ClassicOverBoard, "Classic");
-        GenericOption<OverBoard> crazyTokenWinBoard = new GenericOption<OverBoard>(BoardOvers.CrazyTokenWinBoard, "Crazy Token");
+        GenericOption<OverRound> classicWinBoard = new GenericOption<OverRound>(RoundOvers.ClassicOverRound, "Classic");
+        GenericOption<OverRound> crazyTokenWinBoard = new GenericOption<OverRound>(RoundOvers.CrazyTokenOverRound, "Crazy Token");
         // ...
         
-        List<GenericOption<OverBoard>> boardWins = new List<GenericOption<OverBoard>>(){ classicWinBoard, crazyTokenWinBoard };
-        SingleSelectionMenu<GenericOption<OverBoard>> menu = new SingleSelectionMenu<GenericOption<OverBoard>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND", false);
+        List<GenericOption<OverRound>> boardWins = new List<GenericOption<OverRound>>(){ classicWinBoard, crazyTokenWinBoard };
+        SingleSelectionMenu<GenericOption<OverRound>> menu = new SingleSelectionMenu<GenericOption<OverRound>>(boardWins, "CHOOSE CONDITION TO OVER A ROUND", false);
         menu.Show();
 
         return menu.Selected.Value;
     }
 
-    public static WinnerBoard GetWinnerMenu()
+    public static WinnerRoundGetter GetWinnerMenu()
     {
         // Options
-        GenericOption<WinnerBoard> classicGetWinner = new GenericOption<WinnerBoard>(BoardWinners.ClassicGetWinner, "Classic");
-        GenericOption<WinnerBoard> randomGetWinner = new GenericOption<WinnerBoard>(BoardWinners.GetRandomWinner, "Random");
-        GenericOption<WinnerBoard> smallest5Multiple = new GenericOption<WinnerBoard>(BoardWinners.Smallest5MultipleGetWinner, "Smallest 5 Multiple");
+        GenericOption<WinnerRoundGetter> classicGetWinner = new GenericOption<WinnerRoundGetter>(RoundWinners.ClassicGetWinner, "Classic");
+        GenericOption<WinnerRoundGetter> randomGetWinner = new GenericOption<WinnerRoundGetter>(RoundWinners.GetRandomWinner, "Random");
+        GenericOption<WinnerRoundGetter> smallest5Multiple = new GenericOption<WinnerRoundGetter>(RoundWinners.Smallest5MultipleGetWinner, "Smallest 5 Multiple");
         // ...
 
-        List<GenericOption<WinnerBoard>> boardWinnerGetters = new List<GenericOption<WinnerBoard>>(){ classicGetWinner, randomGetWinner, smallest5Multiple };
-        SingleSelectionMenu<GenericOption<WinnerBoard>> menu = new SingleSelectionMenu<GenericOption<WinnerBoard>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER", false);
+        List<GenericOption<WinnerRoundGetter>> boardWinnerGetters = new List<GenericOption<WinnerRoundGetter>>(){ classicGetWinner, randomGetWinner, smallest5Multiple };
+        SingleSelectionMenu<GenericOption<WinnerRoundGetter>> menu = new SingleSelectionMenu<GenericOption<WinnerRoundGetter>>(boardWinnerGetters, "CHOOSE JUDGEMENT TO GET THE ROUND WINNER", false);
         menu.Show();
 
         return menu.Selected.Value;
@@ -176,17 +176,17 @@ public static partial class Menus
         return menu.Selected.Value;
     }
 
-    public static Inner InnerSelectorMenu()
+    public static InnerGetter InnerSelectorMenu()
     {
         // Options
-        GenericOption<Inner> randomGetInner = new GenericOption<Inner>(InnerPlayer.Random_Inner, "Random");
-        GenericOption<Inner> biggerToken = new GenericOption<Inner>(InnerPlayer.Bigger_Token, "Bigger Token");
-        GenericOption<Inner> minDouble = new GenericOption<Inner>(InnerPlayer.Min_Double, "Min Double");
-        GenericOption<Inner> maxData = new GenericOption<Inner>(InnerPlayer.Max_Data, "Max Data");
+        GenericOption<InnerGetter> randomGetInner = new GenericOption<InnerGetter>(InnerPlayer.Random_Inner, "Random");
+        GenericOption<InnerGetter> biggerToken = new GenericOption<InnerGetter>(InnerPlayer.Bigger_Token, "Bigger Token");
+        GenericOption<InnerGetter> minDouble = new GenericOption<InnerGetter>(InnerPlayer.Min_Double, "Min Double");
+        GenericOption<InnerGetter> maxData = new GenericOption<InnerGetter>(InnerPlayer.Max_Data, "Max Data");
         // ...
 
-        List<GenericOption<Inner>> innerOptions = new List<GenericOption<Inner>>(){ randomGetInner, biggerToken, minDouble, maxData };
-        SingleSelectionMenu<GenericOption<Inner>> menu = new SingleSelectionMenu<GenericOption<Inner>>(innerOptions, "CHOOSE JUDGEMENT TO GET INNER", false);
+        List<GenericOption<InnerGetter>> innerOptions = new List<GenericOption<InnerGetter>>(){ randomGetInner, biggerToken, minDouble, maxData };
+        SingleSelectionMenu<GenericOption<InnerGetter>> menu = new SingleSelectionMenu<GenericOption<InnerGetter>>(innerOptions, "CHOOSE JUDGEMENT TO GET INNER", false);
         menu.Show();
 
         return menu.Selected.Value;

@@ -1,9 +1,7 @@
 namespace DominoLibrary;
 using Utils;
 
-public interface IGame 
+public interface IGame
 {
-    GameResult Start();
-
-    void SetGamePrinter(GamePrinter gamePrinter);
+    IEnumerable<GameStatus> NextMove();
 }
