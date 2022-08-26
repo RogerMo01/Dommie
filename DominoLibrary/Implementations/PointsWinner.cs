@@ -1,19 +1,18 @@
 using Utils;
 namespace DominoLibrary;
 
-public delegate int PointsGetter(Board board, Team winner, Dictionary<IPlayer, List<Token>> playersTokens);
+public delegate int PointsGetter(GameStatus gameStatus, Team winner, Dictionary<IPlayer, List<Token>> playersTokens);
 
 public class PointsWinner
 {
-    // Sum the points of the opposing teams
-    public static int ClassicGetPoints(Board board, Team winner, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static int ClassicGetPoints(GameStatus gameStatus, Team winner, Dictionary<IPlayer, List<Token>> playersTokens)
     {
         Dictionary<IPlayer, int> finalPuntuation = PresetPlayerPoints(playersTokens);
 
         int points = 0;
         if(winner == null) return 0;
 
-        Node<IPlayer> currentPlayer = board.Players.First;
+        Node<IPlayer> currentPlayer = gameStatus.Players!.First;
         for (int i = 0; i < finalPuntuation.Count; i++)
         {
             if(!winner.Contains(currentPlayer.Value))
@@ -26,15 +25,14 @@ public class PointsWinner
         return points;
     }
 
-    // Sum the opposing teams players tokens count multiplied by 5
-    public static int Get5MultiplesPoints(Board board, Team winner, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static int Get5MultiplesPoints(GameStatus gameStatus, Team winner, Dictionary<IPlayer, List<Token>> playersTokens)
     {   
         Dictionary<IPlayer, int> finalPuntuation = PresetPlayerPoints(playersTokens);
         
         int points = 0;
         if(winner == null!) return points;
 
-        Node<IPlayer> currentPlayer = board.Players.First;
+        Node<IPlayer> currentPlayer = gameStatus.Players!.First;
         for (int i = 0; i < finalPuntuation.Count; i++)
         {
             if(!winner.Contains(currentPlayer.Value))

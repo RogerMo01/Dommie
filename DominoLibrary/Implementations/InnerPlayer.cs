@@ -1,6 +1,6 @@
 namespace DominoLibrary;
 
-public delegate IPlayer Inner(Dictionary<IPlayer, List<Token>> PlayersTokens);
+public delegate IPlayer InnerGetter(Dictionary<IPlayer, List<Token>> PlayersTokens);
 
 public static class InnerPlayer
 {

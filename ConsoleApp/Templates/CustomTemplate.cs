@@ -5,15 +5,15 @@ namespace ConsoleApp;
 
 public class CustomTemplate : ITemplate
 {
-    public Board Board { get; private set; } = null!;
+    public Round Round { get; private set; } = null!;
     public Tournament Tournament { get; private set; } = null!;
     public string Title { get; } = "Custom";
 
     public CustomTemplate(){}
 
-    public CustomTemplate(Board board, Tournament tournament)
+    public CustomTemplate(Round round, Tournament tournament)
     {
-        Board = board;
+        Round = round;
         Tournament = tournament;
     }
 

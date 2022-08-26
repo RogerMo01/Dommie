@@ -31,8 +31,8 @@ public class WriteMenu
     {
         try
         {
-            int.Parse(writed);
-            return true;
+            int number = int.Parse(writed);
+            return (number > 0);
         }
         catch (Exception)
         { 

@@ -2,9 +2,9 @@ namespace DominoLibrary;
 
 public class Mosaic : IStrategy
 {
-    public Token_onBoard Play(Board board, List<Token> tokens, IPlayer player)
+    public Token_onBoard Play(BoardInfo info, List<Token> tokens, IPlayer player)
     {
-        int maxToken = board.GameTokens[board.GameTokens.Count - 1].Right;
+        int maxToken = info.MaxDouble;
        
         int[] countPerToken = new int[maxToken + 1];
         foreach (var token in tokens)
@@ -13,7 +13,7 @@ public class Mosaic : IStrategy
             countPerToken[token.Right] ++;
         }
 
-        int max = CurrentMaximum(board, tokens, countPerToken);
+        int max = CurrentMaximum(info, tokens, countPerToken);
         
         List<Token> auxTokens = new List<Token>();
         foreach (var token in tokens)
@@ -26,10 +26,10 @@ public class Mosaic : IStrategy
 
         Token current = TokenMostAmountHand(auxTokens, countPerToken, max);
     
-        bool playRight = true ? (board.Ends[1].Equals(current.Left) || board.Ends[1].Equals(current.Right) || board.BoardTokens.Count == 0) : playRight = false;
+        bool playRight = true ? (info.Ends![1].Equals(current.Left) || info.Ends[1].Equals(current.Right) || info.BoardTokens!.Count == 0) : playRight = false;
 
         Token_onBoard result = new Token_onBoard(current, true, player, playRight);
-        if(board.Judge.IsValid(board, result)) return result;
+        if(info.Judge!.IsValid(info.BoardTokens.Count, info.Ends, result)) return result;
         else return new Token_onBoard(current, false, player, playRight);
     }
 
@@ -63,12 +63,12 @@ public class Mosaic : IStrategy
         return result;
     }
  
-    private int CurrentMaximum(Board board, List<Token> tokens, int[] countPerToken)
+    private int CurrentMaximum(BoardInfo info, List<Token> tokens, int[] countPerToken)
     {
         int max = 0;
         int currentMax = 0;
 
-        if(board.BoardTokens.Count == 0)
+        if(info.BoardTokens!.Count == 0)
         {
             for (int i = 0; i < countPerToken.Length; i++)
             {
@@ -87,17 +87,17 @@ public class Mosaic : IStrategy
         else
         {
             
-            for (int i = 0; i < board.Ends.Length; i++)
+            for (int i = 0; i < info.Ends!.Length; i++)
             {
-                if(countPerToken[board.Ends[i]] > currentMax)
+                if(countPerToken[info.Ends[i]] > currentMax)
                 {
-                    currentMax = countPerToken[board.Ends[i]];
-                    max = board.Ends[i];
+                    currentMax = countPerToken[info.Ends[i]];
+                    max = info.Ends[i];
                 }
 
-                if(countPerToken[board.Ends[i]] == currentMax)
+                if(countPerToken[info.Ends[i]] == currentMax)
                 {
-                    if(board.Ends[i] > max) max = board.Ends[i];
+                    if(info.Ends[i] > max) max = info.Ends[i];
                 }
             }
         }
@@ -107,5 +107,4 @@ public class Mosaic : IStrategy
 
     
     public override string ToString() => "Mosaic";
-    public string Info { get; } = " This Player will always try to keep a mosaic of diferent tokens in hand";
 }

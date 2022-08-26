@@ -1,24 +1,24 @@
 using Utils;
 namespace DominoLibrary;
 
-public delegate (Team, int) WinnerBoard(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens);
+public delegate (Team, int) WinnerRoundGetter(GameStatus gameStatus, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens);
 
-public static class BoardWinners
+public static class RoundWinners
 {
-    public static (Team, int) ClassicGetWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static (Team, int) ClassicGetWinner(GameStatus gameStatus, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens)
     {
-        Team winner = board.Teams.First();
+        Team winner = gameStatus.Teams!.First();
         
-        if(board.Teams.Any(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0)))
+        if(gameStatus.Teams!.Any(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0)))
         {
-            winner = board.Teams.First(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0));
+            winner = gameStatus.Teams!.First(x => x.PlayersTeam.Any(x => playersTokens[x].Count == 0));
         }
         else 
         {
             int pointsPerPlayer = int.MaxValue; 
-            IPlayer currentPlayer = board.Players.First();
+            IPlayer currentPlayer = gameStatus.Players!.First();
 
-            foreach (var team in board.Teams)
+            foreach (var team in gameStatus.Teams!)
             {
                 foreach (var player in team.PlayersTeam)
                 {
@@ -43,17 +43,17 @@ public static class BoardWinners
             }
         }
 
-        return (winner, pointsGetter(board, winner, playersTokens));
+        return (winner, pointsGetter(gameStatus, winner, playersTokens));
     }
 
-    public static (Team, int) Smallest5MultipleGetWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens)
+    public static (Team, int) Smallest5MultipleGetWinner(GameStatus gameStatus, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersTokens)
     {
-        Team winner = board.Teams.First();
+        Team winner = gameStatus.Teams!.First();
 
         int value = int.MaxValue;
-        IPlayer currentPlayer = board.Players.First();
+        IPlayer currentPlayer = gameStatus.Players!.First();
 
-        foreach (var team in board.Teams)
+        foreach (var team in gameStatus.Teams!)
         {
             foreach (var player in team.PlayersTeam)
             {
@@ -82,15 +82,15 @@ public static class BoardWinners
 
         if(value == int.MaxValue) winner = null!;
 
-        return (winner, pointsGetter(board, winner, playersTokens));
+        return (winner, pointsGetter(gameStatus, winner, playersTokens));
     }
 
-    public static (Team, int) GetRandomWinner(Board board, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersToken)
+    public static (Team, int) GetRandomWinner(GameStatus gameStatus, PointsGetter pointsGetter, Dictionary<IPlayer, List<Token>> playersToken)
     {
         Random random = new Random();
-        Team winner = board.Teams[random.Next(board.Teams.Count)];
+        Team winner = gameStatus.Teams![random.Next(gameStatus.Teams.Count)];
 
-        return (winner, pointsGetter(board, winner, playersToken));
+        return (winner, pointsGetter(gameStatus, winner, playersToken));
     }
     
 }

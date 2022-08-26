@@ -7,19 +7,17 @@ public class PlaySelectorMenu
     public Token Selected { get; private set; }
     public string Title { get; private set; } = " === Choose a Token to play ===";
     public int SelectedIndex { get; private set; } = 0;
-    Board Board;
-    Dictionary<IPlayer, int> PlayersTokensLeft;
+    BoardInfo info;
 
     Dictionary<IPlayer, ConsoleColor> PlayersColors;
 
 
-    public PlaySelectorMenu(List<Token> selectionables, Board board, Dictionary<IPlayer, int> playersTokensLeft)
+    public PlaySelectorMenu(List<Token> selectionables, BoardInfo info)
     {
         Selectionables = selectionables;
         Selected = Selectionables.First();
-        Board = board;
-        PlayersTokensLeft = playersTokensLeft;
-        PlayersColors = Utils.AssignColors(Board.Players.ToArray());
+        this.info = info;
+        PlayersColors = Utils.AssignColors(this.info.Players.ToArray());
     }
 
     public void Modify(ConsoleKey key)
@@ -105,7 +103,7 @@ public class PlaySelectorMenu
         Console.WriteLine($"=== Board Tokens: ===");
         Console.WriteLine("");
 
-        foreach (var item in Board.BoardTokens)
+        foreach (var item in info.BoardTokens)
         {
             Console.ForegroundColor = PlayersColors[item.Owner];
             Console.Write(item);
@@ -118,7 +116,7 @@ public class PlaySelectorMenu
     {
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine($"=== Player's Tokens Left: ===");
-        IPlayer[] players = Board.Players.ToArray();
+        IPlayer[] players = info.Players.ToArray();
 
         int largestName = players.Max(x => x.Name.Length);
 
@@ -136,7 +134,7 @@ public class PlaySelectorMenu
             }// ~~~~~~~~~~~~~~~~~~~
 
             // print tokens
-            for (int i = 0; i < PlayersTokensLeft[player]; i++)
+            for (int i = 0; i < info.PlayersTokensLeft[player]; i++)
             {
                 if(player is HumanPlayer)
                 {
@@ -153,12 +151,12 @@ public class PlaySelectorMenu
 
     private void PrintLastPlays()
     {
-        int lastPlays = Math.Min(Board.Players.Count * 2, Board.Plays.Count);
+        int lastPlays = Math.Min(info.Players.Length * 2, info.Plays.Count);
         List<(IPlayer player, IPlay token)> lastPlaysList = new();
 
-        for (int i = Board.Plays.Count - 1; i >= Board.Plays.Count - lastPlays; i--)
+        for (int i = info.Plays.Count - 1; i >= info.Plays.Count - lastPlays; i--)
         {
-            lastPlaysList.Add(Board.Plays[i]);
+            lastPlaysList.Add((info.Plays[i].Owner, info.Plays[i]));
         }
 
         Console.ForegroundColor = ConsoleColor.DarkYellow;

@@ -2,21 +2,23 @@ namespace DominoLibrary;
 
 public class Judge
 {
-    public OverBoard OverBoard {get; private set;}
-    public WinnerBoard WinnerBoard {get; private set;}
+    public OverRound OverBoard {get; private set;}
+    public WinnerRoundGetter WinnerBoard {get; private set;}
     public PointsGetter WinnerPointsGetter {get; private set;}
-    public Inner InnerSelector { get; }
+    public InnerGetter InnerSelector { get; }
+    public HandOut HandOutJudgment { get; }
 
 
-    public Judge(OverBoard winB, WinnerBoard winnerB, PointsGetter pointsW, Inner innerSelect)
+    public Judge(OverRound winB, WinnerRoundGetter winnerB, PointsGetter pointsW, InnerGetter innerSelect, HandOut handOut)
     {
         OverBoard = winB;
         WinnerBoard = winnerB;
         WinnerPointsGetter = pointsW;
         InnerSelector = innerSelect;
+        HandOutJudgment = handOut;
     }
 
-    public bool IsValid(Board board, IPlay play)
+    public bool IsValid(int boardTokensQtty, int[] ends, IPlay play)
     {
         if(play is Pass)
         {
@@ -24,11 +26,11 @@ public class Judge
         }
         else
         {
-            if(board.BoardTokens.Count == 0) return true;
+            if(boardTokensQtty == 0) return true;
 
-            if(play.PlayRight && ((play.Straight && board.Ends[1] == play.Left) || (!play.Straight && board.Ends[1] == play.Right))) return true;
+            if(play.PlayRight && ((play.Straight && ends![1] == play.Left) || (!play.Straight && ends![1] == play.Right))) return true;
 
-            if(!play.PlayRight && ((play.Straight && board.Ends[0] == play.Right) || (!play.Straight && board.Ends[0] == play.Left))) return true;
+            if(!play.PlayRight && ((play.Straight && ends![0] == play.Right) || (!play.Straight && ends![0] == play.Left))) return true;
         }
         
         return false;

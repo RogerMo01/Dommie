@@ -4,7 +4,7 @@ namespace ConsoleApp;
 
 public interface ITemplate
 {
-    public Board Board { get; }
+    public Round Round { get; }
     public Tournament Tournament { get; }
     public string Title { get; }
 }
@@ -80,16 +80,18 @@ public static class TemplateUtils
         return new SingleStrategyPlayer(names[nameChoice], strategies[strategyChoice]);
     }
 
-    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverBoard winB, WinnerBoard winnerB, PointsGetter pointsGetter, Inner innerSelect, List<Team> teams, bool humanPlay, HandOut handOut)
+    public static ITemplate BuildTemplate(CircularList<IPlayer> players, int maxToken, int numberPlayers, int score, OverRound winB, WinnerRoundGetter winnerB, PointsGetter pointsGetter, InnerGetter innerSelect, List<Team> teams, bool humanPlay, HandOut handOut, HumanPlayerMenu humanMenu)
     {
-        Judge judge = new Judge(winB, winnerB, pointsGetter, innerSelect);
+        Judge judge = new Judge(winB, winnerB, pointsGetter, innerSelect, handOut);
 
-        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers, handOut, score, judge, teams, humanPlay);
+        List<Token> gameTokens = Utils.Utils.GenerateTokens(maxToken);
+
+        TournamentSetting tS = new TournamentSetting(players, maxToken, numberPlayers, score, judge, teams, humanMenu);
         Tournament t = new Tournament(tS);
 
-        BoardSetting bS = new BoardSetting(players, t.Inner, t.GameTokens, t.TokensPerPlayer, handOut, judge, teams, humanPlay);
-        Board b = new Board(bS);
+        RoundSetting rS = new RoundSetting(players, gameTokens, Utils.Utils.DecideTokensPerPlayer(gameTokens.Count, players.Count), judge, teams, maxToken, humanMenu);
+        Round r = new Round(rS);
 
-        return new CustomTemplate(b, t);
+        return new CustomTemplate(r, t);
     }
 }
